@@ -64,7 +64,7 @@ export default function SectionMainContent({
     const [hideTick, setHideTick] = useState(true);
     const [hide, setHide] = useState(true);
 
-    const scrollRef = useRef<ScrollView>(null);;
+    const scrollRef = useRef<ScrollView>(null);
 
     useFocusEffect(
         React.useCallback(() => {
@@ -192,6 +192,11 @@ export default function SectionMainContent({
                 break;
 
         }
+
+        scrollRef.current?.scrollTo({
+            y: 0,
+            animated: true,
+        });
     }, [quizState, answers, submitData, currentProb, probCount, navigation, setCurrentProb, setTestEnded]);
 
 

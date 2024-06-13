@@ -7,27 +7,22 @@ const windowWidth = Dimensions.get("window").width;
 export default StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'flex-start',
+    justifyContent: 'space-between',
     alignItems: 'center',
     backgroundColor: "#FFDFFF",
   },
   upperGradientContainer: {
     position: "absolute",
     width: "100%",
-    height: windowHeight * 0.7,
+    height: windowHeight * 84 / 93,
   },
   headerContainer: {
-    flex: 8,
+    height: windowHeight * 8 / 93,
     flexDirection: "column",
     justifyContent: 'flex-end',
     width: "100%",
   },
-  statusContainer: {
-    flex: 55,
-    width: "100%",
-  },
   sectionContentSlider: {
-    flex: 30,
     width: '100%',
   },
 })

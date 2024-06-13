@@ -38,8 +38,6 @@ export default function Category({
                     goBack={gotoDashboard}
                 />
             </View>
-            <View style={styles.statusContainer}>
-            </View>
             <View style={styles.sectionContentSlider}>
                 <SectionCategory 
                     gameMode={gameMode} 

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { View, Text, ScrollView } from "react-native";
 import { useFocusEffect } from '@react-navigation/native';
 import { useNavigation } from "@react-navigation/native";
@@ -70,6 +70,8 @@ export default function SectionMainContent({
 
     const [hideTick, setHideTick] = useState(true);
     const [hide, setHide] = useState(true);
+
+    const scrollRef = useRef<ScrollView>(null);
 
     const timeLimitPerQuestion = 60000
 
@@ -214,6 +216,11 @@ export default function SectionMainContent({
         }
 
         setCurrentProb(currentProb + 1);
+
+        scrollRef.current?.scrollTo({
+            y: 0,
+            animated: true,
+        });
     }, [navigation, setTestEnded, currentProb, currentScore, survivalLife, setCurrentProb]);
 
 
@@ -251,7 +258,7 @@ export default function SectionMainContent({
                     }
                 </AnimatedCircularProgress>
             </View>
-            <ScrollView style={styles.innerContainer}>
+            <ScrollView style={styles.innerContainer} ref={scrollRef}>
                 <View style={styles.quizContainer}>
                     <ScrollView>
                         <Text style={styles.questionText}>

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { View, Text, ScrollView } from "react-native";
 import { useFocusEffect } from '@react-navigation/native';
 import { useNavigation } from "@react-navigation/native";
@@ -60,6 +60,7 @@ export default function SectionMainContent({
 
     const [problem, setProblem] = useState<string>('');
     const [answers, setAnswers] = useState<any>([0, 0, 0, 0]);
+    const [rationale, setRationale] = useState<string>('');
 
     const [limitTime, setLimitTime] = useState(1);
     const [remainTime, setRemainTime] = useState(1);
@@ -69,6 +70,8 @@ export default function SectionMainContent({
 
     const [hideTick, setHideTick] = useState(true);
     const [hide, setHide] = useState(true);
+
+    const scrollRef = useRef<ScrollView>(null);
 
     const timeLimitPerQuestion = 60000
 
@@ -124,6 +127,7 @@ export default function SectionMainContent({
 
             if (currentQuestion) {
                 setProblem(currentQuestion.question);
+                setRationale(currentQuestion.answerExplanation);
                 if (currentQuestion.answers) {
                     const newAnswers = currentQuestion.answers.map((item: any, index: number) => {
                         return {
@@ -158,11 +162,11 @@ export default function SectionMainContent({
         return () => {
             clearInterval(intervalId);
         }
-    }, [remainTime, testEnded]);
+    }, [remainTime, testEnded, dataLoaded]);
 
 
     const NextProblem = useCallback(() => {
-        // updateSubmitData();
+        updateSubmitData();
 
         // Update Submit Data Start
         let isPassed = false;
@@ -188,6 +192,17 @@ export default function SectionMainContent({
         // Update Submit Data End
     }, [answers, life, submitData, currentProb, probCount, navigation, setLife, setCurrentLife, setCurrentProb, setTestEnded]);
 
+    const updateSubmitData = useCallback(() => {
+        let data = submitData;
+        let newItem = {
+            question: problem,
+            answers: "",
+            answerExplanation: rationale,
+        };
+        newItem.answers = answers;
+        data.push(newItem);
+        setSubmitData(data);
+    }, [quizData, problem, rationale, currentProb, answers, submitData, setSubmitData]);
 
     const NextProb = useCallback(() => {
         if (currentProb + 1 == quizData?.questions?.length) {
@@ -196,11 +211,16 @@ export default function SectionMainContent({
                 id: quizID,
                 submitData: submitData,
                 score: currentScore,
-                quizMode: quizModes.survivorMode,
+                quizMode: quizModes.scenarioMode,
             });
         }
 
         setCurrentProb(currentProb + 1);
+
+        scrollRef.current?.scrollTo({
+            y: 0,
+            animated: true,
+        });
     }, [navigation, setTestEnded, currentProb, currentScore, survivalLife, setCurrentProb]);
 
 
@@ -238,36 +258,40 @@ export default function SectionMainContent({
                     }
                 </AnimatedCircularProgress>
             </View>
-            <View style={styles.quizContainer}>
-                <ScrollView>
-                    <Text style={styles.questionText}>
-                        {problem}
-                    </Text>
-                </ScrollView>
-            </View>
-            <View style={styles.answersContainer}>
-                {
-                    answers.map((item: any, index: number) => {
-                        return (
-                            <PartAnswer
-                                key={index}
-                                index={item.index}
-                                content={item.content}
-                                enabled={item.enabled}
-                                clickable={hide && hideTick}
-                                onClick={() => onSelect(index)}
-                            />
-                        )
-                    })
-                }
-                <PTFEButton
-                    text="NEXT"
-                    type="rounded"
-                    color="#FF675B"
-                    enabled={!(hide && hideTick)}
-                    onClick={NextProblem}
-                />
-            </View>
+            <ScrollView style={styles.innerContainer} ref={scrollRef}>
+                <View style={styles.quizContainer}>
+                    <ScrollView>
+                        <Text style={styles.questionText}>
+                            {problem}
+                        </Text>
+                    </ScrollView>
+                </View>
+                <View style={styles.answersContainer}>
+                    {
+                        answers.map((item: any, index: number) => {
+                            return (
+                                <PartAnswer
+                                    key={index}
+                                    index={item.index}
+                                    content={item.content}
+                                    enabled={item.enabled}
+                                    clickable={hide && hideTick}
+                                    onClick={() => onSelect(index)}
+                                />
+                            )
+                        })
+                    }
+                </View>
+                <View style={styles.buttonContainer}>
+                    <PTFEButton
+                        text="NEXT"
+                        type="rounded"
+                        color="#FF675B"
+                        enabled={!(hide && hideTick)}
+                        onClick={NextProblem}
+                    />
+                </View>
+            </ScrollView>
         </View>
     )
 }
