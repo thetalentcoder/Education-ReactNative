@@ -13,15 +13,22 @@ import styles from "./BottomSectionStyle";
 
 type Props = {
     gameMode: string,
+    rankingData: {
+        id: string
+        index: number
+        fullname: string
+        score: number
+    }[]
 }
 
 export function BottomSection({
-    gameMode
-} : Props ) {
+    gameMode,
+    rankingData
+}: Props) {
     const [data_ranking, setDataRanking] = useState(data_ranking1);
 
     useEffect(() => {
-        switch(gameMode) {
+        switch (gameMode) {
             case "1":
                 {
                     const newStateClone = _.cloneDeep(data_ranking);
@@ -43,7 +50,7 @@ export function BottomSection({
                     setDataRanking(newStateClone);
                 }
                 break;
-            case "4": 
+            case "4":
                 {
                     const newStateClone = _.cloneDeep(data_ranking);
                     Object.assign(newStateClone, data_ranking4);
@@ -56,28 +63,28 @@ export function BottomSection({
     return (
         <View style={styles.container}>
             {/* <ScrollView style={styles.innerContainer}> */}
-                {
-                    data_ranking.map((ranking, index) => {
-                        if (index < 3) {
-                            return (
-                                <Fragment
-                                    key={index}
-                                >
-                                </Fragment>
-                            );
-                        }
-                        else {
-                            return (
-                                <PartRanking
-                                    key={index}
-                                    ranking={ranking.index}
-                                    name={ranking.name}
-                                    score={ranking.score}
-                                />
-                            );
-                        }
-                    })
-                }
+            {
+                rankingData.map((ranking, index) => {
+                    if (index < 3) {
+                        return (
+                            <Fragment
+                                key={index}
+                            >
+                            </Fragment>
+                        );
+                    }
+                    else {
+                        return (
+                            <PartRanking
+                                key={index}
+                                ranking={ranking.index}
+                                name={ranking.fullname}
+                                score={ranking.score}
+                            />
+                        );
+                    }
+                })
+            }
             {/* </ScrollView> */}
         </View>
     )

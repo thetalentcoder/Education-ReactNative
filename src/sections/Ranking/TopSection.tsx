@@ -17,27 +17,34 @@ import { moderateScale } from "src/config/scale";
 
 type Props = {
     handleSelect: (value: any) => void,
+    rankingData: {
+        id: string
+        index: number
+        fullname: string
+        score: number
+    }[]
 }
 
 export function TopSection({
     handleSelect,
+    rankingData
 }: Props) {
-    const [data_ranking, setDataRanking] = useState<any []>(data_ranking1);
+    const [data_ranking, setDataRanking] = useState<any[]>(data_ranking1);
 
     const options = [
-        { title: 'Study Mode', value: '1' },
-        { title: 'Quiz Mode', value: '2' },
-        { title: 'Survivor Mode', value: '3' },
-        { title: 'Scenario Mode', value: '4' },
+        { title: 'Study Mode', value: 'studyMode' },
+        { title: 'Quiz Mode', value: 'quizMode' },
+        { title: 'Survivor Mode', value: 'survivorMode' },
+        { title: 'Scenario Mode', value: 'scenarioMode' },
     ];
 
     useEffect(() => {
         console.log("Data chnaged");
     }, [data_ranking]);
-    
+
     const onSelect = (item: any) => {
         handleSelect(item.value);
-        switch(item.value) {
+        switch (item.value) {
             case "1":
                 {
                     console.log(item.value);
@@ -60,7 +67,7 @@ export function TopSection({
                     setDataRanking(newStateClone);
                 }
                 break;
-            case "4": 
+            case "4":
                 {
                     const newStateClone = _.cloneDeep(data_ranking);
                     Object.assign(newStateClone, data_ranking4);
@@ -75,40 +82,40 @@ export function TopSection({
         <>
             <View style={styles.container}>
                 <View style={styles.dropDownContainer}>
-                    <CustomDropdown options={options} onSelect={onSelect} title="Game Mode"/>
+                    <CustomDropdown options={options} onSelect={onSelect} title="Game Mode" />
                 </View>
                 <View style={styles.innerContainer}>
                     <View style={styles.smallContainer}>
-                        <PartAvatar 
-                            ranking={data_ranking[1].index}
-                            name={data_ranking[1].name}
-                            score={data_ranking[1].score}
+                        <PartAvatar
+                            ranking={rankingData[1].index}
+                            name={rankingData[1].fullname}
+                            score={rankingData[1].score}
                         />
-                        <Cylinder 
+                        <Cylinder
                             topColor="#FF6DAA"
                             ranking={2}
                             height={moderateScale(180)}
                         />
                     </View>
                     <View style={styles.smallContainer}>
-                        <PartAvatar 
-                            ranking={data_ranking[0].index}
-                            name={data_ranking[0].name}
-                            score={data_ranking[0].score}
+                        <PartAvatar
+                            ranking={rankingData[0].index}
+                            name={rankingData[0].fullname}
+                            score={rankingData[0].score}
                         />
-                        <Cylinder 
+                        <Cylinder
                             topColor="#6852F2"
                             ranking={1}
                             height={moderateScale(200)}
                         />
                     </View>
                     <View style={styles.smallContainer}>
-                        <PartAvatar 
-                            ranking={data_ranking[2].index}
-                            name={data_ranking[2].name}
-                            score={data_ranking[2].score}
+                        <PartAvatar
+                            ranking={rankingData[2].index}
+                            name={rankingData[2].fullname}
+                            score={rankingData[2].score}
                         />
-                        <Cylinder 
+                        <Cylinder
                             topColor="#FFD967"
                             ranking={3}
                             height={moderateScale(150)}
