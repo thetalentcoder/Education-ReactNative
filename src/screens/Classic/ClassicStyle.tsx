@@ -15,11 +15,11 @@ export default StyleSheet.create({
         width: "100%",
     },
     statusContainer: {
-        flex: 15,
+        flex: 20,
         width: "100%",
     },
     mainContent: {
-        flex: 70,
+        flex: 65,
         width: "100%",
         bottom: 0,
         borderTopLeftRadius: 32,

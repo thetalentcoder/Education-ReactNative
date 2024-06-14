@@ -24,8 +24,8 @@ export default function PartUserInfo({
             <View style={styles.userInfoContainer}>
                 <View style={styles.columnWithLine}>
                     <View style={{paddingBottom: verticalScale(8)}}>
-                        <FontAwesome5 
-                            name="trophy" 
+                        <Ionicons 
+                            name="trophy-outline" 
                             size={moderateScale(18)} 
                             color="white" 
                         />
@@ -35,8 +35,8 @@ export default function PartUserInfo({
                 </View>
                 <View style={styles.columnWithLine}>
                     <View style={{paddingBottom: verticalScale(8)}}>
-                        <FontAwesome5 
-                            name="trophy" 
+                        <Ionicons 
+                            name="trophy-outline" 
                             size={moderateScale(18)} 
                             color="white" 
                         />

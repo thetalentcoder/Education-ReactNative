@@ -13,12 +13,7 @@ import styles from "./BottomSectionStyle";
 
 type Props = {
     gameMode: string,
-    rankingData: {
-        id: string
-        index: number
-        fullname: string
-        score: number
-    }[]
+    rankingData: any
 }
 
 export function BottomSection({
@@ -64,7 +59,7 @@ export function BottomSection({
         <View style={styles.container}>
             {/* <ScrollView style={styles.innerContainer}> */}
             {
-                rankingData.map((ranking, index) => {
+                rankingData.map((ranking, index: number) => {
                     if (index < 3) {
                         return (
                             <Fragment
@@ -77,7 +72,7 @@ export function BottomSection({
                         return (
                             <PartRanking
                                 key={index}
-                                ranking={ranking.index}
+                                ranking={ranking.currentUser ? ranking.rank : ranking.index}
                                 name={ranking.fullname}
                                 score={ranking.score}
                             />

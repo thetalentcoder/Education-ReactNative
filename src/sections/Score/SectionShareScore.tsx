@@ -9,12 +9,12 @@ import { scale } from "src/config/scale";
 import { quizModes } from "src/constants/consts";
 
 type Props = {
-    quizMode?: number,
+    quizMode?: string,
     quizData?: any,
 }
 
 export default function SectionShareScore({
-    quizMode = 0,
+    quizMode = "",
     quizData = {}
 } : Props ) {
     const navigation: any = useNavigation();

@@ -4,18 +4,18 @@ import { moderateScale, scale, verticalScale } from "src/config/scale";
 export default StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: "flex-end",
+        justifyContent: "flex-start",
         alignItems: "center",
         width: "100%",
         padding: verticalScale(32),
     },
     dropDownContainer: {
-        top: verticalScale(50),
+        marginTop: verticalScale(16),
         width: "100%",
     },
     innerContainer: {
+        marginTop: verticalScale(16),
         width: "100%",
-        height: "100%",
         flexDirection: "row",
         justifyContent: "space-evenly",
         alignItems: "flex-end",

@@ -192,11 +192,6 @@ export default function SectionMainContent({
                 break;
 
         }
-
-        scrollRef.current?.scrollTo({
-            y: 0,
-            animated: true,
-        });
     }, [quizState, answers, submitData, currentProb, probCount, navigation, setCurrentProb, setTestEnded]);
 
 

@@ -5,6 +5,7 @@ export default StyleSheet.create({
         flex: 1,
         justifyContent: "flex-end",
         alignItems: "center",
+        backgroundColor: "red",
     },
     balloonContainer: {
         padding: 0, 

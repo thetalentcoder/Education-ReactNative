@@ -67,7 +67,7 @@ export default StyleSheet.create({
   },
 
   sectionGameMode: {
-    marginTop: verticalScale(16),
+    marginTop: verticalScale(32),
     width: '100%',
   },
 
