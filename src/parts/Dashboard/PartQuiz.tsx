@@ -32,7 +32,7 @@ export default function PartQuiz({
             <View style={styles.topPart}>
             </View>
             <View style={styles.bottomPart}>
-                <Text style={styles.categoryText}>{"category"}</Text>
+                <Text style={styles.categoryText}>{"Category Title"}</Text>
                 <Text style={styles.titleText}>{title}</Text>
                 <Text style={styles.countText}>{`${count} Questions`}</Text>
             </View>

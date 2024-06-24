@@ -11,6 +11,6 @@ export const getTopRankingUsers = async (mode = "") => {
         sortBy: "score",
         mode: mode
     }
-    const responseData = await apiService.postDataWithAuth("/api/user/getUsers", data)
+    const responseData = await apiService.postDataWithAuth("/api/user/ranking", data)
     return responseData;
 }

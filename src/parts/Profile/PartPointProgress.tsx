@@ -30,7 +30,7 @@ export default function PartPointProgress() {
                 <LineChart
                     data={data}
                     width={windowWidth - scale(70)}
-                    height={verticalScale(200)}
+                    height={verticalScale(280)}
                     withDots={false}
                     withVerticalLines={false}
                     withHorizontalLines={false}
@@ -40,12 +40,15 @@ export default function PartPointProgress() {
                     xLabelsOffset={0}
                     chartConfig={{
                         // backgroundColor: "#FFFFFF",
-                        fillShadowGradientFrom: "#6250C6",
+                        fillShadowGradientFrom: "#7250C6",
+                        fillShadowGradientFromOpacity: 0.4,
                         fillShadowGradientTo: "#FFFFFF",
+                        fillShadowGradientToOpacity: 0,
+                        fillShadowGradientToOffset: 0.75,
 
                         decimalPlaces: 0,
                         color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`, 
-                        labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+                        labelColor: (opacity = 1) => `rgba(128, 128, 128, ${opacity})`,
                     }}
                     style={{
                         paddingRight: moderateScale(10),

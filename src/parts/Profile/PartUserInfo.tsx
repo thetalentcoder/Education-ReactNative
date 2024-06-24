@@ -25,7 +25,7 @@ export default function PartUserInfo({
                 <View style={styles.columnWithLine}>
                     <View style={{paddingBottom: verticalScale(8)}}>
                         <Ionicons 
-                            name="trophy-outline" 
+                            name="ribbon-outline" 
                             size={moderateScale(18)} 
                             color="white" 
                         />

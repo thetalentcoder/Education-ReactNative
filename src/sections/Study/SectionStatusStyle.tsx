@@ -1,5 +1,5 @@
 import { StyleSheet, Dimensions } from "react-native";
-import { moderateScale, verticalScale } from "src/config/scale";
+import { moderateScale, scale, verticalScale } from "src/config/scale";
 
 const windowHeight = Dimensions.get("window").height;
 
@@ -8,7 +8,7 @@ export default StyleSheet.create({
         flex: 1,
         justifyContent: 'flex-start',
         alignItems: 'center',
-        paddingHorizontal: 20,
+        paddingHorizontal: scale(32),
         paddingVertical: verticalScale(16),
     },
     innerContainer: {

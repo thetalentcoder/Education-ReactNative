@@ -34,10 +34,10 @@ export default StyleSheet.create({
         alignItems: "center",
 
         shadowColor: '#000',
-        shadowOffset: { width: 0, height: 4 },
+        shadowOffset: { width: 0, height: 1 },
         shadowOpacity: 0.2,
         
-        elevation: 2,
+        elevation: scale(1),
 
         marginBottom: verticalScale(16),
     },

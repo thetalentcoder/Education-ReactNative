@@ -20,11 +20,13 @@ const Cylinder = ({
         <Defs>
           <LinearGradient id="grad" x1="0" y1="0" x2="0" y2="1">
             <Stop offset="0" stopColor={topColor} stopOpacity="0.5" />
+            <Stop offset="0.6" stopColor={"white"} stopOpacity="0.4" />
+            <Stop offset="0.8" stopColor={"white"} stopOpacity="0.3" />
             <Stop offset="1" stopColor={"white"} stopOpacity="0" />
           </LinearGradient>
           <LinearGradient id="grad1" x1="0" y1="0" x2="0" y2="1">
-            <Stop offset="0" stopColor={"white"} stopOpacity="0" />
-            <Stop offset="1" stopColor={topColor} stopOpacity="0.2" />
+            <Stop offset="0" stopColor={"white"} stopOpacity="0.0" />
+            <Stop offset="1" stopColor={topColor} stopOpacity="0.3" />
           </LinearGradient>
         </Defs>
 

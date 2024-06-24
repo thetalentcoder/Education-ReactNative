@@ -8,6 +8,7 @@ import SectionHeader from "src/sections/Common/SectionHeader";
 import texts from "src/config/texts";
 import styles from "./QuestionStyle";
 import { PTFELoading } from "src/components/loading";
+import { LinearGradient } from "expo-linear-gradient";
 
 type Props = {
     route?: any;
@@ -40,6 +41,12 @@ export default function Question({
 
     return (
         <View style={styles.container}>
+            <LinearGradient
+                colors={['#FF675B', '#87C6E8']}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 2 }}
+                style={styles.upperGradientContainer}
+            />
             <View style={styles.headerContainer}>
                 <SectionHeader 
                     title={texts.txt_header_question}

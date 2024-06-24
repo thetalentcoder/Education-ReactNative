@@ -10,6 +10,11 @@ export default StyleSheet.create({
         alignItems: 'center',
         backgroundColor: "#FF675BC0",
     },
+    upperGradientContainer: {
+        position: "absolute",
+        width: "100%",
+        height: windowHeight * 27 / 93,
+    },
     headerContainer: {
         flex: 8,
         width: "100%",

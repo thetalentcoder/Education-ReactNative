@@ -15,6 +15,7 @@ import { getMe } from "src/actions/user/user";
 
 import { useDispatch } from "react-redux";
 import { setUser } from "src/redux/userSlice";
+import { LinearGradient } from "expo-linear-gradient";
 
 export default function Login() {
     const navigation: any = useNavigation();
@@ -99,6 +100,16 @@ export default function Login() {
     
     return (
         <View style={styles.container}>
+            <LinearGradient
+                colors={['#FF675B', '#87C6E8']}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 1 }}
+                style={styles.upperGradientContainer}
+            />
+            <View style={styles.backgroundCircle1} />
+            <View style={styles.backgroundCircle2} />
+            <View style={styles.backgroundCircle3} />
+            <View style={styles.backgroundSquare} />
             <View style={styles.sectionLogin}>
                 <SectionLogin 
                     onLogin={handleLogin}

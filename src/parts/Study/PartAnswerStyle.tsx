@@ -48,7 +48,7 @@ export default StyleSheet.create({
         width: "75%",
     },
     content: {
-        fontFamily: "circular-std-medium",
+        fontFamily: "poppins-regular",
         fontSize: moderateScale(14),
         color: "#A0A0A2",
     }
