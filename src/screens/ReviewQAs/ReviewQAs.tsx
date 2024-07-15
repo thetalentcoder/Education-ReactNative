@@ -1,17 +1,19 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { ScrollView, TouchableOpacity, View, Text } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { LinearGradient } from "expo-linear-gradient";
 
-import SectionHeader from "src/sections/Common/SectionHeader";
+import SectionHeaderX from "src/sections/Common/SectionHeaderX";
 import SectionProfileContent from "src/sections/Profile/SectionProfileContent";
 
 import styles from "./ReviewQAsStyle";
 import { logout } from "src/actions/auth/auth";
 import { PTFEButton } from "src/components/button";
-import { scale } from "src/config/scale";
+import { moderateScale, scale } from "src/config/scale";
 import SectionStatus from "src/sections/Question/SectionStatus";
 import SectionReviewContent from "src/sections/ReviewQAs/SectionReviewContent";
+
+import { Entypo } from '@expo/vector-icons';
 
 type Props = {
     route?: any;
@@ -22,7 +24,15 @@ export default function ReviewQAs({
     route, 
     navigation,
 }: Props) {
-    const { quizData } = route.params;
+    const { quizData, score } = route.params;
+    const scrollRef = useRef<ScrollView>(null);
+
+    useEffect(() => {
+        setContentVerticalOffset(prev => prev + 1);
+    }, [scrollRef.current]);
+
+    const [contentVerticalOffset, setContentVerticalOffset] = useState(0);
+    const CONTENT_OFFSET_THRESHOLD = 300;
     
     const gotoDashboard = useCallback(() => {
         navigation.navigate("Home");
@@ -42,23 +52,43 @@ export default function ReviewQAs({
                 style={styles.upperGradientContainer}
             >
             </LinearGradient>
-            <ScrollView style={styles.innerContainer}>
+            <ScrollView 
+                style={styles.innerContainer} 
+                ref={scrollRef}
+                onScroll={event => {
+                    setContentVerticalOffset(event.nativeEvent.contentOffset.y);
+                }}
+            >
                 <View style={styles.headerContainer}>
-                    <SectionHeader title="Review Questions" goBack={gotoDashboard}/>
+                    <SectionHeaderX title="Review Questions" goBack={gotoDashboard}/>
                 </View>
                 <View style={styles.statusContainer}>
                     <SectionStatus
-                        currentProbNumber={13}
+                        currentProbNumber={20}
                         totalProbCount={20}
-                        currentScore={1231}
+                        currentScore={score}
                     />
                 </View>
                 <View style={styles.mainContent}>
                     <SectionReviewContent
                         quizData={quizData}
+                        scrollRef={scrollRef}
                     />
                 </View>
             </ScrollView>
+            {contentVerticalOffset > CONTENT_OFFSET_THRESHOLD && (
+                    <TouchableOpacity 
+                        style={styles.scrollTopButton} 
+                        onPress={() => {
+                            scrollRef.current?.scrollTo({
+                                y: 0,
+                                animated: true,
+                            });
+                        }}
+                    >
+                        <Entypo name="chevron-up" size={moderateScale(40)} color="white" />
+                    </TouchableOpacity>
+                )}
         </View>
     )
 }

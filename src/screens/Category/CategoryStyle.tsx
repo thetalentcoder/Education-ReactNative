@@ -1,5 +1,5 @@
 import { StyleSheet, Dimensions } from 'react-native';
-import { scale, verticalScale } from 'src/config/scale';
+import { moderateScale, scale, verticalScale } from 'src/config/scale';
 
 const windowHeight = Dimensions.get("window").height;
 const windowWidth = Dimensions.get("window").width;
@@ -25,4 +25,16 @@ export default StyleSheet.create({
   sectionContentSlider: {
     width: '100%',
   },
+  vimeoVideoContainer: {
+    justifyContent: "center",
+    alignItems: "center",
+    width: '80%',
+    height: verticalScale(450),
+    borderRadius: moderateScale(12),
+    backgroundColor: "grey",
+  },
+  video: {
+    width: '100%',
+    height: verticalScale(450),
+  }
 })

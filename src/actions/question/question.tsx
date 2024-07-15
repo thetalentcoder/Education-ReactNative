@@ -1,8 +1,13 @@
 import apiService from "../middleware/apiService";
 
-export const getAllQuestions = async (subCategory: string, page = 1, limit = 20) => {
-    const encodedSubCategory = encodeURIComponent(subCategory)
-    const responseData = await apiService.getDataWithAuth(`/api/question?category=${encodedSubCategory}&page=${page}&limit=${limit}`)
+export const getAllQuestions = async (subCategories: string[], page = 1, limit = 20) => {
+
+    const data = {
+        page,
+        limit,
+        subCategories
+    };
+    const responseData = await apiService.postDataWithAuth("/api/question/getAllQuestions", data)
     return responseData;
 }
 

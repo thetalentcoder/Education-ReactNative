@@ -22,6 +22,7 @@ export default function Classic({
     navigation,
 }: Props) {
     const [quizID, setQuizID] = useState(route.params?.quizID);
+    const [topics, setTopics] = useState(route.params?.quizID);
     const refresh = route.params?.refresh;
 
     const gotoDashboard = useCallback(() => {
@@ -56,7 +57,7 @@ export default function Classic({
             />
             <View style={styles.headerContainer}>
                 <SectionHeader
-                    title={texts.txt_header_question}
+                    title={"Classic Mode"}
                     goBack={gotoDashboard}
                 />
             </View>
@@ -65,6 +66,7 @@ export default function Classic({
                     currentProbNumber={currentProbNumber}
                     totalProbCount={totalProbCount}
                     currentScore={currentScore}
+                    topics={topics}
                 />
             </View>
             <View style={styles.mainContent}>

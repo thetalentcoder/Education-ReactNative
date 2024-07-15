@@ -8,13 +8,15 @@ const windowHeight = Dimensions.get("window").height;
 type Props = {
     type: string;
     initValue?: string;
-    onChangeText: (newValue: string) => void;
+    onChangeText?: (newValue: string) => void;
+    height?: number,
 }
 
 export default function PTFEEdit({
     type,
     initValue,
     onChangeText,
+    height,
 }: Props) {
     const [hidePassword, setHidePassword] = useState(true);
 
@@ -49,12 +51,21 @@ export default function PTFEEdit({
                     </TouchableOpacity>
                 </View>
             )
+        case 'multiline': 
+            return (
+                <TextInput style={[styles.multiline, {height: height}]} 
+                    value={initValue}
+                    onChangeText={onChangeText}
+                    multiline={true}
+                />
+            )
             break;
      }
 }
 
 const styles = StyleSheet.create({
     text: {
+        width: "100%",
         height: verticalScale(64),
 
         borderColor: "#999999",
@@ -67,7 +78,23 @@ const styles = StyleSheet.create({
         color: "#333333",
         fontSize: moderateScale(16),
     },
+    multiline: {
+        width: "100%",
+        height: verticalScale(64),
+
+        borderColor: "#999999",
+        borderWidth: moderateScale(1),
+        borderRadius: scale(16),
+        paddingVertical: scale(20),
+        paddingHorizontal: scale(20),
+
+        fontFamily: 'poppins-regular',
+        color: "#333333",
+        fontSize: moderateScale(16),
+        textAlignVertical: 'top'
+    },
     passwordContainer: {
+        width: "100%",
         height: verticalScale(64),
 
         flexDirection: 'row',

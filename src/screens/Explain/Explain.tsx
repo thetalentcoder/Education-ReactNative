@@ -9,6 +9,7 @@ import styles from "./ExplainStyle";
 import { logout } from "src/actions/auth/auth";
 import SectionStatus from "src/sections/Study/SectionStatus";
 import SectionExplainContent from "src/sections/Explain/SectionExplainContent";
+import { PTFEButton } from "src/components/button";
 
 type Props = {
     route?: any;
@@ -23,9 +24,9 @@ export default function Explain({
         navigation.navigate("Study", { refresh: false });
     }, [navigation]);
 
-    const { answers, currentScore, currentProb, totalProbCount, rationale } = route.params;
+    const { answers, currentScore, currentProb, totalProbCount, rationale, topics } = route.params;
 
-    console.log(answers);
+    console.log(route.params);
 
     return (
         <View style={styles.container}>
@@ -45,12 +46,21 @@ export default function Explain({
                         currentProbNumber={currentProb}
                         totalProbCount={totalProbCount}
                         currentScore={currentScore}
+                        topics={topics}
                     />
                 </View>
                 <View style={styles.mainContent}>
                     <SectionExplainContent
                         answers={answers}
                         rationale={rationale}
+                    />
+                </View>
+                <View style={styles.buttonContainer}>
+                    <PTFEButton
+                        text={"GO BACK"}
+                        type="rounded"
+                        color="#87C6E8"
+                        onClick={GoBack}
                     />
                 </View>
             </ScrollView>

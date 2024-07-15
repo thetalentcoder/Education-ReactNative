@@ -51,13 +51,14 @@ export default StyleSheet.create({
   backgroundSquare: {
     zIndex: -1,
     position: "absolute",
-    top: verticalScale(170) + scale(150),
-    left: scale(70),
+    top: verticalScale(170) + scale(170),
+    left: scale(50),
     width: scale(340),
     height: scale(800),
     backgroundColor: "#FFFFFF24",
   },
   sectionLogin: {
+    marginTop: verticalScale(287),
     height: verticalScale(645),
     width: '100%',
   },

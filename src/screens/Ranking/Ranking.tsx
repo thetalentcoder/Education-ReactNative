@@ -58,7 +58,8 @@ export default function Ranking() {
 
     const fetchTopRankingUsersByGameMode = async () => {
         try {
-            const result = await getTopRankingUsers(gameMode)
+            const result = await getTopRankingUsers(gameMode);
+            console.log(result);
             const resultWithUserIndex = result.users.map((user: any, index: number) => ({
                 ...user,
                 index: index + 1,

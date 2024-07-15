@@ -51,7 +51,7 @@ export default StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
         borderRadius: scale(12),
-        padding: scale(12),
+        paddingVertical: scale(12),
     },
     calendar: {
         width: screenWidth * 8 / 10,
@@ -61,6 +61,19 @@ export default StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
+        position: "relative",
+    },
+    infoIcon: {
+        position: "absolute",
+        top: moderateScale(-4),
+        right: moderateScale(4),
+        width: moderateScale(28),
+        height: moderateScale(28),
+    },
+    infoButton: {
+        position: "relative",
+        width: moderateScale(28),
+        height: moderateScale(28),
     },
     longestMilstoneText: {
         fontFamily: "circular-std-black",
@@ -74,8 +87,10 @@ export default StyleSheet.create({
     },
     streakDetailsDesp: {
         maxWidth: scale(80),
+        marginTop: moderateScale(4),
         fontFamily: "poppins-regular",
         fontSize: moderateScale(12),
+        lineHeight: moderateScale(14),
         textAlign: 'center',
         color: "white",
     },

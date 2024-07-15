@@ -1,11 +1,15 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { View } from "react-native";
+import { Video, ResizeMode } from 'expo-av';
 
 import SectionCategory from "src/sections/Category/SectionCategory";
 import styles from "./CategoryStyle";
 import SectionHeader from "src/sections/Common/SectionHeader";
 import { LinearGradient } from "expo-linear-gradient";
 import { gameModeString } from "src/constants/consts";
+import { useFocusEffect } from "@react-navigation/native";
+import { user_test_data } from "assets/@mockup/data";
+import { useVideo } from "src/hooks/useVideo";
 
 type Props = {
     route?: any,
@@ -16,8 +20,23 @@ export default function Category({
     route,
     navigation,
 }: Props) {
+    const [gameMode, setGameMode] = useState(route.params && route.params["gameMode"] != undefined ? route.params["gameMode"] : 1);
+    const player = React.useRef(null);
+    const [status, setStatus] = useState({});
+    
+    const { thumbnailUrl, videoUrl, video } = useVideo();
 
-    const { gameMode } = route.params;
+    useFocusEffect(
+        React.useCallback(() => {
+            if (route.params && route.params["gameMode"] != undefined) {
+                setGameMode(route.params["gameMode"]);
+            }
+        }, [route.params, setGameMode])
+    );
+
+    useEffect(() => {
+        
+    }, []);
 
     const gotoDashboard = useCallback(() => {
         navigation.navigate("Dashboard");
@@ -38,6 +57,22 @@ export default function Category({
                     goBack={gotoDashboard}
                 />
             </View>
+            <View style={styles.vimeoVideoContainer}>
+                {
+                    videoUrl && 
+                    <Video
+                        ref={player}
+                        style={styles.video}
+                        source={{
+                        uri: videoUrl,
+                        }}
+                        useNativeControls
+                        resizeMode={ResizeMode.CONTAIN}
+                        isLooping
+                        onPlaybackStatusUpdate={status => setStatus(() => status)}
+                    />
+                }
+                </View>
             <View style={styles.sectionContentSlider}>
                 <SectionCategory 
                     gameMode={gameMode} 

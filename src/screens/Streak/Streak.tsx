@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { Pressable, ScrollView, Text, View } from 'react-native'
 import { Calendar } from "react-native-calendars"
 import styles from "./StreakStyle";
@@ -9,22 +9,28 @@ import { useSelector } from "react-redux";
 import { LinearGradient } from 'expo-linear-gradient';
 import SectionHeader from 'src/sections/Common/SectionHeader';
 
+import TimeLine from 'assets/icons/TimeLine';
+import SpeedMeter from 'assets/icons/SpeedMeter';
+import InformationIcon from 'assets/icons/InformationIcon';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 export default function Streak() {
     const { user } = useSelector((state) => state.userData);
+    const data = user?.milestones;
+
+    const [remainDays, setRemainningDays] = useState(0);
 
     const navigation: any = useNavigation();
-
-    const streakArr = user.streakhistory.map((item: any) => (item.date))
+    const streakArr = user?.streakhistory?.map((item: any) => (item.date))
 
     const extractDateFromString = (datetimeString: string) => {
         return datetimeString.split('T')[0];
     };
 
-    const allStreakDates = streakArr.map((date: string) => extractDateFromString(date))
+    const allStreakDates = streakArr?.map((date: string) => extractDateFromString(date))
 
     let markedDates = {};
-    allStreakDates.forEach((date: string) => {
+    allStreakDates?.forEach((date: string) => {
         markedDates[date] = {
             customStyles: {
                 container: {
@@ -34,6 +40,41 @@ export default function Streak() {
             },
         };
     });
+
+    useEffect(() => {
+        calculateRemainingDay();
+    }, []);
+
+    const calculateRemainingDay = useCallback(() => {
+        const today = new Date();
+
+        const achievedTasks = data.filter(item => item.achieved);
+
+        let taskToCalculate;
+        if (achievedTasks.length > 0) {
+            taskToCalculate = achievedTasks[achievedTasks.length - 1];
+        } else {
+            taskToCalculate = data[0];
+        }
+
+        const taskDate = new Date(taskToCalculate.date);
+        const diffTime = Math.abs(taskDate - today);
+        const remainingDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+        console.log({
+            // ...taskToCalculate,
+            remainingDays: remainingDays
+        });
+
+        setRemainningDays(remainingDays);
+    }, []);
+
+    const toInfoPage = useCallback((title?: string, content?: string) => {
+        navigation.navigate("StreakInfo", { 
+            title: title,
+            content: content,
+        });
+    }, []);
 
     return (
         <View style={styles.modalContainer}>
@@ -47,26 +88,67 @@ export default function Streak() {
             
             <ScrollView style={styles.innerContainer}>
                 <View style={styles.headerContainer}>
-                    <SectionHeader title="Streak" goBack={() => navigation.navigate('Dashboard')}/>
+                    <SectionHeader title="Streaks" goBack={() => navigation.navigate('Dashboard')}/>
                 </View>
                 <View style={styles.statusContainer}>
                     <View style={styles.streakDetails}>
                         <View style={styles.longestMilstone}>
-                            <FontAwesome5 name="flag" size={40} color="white" />
-                            <Text style={styles.longestMilstoneText}>1X</Text>
+                            {/* <FontAwesome5 name="flag" size={40} color="white" /> */}
+                            <SpeedMeter />
                             <Text style={styles.streakDetailsDesp}>{"Score\nMultiplier"}</Text>
+                            <Text style={styles.longestMilstoneText}>{user?.currentMultiplier}x</Text>
+                            <View style={styles.infoIcon}>
+                                <TouchableOpacity 
+                                    style={styles.infoButton}
+                                    onPress={()=> {
+                                        toInfoPage("Score Multiplier", 
+                                            "It is the multiplier value for calculating scores in the quiz mode.");
+                                    }}
+                                >
+                                    <InformationIcon/>
+                                </TouchableOpacity>
+                            </View>
                         </View>
                         <View style={styles.split} />
                         <View style={styles.longestMilstone}>
-                            <FontAwesome5 name="medal" size={40} color="white" />
-                            <Text style={styles.longestMilstoneText}>6 days</Text>
+                            {/* <FontAwesome5 name="medal" size={40} color="white" /> */}
+                            <TimeLine />
                             <Text style={styles.streakDetailsDesp}>{"Time to next\nmilestone"}</Text>
+                            <Text style={styles.longestMilstoneText}>{remainDays} days</Text>
+                            <View style={styles.infoIcon}>
+                                <TouchableOpacity 
+                                    style={styles.infoButton}
+                                    onPress={()=> {
+                                        toInfoPage("Time To Next Milestone",
+                                            "It shows the remaining days to achieve next milestone."
+                                        );
+                                    }}
+                                >
+                                    <InformationIcon/>
+                                </TouchableOpacity>
+                            </View>
                         </View>
                         <View style={styles.split} />
                         <View style={styles.longestMilstone}>
-                            <FontAwesome5 name="medal" size={40} color="white" />
-                            <Text style={styles.longestMilstoneText}>{user.streak} days</Text>
+                            <FontAwesome5
+                                name="fire-alt"
+                                size={moderateScale(38)}
+                                color="white"
+                            />
                             <Text style={styles.streakDetailsDesp}>{"Current\nStreak"}</Text>
+                            <Text style={styles.longestMilstoneText}>{user?.streak} days</Text>
+                            <View style={styles.infoIcon}>
+                                <TouchableOpacity 
+                                    style={styles.infoButton}
+                                    onPress={()=> {
+                                        toInfoPage("Current Streak",
+                                            "It shows the current streak days."
+                                        );
+                                    }}
+                                >
+                                    <InformationIcon/>
+                                </TouchableOpacity>
+                            </View>
                         </View>
                     </View>
                 </View>
@@ -83,11 +165,12 @@ export default function Streak() {
                             selectedDayTextColor: '#ffffff',
                             todayTextColor: '#00adf5',
                             dayTextColor: '#2d4150',
-                            textDisabledColor: '#d9e',
-                            textMonthFontSize: moderateScale(13),
+                            textDisabledColor: 'grey',
+                            textMonthFontSize: moderateScale(22),
                             weekVerticalMargin: verticalScale(10),
-                            textDayFontSize: moderateScale(13),
-                            textDayHeaderFontSize: moderateScale(13),
+                            // textDayFontSize: moderateScale(13),
+                            // textDayHeaderFontSize: moderateScale(13),
+                            textDayHeaderFontWeight: "bold",
                         }}
                     />
                 </View>

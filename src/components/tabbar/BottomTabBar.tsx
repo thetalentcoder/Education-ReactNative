@@ -41,7 +41,9 @@ export function BottomTabBar({
                             });
 
                             if (route.name != "Play") {
-                                console.log(route.name);
+                                navigation.navigate(route.name);
+                            }
+                            else {
                                 navigation.navigate(route.name);
                             }
                         };

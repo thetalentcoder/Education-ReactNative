@@ -13,7 +13,7 @@ export default StyleSheet.create({
     upperGradientContainer: {
         position: "absolute",
         width: "100%",
-        height: windowHeight * 27 / 93,
+        height: windowHeight * 32 / 93,
     },
     headerContainer: {
         flex: 8,

@@ -14,3 +14,11 @@ export const getTopRankingUsers = async (mode = "") => {
     const responseData = await apiService.postDataWithAuth("/api/user/ranking", data)
     return responseData;
 }
+
+export const updateUser = async (id: string, avatarUrl: string) => {
+    const data = {
+        avatarUrl: avatarUrl
+    }
+    const responseData = await apiService.putDataWithAuth(`/api/user/${id}`, data)
+    return responseData;
+}

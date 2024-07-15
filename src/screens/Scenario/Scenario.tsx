@@ -22,6 +22,7 @@ export default function Scenario({
     navigation,
 }: Props) {
     const [quizID, setQuizID] = useState(route.params?.quizID);
+    const [topic, setTopic] = useState(route.params?.quizID);
     const refresh = route.params?.refresh;
 
     const gotoDashboard = useCallback(() => {
@@ -56,7 +57,7 @@ export default function Scenario({
             />
             <View style={styles.headerContainer}>
                 <SectionHeader
-                    title={texts.txt_header_question}
+                    title={"Scenarios Mode"}
                     goBack={gotoDashboard}
                 />
             </View>
@@ -65,6 +66,7 @@ export default function Scenario({
                     currentProbNumber={currentProbNumber}
                     totalProbCount={totalProbCount}
                     currentScore={currentScore}
+                    topics={topic}
                 />
             </View>
             <View style={styles.mainContent}>
@@ -76,6 +78,7 @@ export default function Scenario({
                     setCurrentLife={setCurrentLife}
                     setTotalProbCount={setTotalProbCount}
                     setCurrent={setCurrentScore}
+                    topic={topic}
                 />
             </View>
 

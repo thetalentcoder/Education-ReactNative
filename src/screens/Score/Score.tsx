@@ -1,9 +1,9 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { View } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
 
-import SectionHeader from "src/sections/Common/SectionHeader";
 import SectionScore from "src/sections/Score/SectionScore";
-import SectionMainContent from "src/sections/Score/SectionShareScore"
+import SectionShareScore from "src/sections/Score/SectionShareScore"
 
 import texts from "src/config/texts";
 import styles from "./ScoreStyle";
@@ -13,7 +13,8 @@ import { LinearGradient } from "expo-linear-gradient";
 import { useFocusEffect } from "@react-navigation/native";
 import { getMe } from "src/actions/user/user";
 import { setUser } from "src/redux/userSlice";
-import { useDispatch } from "react-redux";
+import SectionHeaderX from "src/sections/Common/SectionHeaderX";
+import { sleep } from "src/utils/util";
 
 type Props = {
     route?: any;
@@ -24,30 +25,47 @@ export default function Score({
     route,
     navigation,
 }: Props) {
-    const { id, submitData, score, quizMode } = route.params;
-    const [currentScore, setCurrentScore] = useState(84);
+    const { id, submitData, score, quizMode, numberOfQuestions, title, category } = route.params;
+    // console.log(route.params);
+    // console.log(score);
+    const [showModal, setShowModal] = useState(false);
+    const [currentScore, setCurrentScore] = useState(score);
     const dispatch = useDispatch();
+
+    const { user } = useSelector((state) => state.userData);
 
     useFocusEffect(
         React.useCallback(() => {
-            setCurrentScore(Math.floor(score));
-            submitResult();
+            const processResult = async () => {
+                setCurrentScore(Math.floor(score));
+                // await submitResult();
+                // await updateStatus();
+            };
+
+            processResult().catch(console.error);
         }, [id, submitData, score])
     );
 
-    const submitResult = useCallback(async () => {
-        const result = await postSubmitQuizResult({
-            id: id,
-            score: currentScore,
-            quizMode: quizMode,
-        });
+    // const submitResult = useCallback(async () => {
+    //     const result = await postSubmitQuizResult({
+    //         id: id,
+    //         score: currentScore,
+    //         quizMode: quizMode,
+    //         title: title,
+    //         numberOfQuestions: numberOfQuestions,
+    //         category: category
+    //     });
+    //     // setScore(result.score);
+    // }, [id, quizMode, category, title, numberOfQuestions, currentScore]);
 
+    // const updateStatus = useCallback(async () => {
+    //     const userInfo = await getMe();
+    //     dispatch(setUser(userInfo));
 
-        const userInfo = await getMe();
-        dispatch(setUser(userInfo));
-
-        // setScore(result.score);
-    }, [id, submitData, currentScore]);
+    //     if (user?.streak != userInfo?.streak) {
+    //         setShowModal(true);
+    //     }
+    // }, [setShowModal]);
 
 
     const gotoDashboard = useCallback(() => {
@@ -63,7 +81,7 @@ export default function Score({
                 style={styles.upperGradientContainer}
             ></LinearGradient>
             <View style={styles.headerContainer}>
-                <SectionHeader
+                <SectionHeaderX
                     title={texts.txt_header_success}
                     goBack={gotoDashboard}
                 />
@@ -71,12 +89,14 @@ export default function Score({
             <View style={styles.statusContainer}>
                 <SectionScore
                     score={currentScore}
+                    bShow={showModal}
                 />
             </View>
             <View style={styles.mainContent}>
-                <SectionMainContent
+                <SectionShareScore
                     quizMode={quizMode}
                     quizData={submitData}
+                    score={score}
                 />
             </View>
         </View>

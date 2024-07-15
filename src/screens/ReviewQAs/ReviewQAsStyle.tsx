@@ -1,7 +1,8 @@
 import { StyleSheet, Dimensions } from "react-native";
-import { verticalScale } from "src/config/scale";
+import { moderateScale, verticalScale } from "src/config/scale";
 
 const windowHeight = Dimensions.get("window").height;
+const windowWidth = Dimensions.get("window").width;
 
 export default StyleSheet.create({
     container: {
@@ -24,15 +25,27 @@ export default StyleSheet.create({
     },
     statusContainer: {
         marginTop: verticalScale(32),
-        flex: 10,
         width: "100%",
     },
     mainContent: {
-        flex: 30,
         width: "100%",
         marginTop: verticalScale(32),
-        borderTopLeftRadius: 32,
-        borderTopRightRadius: 32,
+        borderTopLeftRadius: moderateScale(32),
+        borderTopRightRadius: moderateScale(32),
         backgroundColor: "#FFFFFF"
-    }
+    },
+    scrollTopButton: {
+        zIndex: 100,
+        position: 'absolute',
+        bottom: moderateScale(20),
+        right: moderateScale(20),
+
+        width: windowWidth * 0.15,
+        height: windowWidth * 0.15,
+        borderRadius: moderateScale(8),
+        backgroundColor: "#87C6E8",
+
+        justifyContent: "center",
+        alignItems: "center",
+    },
 });

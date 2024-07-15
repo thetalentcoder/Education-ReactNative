@@ -55,7 +55,7 @@ export default function Survival({
             />
             <View style={styles.headerContainer}>
                 <SectionHeader
-                    title={texts.txt_header_question}
+                    title={"Survivor Mode"}
                     goBack={gotoDashboard}
                 />
             </View>

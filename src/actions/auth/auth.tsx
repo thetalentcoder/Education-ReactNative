@@ -1,16 +1,15 @@
-import { signInWithEmailAndPassword, createUserWithEmailAndPassword, sendEmailVerification, sendPasswordResetEmail, signOut } from "@firebase/auth"
 import { auth } from "src/config/firebase-config"
 // import { API_URL } from "@env";
-const API_URL = process.env.EXPO_PUBLIC_API_URL;
+const API_URL = "https://ptfe-game-backend-a0cc7b8d3a77.herokuapp.com";
 
 console.log(`${API_URL}/api/user`);
 
 export const login = async (email: string, password: string) => {
     try {
-        const userCredential = await signInWithEmailAndPassword(auth, email, password);
+        const userCredential = await auth.signInWithEmailAndPassword(email, password);
         const user = userCredential.user;
         return user;
-    } catch(error) {
+    } catch(error: any) {
         console.log(error.message);
         throw error;
     }
@@ -18,9 +17,9 @@ export const login = async (email: string, password: string) => {
 
 export const logout = async () => {
     try {
-        const user = await signOut(auth);
+        const user = await auth.signOut();
         return user;
-    } catch (error) {
+    } catch (error: any) {
         const errorCode = error?.code;
         const errorMessage = error?.message;
         console.error("Logout error:", errorCode, errorMessage);
@@ -30,8 +29,7 @@ export const logout = async () => {
 
 export const signup = async (email: string, password: string) => {
     try {
-        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-
+        const userCredential = await auth.createUserWithEmailAndPassword(email, password);
         console.log(userCredential.user);
 
         await emailVerification();
@@ -47,13 +45,13 @@ export const signup = async (email: string, password: string) => {
 export const emailVerification = async () => {
     const user = auth.currentUser;
     try {
-        await sendEmailVerification(auth.currentUser, {
+        await auth.currentUser?.sendEmailVerification({
             handleCodeInApp: true,
             url: "https://ptfe-game.firebaseapp.com",
         }).then(() => {
             console.log("Verification Sent");
         })
-    } catch (error) {
+    } catch (error: any) {
         const errorCode = error?.code;
         const errorMessage = error?.message;
         console.error("Email verification error:", errorCode, errorMessage);
@@ -63,8 +61,8 @@ export const emailVerification = async () => {
 
 export const forgotPassword = async (email: string) => {
     try {
-        await sendPasswordResetEmail(auth, email);
-    } catch(error) {
+        await auth.sendPasswordResetEmail(email);
+    } catch(error: any) {
         console.log(error.message);
         throw error;
     }

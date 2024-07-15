@@ -12,6 +12,10 @@ export default StyleSheet.create({
     backgroundColor: "#FFFFFF",
   },
 
+  scrollView: {
+    width: "100%",
+  },
+
   backgroundCircle1: {
     zIndex: -2,
     position: "absolute",

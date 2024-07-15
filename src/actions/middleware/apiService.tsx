@@ -2,7 +2,7 @@ import axios from 'axios';
 // import { API_URL } from '@env';
 import { auth } from "src/config/firebase-config";
 
-const API_URL = process.env.EXPO_PUBLIC_API_URL;
+const API_URL = "https://ptfe-game-backend-a0cc7b8d3a77.herokuapp.com";
 
 class ApiService {
   #authToken = '';
@@ -44,6 +44,16 @@ class ApiService {
     try {
       await this.refreshAuthToken();
       const response = await this.#instance.get(url);
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async putDataWithAuth(url: string, data: any) {
+    try {
+      await this.refreshAuthToken();
+      const response = await this.#instance.put(url, data);
       return response.data;
     } catch (error) {
       throw error;

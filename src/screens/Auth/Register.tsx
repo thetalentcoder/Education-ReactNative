@@ -8,6 +8,8 @@ import SectionRegister from "src/sections/Auth/SectionRegister";
 
 import { logout, signup, userRegister } from "src/actions/auth/auth";
 import styles from "./RegisterStyle";
+import { LinearGradient } from "expo-linear-gradient";
+import CustomKeyboardAvoidingView from "src/wrappers/CustomKeyboardAvoidingView";
 
 export default function Register() {    
     const navigation:any = useNavigation();
@@ -50,18 +52,31 @@ export default function Register() {
     }, []);
 
     return (
-        <View style={styles.container}>
-            <View style={styles.sectionRegister}>
-                <SectionRegister 
-                    setEmail={SetEmail}
-                    setFullName={SetFullName}
-                    setPassword={SetPassword}
-                    setConfirmPassword={SetPasswordConfirm}
-                    onRegister={handleRegister}
-                    onGoBack={handleGoBack}
+        <CustomKeyboardAvoidingView>
+            <View style={styles.container}>
+                <LinearGradient
+                    colors={['#FF675B', '#87C6E8']}
+                    start={{ x: 0, y: 0 }}
+                    end={{ x: 1, y: 1 }}
+                    style={styles.upperGradientContainer}
                 />
+                <View style={styles.backgroundCircle1} />
+                <View style={styles.backgroundCircle2} />
+                <View style={styles.backgroundCircle3} />
+                <View style={styles.backgroundSquare} />
+
+                <View style={styles.sectionRegister}>
+                    <SectionRegister 
+                        setEmail={SetEmail}
+                        setFullName={SetFullName}
+                        setPassword={SetPassword}
+                        setConfirmPassword={SetPasswordConfirm}
+                        onRegister={handleRegister}
+                        onGoBack={handleGoBack}
+                    />
+                </View>
+                { isLoading && <PTFELoading /> }
             </View>
-            { isLoading && <PTFELoading /> }
-        </View>
+        </CustomKeyboardAvoidingView>
     );
 }

@@ -1,5 +1,5 @@
 import { StyleSheet, Dimensions } from "react-native";
-import { verticalScale } from "src/config/scale";
+import { scale, verticalScale } from "src/config/scale";
 
 const windowHeight = Dimensions.get("window").height;
 
@@ -37,5 +37,10 @@ export default StyleSheet.create({
         borderTopLeftRadius: 32,
         borderTopRightRadius: 32,
         backgroundColor: "#FFFFFF"
-    }
+    },
+    buttonContainer: {
+        width: "100%",
+        paddingHorizontal: scale(32),
+        paddingBottom: scale(32),
+    },
 });

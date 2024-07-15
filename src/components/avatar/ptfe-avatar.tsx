@@ -7,16 +7,18 @@ const windowHeight = Dimensions.get("window").height;
 type Props = {
   greeting: string;
   userName: string;
+  avatar: string
 }
 
 const PTFEAvatar = ({
   greeting,
   userName,
+  avatar
 }: Props) => {
   return (
     <View style={styles.container}>
       <TouchableOpacity style={styles.avatarCircle} >
-        {/* <Image style={styles.avatar} source={require("assets/images/avatar/sample.jpg")}/> */}
+        <Image style={styles.avatar} source={{ uri: avatar }} />
       </TouchableOpacity>
       <View style={styles.userInfoContainer}>
         <Text style={styles.greeting}>{greeting}</Text>
