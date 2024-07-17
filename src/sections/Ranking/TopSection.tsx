@@ -35,7 +35,7 @@ export function TopSection({
     const options = [
         { title: 'Total', value: "" },
         { title: 'Study Mode', value: 'studyMode' },
-        { title: 'Quiz Mode', value: 'quizMode' },
+        { title: 'Classic Mode', value: 'quizMode' },
         { title: 'Survivor Mode', value: 'survivorMode' },
         { title: 'Scenario Mode', value: 'scenarioMode' },
     ];
@@ -52,7 +52,7 @@ export function TopSection({
         <>
             <View style={styles.container}>
                 <View style={styles.dropDownContainer}>
-                    <CustomDropdown options={options} onSelect={onSelect} title="Game Mode" />
+                    <CustomDropdown options={options} onSelect={onSelect} title="Total" page="ranking" />
                 </View>
                 {
                     rankingData.length >= 3 ?

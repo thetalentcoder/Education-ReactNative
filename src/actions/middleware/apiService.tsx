@@ -2,7 +2,7 @@ import axios from 'axios';
 // import { API_URL } from '@env';
 import { auth } from "src/config/firebase-config";
 
-const API_URL = "https://ptfe-game-backend-a0cc7b8d3a77.herokuapp.com";
+const API_URL = process.env.EXPO_PUBLIC_API_URL;
 
 class ApiService {
   #authToken = '';

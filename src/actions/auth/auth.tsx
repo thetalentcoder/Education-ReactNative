@@ -1,6 +1,6 @@
 import { auth } from "src/config/firebase-config"
 // import { API_URL } from "@env";
-const API_URL = "https://ptfe-game-backend-a0cc7b8d3a77.herokuapp.com";
+const API_URL = process.env.EXPO_PUBLIC_API_URL;
 
 console.log(`${API_URL}/api/user`);
 

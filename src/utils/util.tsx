@@ -1,3 +1,7 @@
+import { format } from "date-fns";
+import { toZonedTime } from "date-fns-tz";
+
+
 export function formatNumberWithCommas(number: number): string {
     // Convert number to string
     let numberString: string = number.toString();
@@ -19,4 +23,26 @@ export function formatNumberWithCommas(number: number): string {
 
 export function sleep(ms: number) {
     return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+const UTCToZoneTIme = (dateString: string) => {
+    const date = new Date(dateString);
+    const offsetMinutes = date.getTimezoneOffset();
+    const localTime = new Date(date.getTime() + offsetMinutes * 60 * 1000);
+    return localTime;
+}
+
+export const checkIfUserHastakenQuizToday = (user: any) => {
+    const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    const todaysDate = toZonedTime(new Date(), userTimeZone);
+
+    const parseAllStreakDates = user?.streakhistory.map((item: any) =>
+        UTCToZoneTIme(item.date)
+    );
+
+    const hasTakenQuizToday = parseAllStreakDates.some((date: Date) =>
+        format(date, "yyyy-MM-dd") === format(todaysDate, "yyyy-MM-dd")
+    );
+
+    return hasTakenQuizToday;
 }

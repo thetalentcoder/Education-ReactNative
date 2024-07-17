@@ -25,6 +25,7 @@ export default StyleSheet.create({
         backgroundColor: "#C4C4C4",
     },
     avatar: {
+        zIndex: 1,
         width: verticalScale(120),
         height: verticalScale(120),
         borderRadius: verticalScale(40),

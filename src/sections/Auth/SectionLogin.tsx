@@ -51,7 +51,7 @@ export default function SectionLogin({
                 />
                 <View style={styles.textContainer}>
                     <Text></Text>
-                    <Text style={styles.text}>Not registered yet?</Text>
+                    <Text style={styles.text}>Not registered yet?   </Text>
                     <PTFELinkButton
                         text="Register here"
                         color="#FF675B"

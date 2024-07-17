@@ -3,6 +3,7 @@ import { View, Text } from "react-native";
 
 import styles from "./PartRecentQuizzesStyle";
 import { PTFELinkButton } from "src/components/button";
+import { useSelector } from "react-redux";
 
 const data = [
     {
@@ -50,6 +51,10 @@ const data = [
 ];
 
 export default function PartRecentQuizzes() {
+    const { user } = useSelector((state) => state.userData);
+
+    console.log(user.gamehistory);
+
     return (
         <View style={styles.container}>
             <View style={styles.headerContainer}>
@@ -60,17 +65,31 @@ export default function PartRecentQuizzes() {
                     text="View All >"
                     color="#87C6E8"
                     underlined={false}
-                    onClick={() => {}}
+                    onClick={() => { }}
                 />
             </View>
             {
-                data.map((col, index) => {
+                user.gamehistory.slice(-5).reverse().map((col, index) => {
+                    let color = ''
+                    switch (col.title) {
+                        case "Classic Mode":
+                            color = "#8270F6";
+                            break;
+                        case "Survivor Mode":
+                            color = "#FFD967";
+                            break;
+                        case "Scenario Mode":
+                            color = "#FF6DAA";
+                            break;
+                        default:
+                            color = "#A0A0A2";
+                    }
                     return (
-                        <View 
+                        <View
                             key={index}
                             style={styles.oneQuiz}
                         >
-                            <View style={[styles.icon, {backgroundColor: col.color}]}>
+                            <View style={[styles.icon, { backgroundColor: color }]}>
                             </View>
                             <View style={styles.textContainer}>
                                 <Text style={styles.titleText}>
@@ -78,16 +97,17 @@ export default function PartRecentQuizzes() {
                                 </Text>
                                 <View style={styles.row}>
                                     <Text style={styles.smallText}>
-                                        {`${col.qCount} Question`}
+                                        {`${col.numberOfQuestions} Question`}
                                     </Text>
-                                    <Text style={styles.smallText}>
-                                        {"All Topics"}
+                                    <Text style={styles.smallText} numberOfLines={1} ellipsizeMode="tail">
+                                        {col.category}
                                     </Text>
                                 </View>
                             </View>
-                            <View style={[styles.percentContainer, {borderColor: col.color}]}>
-                                <Text style={[styles.percentText, {color: col.color}]}>
-                                    {col.percent}
+                            <View style={[styles.percentContainer]}>
+                                <Text
+                                    style={[styles.percentText, { color: color }]} >
+                                    {col.score}
                                 </Text>
                             </View>
                         </View>

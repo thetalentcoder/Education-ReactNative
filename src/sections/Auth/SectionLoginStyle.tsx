@@ -27,11 +27,11 @@ export default StyleSheet.create({
     textContainer: {
         marginTop: moderateScale(16),
         flexDirection: "row",
-        justifyContent: "space-evenly",
+        justifyContent: "center",
     },
     text: {
         fontFamily: "circular-std-medium",
-        fontSize: scale(14),
+        fontSize: moderateScale(14),
         color: "#999999",
     },
 });

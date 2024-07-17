@@ -18,9 +18,16 @@ import ReviewQAs from 'src/screens/ReviewQAs/ReviewQAs';
 import Ranking from 'src/screens/Ranking/Ranking';
 import Profile from 'src/screens/Profile/Profile';
 import Streak from 'src/screens/Streak/Streak';
+import StreakInfo from 'src/screens/Streak/StreakInfo';
 import Classic from 'src/screens/Classic/Classic';
 import Scenario from 'src/screens/Scenario/Scenario';
 import Category from 'src/screens/Category/Category';
+import Flashcards from 'src/screens/Flashcards/Flashcards';
+import CreateFlashcard from 'src/screens/CreateFlashcard/CreateFlashcard';
+import SelectFlashcardTitle from 'src/screens/SelectFlashcardTitle/SelectFlashcardTitle';
+import AvatarUpload from 'src/screens/AvatarUpload/AvatarUpload';
+import CurratedQuizzes from 'src/screens/CurratedQuizzes/CurratedQuizzes';
+import CurrentStreak from 'src/screens/CurrentStreak/CurrentStreak';
 
 const leftToRightAnimation = {
   cardStyleInterpolator: ({ current, layouts }) => {
@@ -42,7 +49,7 @@ const leftToRightAnimation = {
 const PlayStack = createStackNavigator();
 const PlayStackNavigator = () => {
   return (
-    <PlayStack.Navigator initialRouteName="Question" screenOptions={{ headerShown: false }}>
+    <PlayStack.Navigator initialRouteName="Category" screenOptions={{ headerShown: false }}>
       <HomeStack.Screen name="Category" component={Category} />
       <PlayStack.Screen name="Study" component={Study} />
       <PlayStack.Screen name="Explain" component={Explain} />
@@ -50,7 +57,9 @@ const PlayStackNavigator = () => {
       <PlayStack.Screen name="Classic" component={Classic} />
       <PlayStack.Screen name="Scenario" component={Scenario} />
       <PlayStack.Screen name="Survival" component={Survival} />
+      <PlayStack.Screen name="Flashcards" component={Flashcards} />
       <PlayStack.Screen name="Score" component={Score} />
+      <PlayStack.Screen name="CurrentStreak" component={CurrentStreak} />
       <PlayStack.Screen name='ReviewQA' component={ReviewQAs} />
     </PlayStack.Navigator>
   )
@@ -70,6 +79,7 @@ const ProfileStackNavigator = () => {
   return (
     <ProfileStack.Navigator initialRouteName="ProfileScr" screenOptions={{ headerShown: false }}>
       <ProfileStack.Screen name="ProfileScr" component={Profile} />
+      <ProfileStack.Screen name="AvatarUpload" component={AvatarUpload} />
     </ProfileStack.Navigator>
   )
 }
@@ -80,6 +90,10 @@ const HomeStackNavigator = () => {
     <HomeStack.Navigator initialRouteName="Dashboard" screenOptions={{ headerShown: false }}>
       <HomeStack.Screen name="Dashboard" component={Dashboard} />
       <HomeStack.Screen name='Streak' component={Streak} />
+      <HomeStack.Screen name='StreakInfo' component={StreakInfo} />
+      <HomeStack.Screen name='CreateFlashcard' component={CreateFlashcard} />
+      <HomeStack.Screen name='SelectFlashcardTitle' component={SelectFlashcardTitle} />
+      <HomeStack.Screen name='CurratedQuizzes' component={CurratedQuizzes} />
     </HomeStack.Navigator>
   )
 }

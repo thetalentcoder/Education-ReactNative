@@ -11,11 +11,13 @@ import { quizModes } from "src/constants/consts";
 type Props = {
     quizMode?: string,
     quizData?: any,
+    score: any,
 }
 
 export default function SectionShareScore({
     quizMode = "",
-    quizData = {}
+    quizData = {},
+    score = 0,
 } : Props ) {
     const navigation: any = useNavigation();
 
@@ -58,6 +60,7 @@ export default function SectionShareScore({
                         ? () => {
                             navigation.navigate("ReviewQA", {
                                 quizData: quizData,
+                                score: score,
                             });
                         } 
                         : () => {

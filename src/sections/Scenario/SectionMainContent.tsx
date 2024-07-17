@@ -14,23 +14,25 @@ import { getQuizDataDetail } from "src/actions/quiz/quiz";
 import { moderateScale, scale, verticalScale } from "src/config/scale";
 import { PTFELoading } from "src/components/loading";
 import { quiz_test_data } from "assets/@mockup/data";
-import { survivalLife } from "src/constants/consts";
+import { gameModeString, survivalLife } from "src/constants/consts";
 
 import TickAnim from "src/parts/Question/TickAnim";
 import CloseAnim from "src/parts/Question/CloseAnim";
-import { sleep } from "src/utils/util";
+import { checkIfUserHastakenQuizToday, sleep } from "src/utils/util";
 
 import { quizModes } from "src/constants/consts";
 import { getAllQuestions } from "src/actions/question/question";
+import { useSelector } from "react-redux";
 
 type Props = {
-    quizID: string,
+    quizID: string[],
     refresh: boolean,
     setCurrentProbNumber: (newValue: number) => void;
     setDataLoadedFlag: (newValue: boolean) => void;
     setCurrentLife: (newValue: number) => void;
     setCurrent: (newValue: number) => void;
     setTotalProbCount: (newValue: number) => void;
+    topic: string;
 };
 
 export default function SectionMainContent({
@@ -40,9 +42,12 @@ export default function SectionMainContent({
     setDataLoadedFlag,
     setCurrentLife,
     setCurrent,
-    setTotalProbCount
+    setTotalProbCount,
+    topic,
 }: Props) {
     const navigation: any = useNavigation();
+
+    const { user } = useSelector((state) => state.userData);
 
     const [submitData, setSubmitData] = useState<any[]>([]);
 
@@ -62,8 +67,8 @@ export default function SectionMainContent({
     const [answers, setAnswers] = useState<any>([0, 0, 0, 0]);
     const [rationale, setRationale] = useState<string>('');
 
-    const [limitTime, setLimitTime] = useState(1);
-    const [remainTime, setRemainTime] = useState(1);
+    const [limitTime, setLimitTime] = useState(0);
+    const [remainTime, setRemainTime] = useState(0);
 
     const [tickShow, setTickShow] = useState(false);
     const [closeShow, setCloseShow] = useState(false);
@@ -71,33 +76,40 @@ export default function SectionMainContent({
     const [hideTick, setHideTick] = useState(true);
     const [hide, setHide] = useState(true);
 
+    const [selected, setSelected] = useState(false);
+
     const scrollRef = useRef<ScrollView>(null);
 
     const timeLimitPerQuestion = 60000
 
+    useEffect(() => {
+        if (quizID == undefined) {
+            return;
+        }
+
+        setLife(survivalLife);
+
+        setDataLoadedFlag(false);
+        setSubmitData([]);
+        setQuizData({});
+
+        setDataLoaded(false);
+        setTestEnded(false);
+
+        setProbCount(0);
+        setCurrentProb(0);
+        setCurrentScore(0);
+        setCurrent(0);
+        setProblem('');
+        setAnswers([0, 0, 0, 0]);
+        setSelected(false);
+
+        fetchQuizDetail();
+    }, []);
+
     useFocusEffect(
         React.useCallback(() => {
-            if (quizID == undefined) {
-                return;
-            }
 
-            setLife(survivalLife);
-
-            setDataLoadedFlag(false);
-            setSubmitData([]);
-            setQuizData({});
-
-            setDataLoaded(false);
-            setTestEnded(false);
-
-            setProbCount(0);
-            setCurrentProb(0);
-            setCurrentScore(0);
-            setCurrent(0);
-            setProblem('');
-            setAnswers([0, 0, 0, 0]);
-
-            fetchQuizDetail();
         }, [quizID, refresh])
     );
 
@@ -185,7 +197,8 @@ export default function SectionMainContent({
             setTickShow(true);
             setHideTick(false);
 
-            const newScore: number = Math.floor(currentScore + (10 + remainTime / 1000) * life);
+            const newScore: number = Math.floor(currentScore +
+                (10 + remainTime / 1000) * (user?.currentMultiplier == undefined ? 1 : user?.currentMultiplier));
             setCurrentScore(newScore);
             setCurrent(newScore);
         }
@@ -206,22 +219,43 @@ export default function SectionMainContent({
 
     const NextProb = useCallback(() => {
         if (currentProb + 1 == quizData?.questions?.length) {
+            const keys = Object.keys(quizModes);
+            const index = keys.indexOf('scenarioMode');
+            const hasTakenQuizToday = checkIfUserHastakenQuizToday(user)
+
             setTestEnded(true);
-            navigation.navigate("Score", {
-                id: quizID,
-                submitData: submitData,
-                score: currentScore,
-                quizMode: quizModes.scenarioMode,
-            });
+            if (hasTakenQuizToday) {
+                navigation.navigate("Score", {
+                    id: quizID,
+                    submitData: submitData,
+                    title: gameModeString[index],
+                    score: currentScore,
+                    quizMode: quizModes.scenarioMode,
+                    numberOfQuestions: currentProb + 1,
+                    categorty: "All Questions"
+                });
+            } else {
+                navigation.navigate("CurrentStreak", {
+                    id: quizID,
+                    submitData: submitData,
+                    title: gameModeString[index],
+                    score: currentScore,
+                    quizMode: quizModes.scenarioMode,
+                    numberOfQuestions: currentProb + 1,
+                    categorty: "All Questions"
+                });
+            }
+
         }
 
         setCurrentProb(currentProb + 1);
+        setSelected(false);
 
         scrollRef.current?.scrollTo({
             y: 0,
             animated: true,
         });
-    }, [navigation, setTestEnded, currentProb, currentScore, survivalLife, setCurrentProb]);
+    }, [navigation, setTestEnded, currentProb, currentScore, survivalLife, setCurrentProb, setSelected]);
 
 
     const onSelect = useCallback((idx: number) => {
@@ -236,7 +270,12 @@ export default function SectionMainContent({
             )
         })
         setAnswers(newAnswers);
-    }, [answers, setAnswers]);
+        setSelected(true);
+
+        scrollRef.current?.scrollToEnd({
+            animated: true,
+        });
+    }, [answers, setAnswers, setSelected]);
 
 
     return (
@@ -247,7 +286,7 @@ export default function SectionMainContent({
                 <AnimatedCircularProgress
                     size={verticalScale(90)}
                     width={verticalScale(4)}
-                    fill={(limitTime - remainTime) * 100 / limitTime}
+                    fill={limitTime != 0 ? (limitTime - remainTime) * 100 / limitTime : 0}
                     tintColor="#FFFFFFFF"
                     rotation={180}
                     backgroundColor="#87C6E8">
@@ -287,7 +326,7 @@ export default function SectionMainContent({
                         text="NEXT"
                         type="rounded"
                         color="#FF675B"
-                        enabled={!(hide && hideTick)}
+                        enabled={!(hide && hideTick && selected)}
                         onClick={NextProblem}
                     />
                 </View>

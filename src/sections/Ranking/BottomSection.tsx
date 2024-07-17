@@ -69,14 +69,28 @@ export function BottomSection({
                         );
                     }
                     else {
-                        return (
-                            <PartRanking
-                                key={index}
-                                ranking={ranking.currentUser ? ranking.rank : ranking.index}
-                                name={ranking.fullname}
-                                score={ranking.score}
-                            />
-                        );
+                        if (index == 9 && rankingData.length > 10) {
+                            return (
+                                <>
+                                    <PartRanking
+                                        key={index}
+                                        ranking={ranking.currentUser ? ranking.rank : ranking.index}
+                                        name={ranking.fullname}
+                                        score={ranking.score}
+                                    />
+                                    <View style={styles.lineContainer}></View>
+                                </>
+                            );
+                        } else {
+                            return (
+                                <PartRanking
+                                    key={index}
+                                    ranking={ranking.currentUser ? ranking.rank : ranking.index}
+                                    name={ranking.fullname}
+                                    score={ranking.score}
+                                />
+                            );
+                        }
                     }
                 })
             }

@@ -23,7 +23,7 @@ export default function SwiperSection() {
                     dot={<View style={styles.dot} />}
                     activeDot={<View style={styles.activeDot} />}
                     paginationStyle={{ bottom: scale(250) }}
-                    index={1}
+                    index={0}
                 >
                     {slides.map((slide) => (
                         <View key={slide.id}>

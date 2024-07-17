@@ -26,7 +26,7 @@ export default StyleSheet.create({
         height: verticalScale(80),
         width: "100%",
         padding: verticalScale(16),
-        
+
         borderRadius: verticalScale(20),
         backgroundColor: "white",
 
@@ -36,7 +36,7 @@ export default StyleSheet.create({
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 1 },
         shadowOpacity: 0.2,
-        
+
         elevation: scale(1),
 
         marginBottom: verticalScale(16),
@@ -47,7 +47,7 @@ export default StyleSheet.create({
         borderRadius: verticalScale(8),
 
         backgroundColor: "#8270F6",
-        
+
         justifyContent: "center",
         alignItems: "center",
     },
@@ -60,19 +60,12 @@ export default StyleSheet.create({
         alignItems: "flex-start",
     },
     row: {
-        flexDirection: "row",
+        flexDirection: "column",
         width: "100%",
-        justifyContent: "space-between",
-        alignItems: "center",
     },
     percentContainer: {
         width: verticalScale(48),
         height: verticalScale(48),
-        borderRadius: verticalScale(24),
-        borderWidth: verticalScale(6),
-
-        borderColor: "#8270F6",
-        
         justifyContent: "center",
         alignItems: "center",
     },
@@ -88,7 +81,8 @@ export default StyleSheet.create({
     },
     percentText: {
         fontFamily: "poppins-medium",
-        fontSize: moderateScale(12),
-        color: "#8270F6",
+        fontSize: moderateScale(15),
+        color: "black",
+        width: '100%',
     }
 });

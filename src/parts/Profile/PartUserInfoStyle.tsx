@@ -15,7 +15,7 @@ export default StyleSheet.create({
     },
     userInfoContainer: {
         marginTop: verticalScale(16),
-        paddingHorizontal: verticalScale(16),
+        // paddingHorizontal: verticalScale(16),
         paddingVertical: verticalScale(24),
 
         height: verticalScale(110),

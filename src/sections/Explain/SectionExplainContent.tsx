@@ -42,7 +42,7 @@ export default function SectionExplainContent({
                     {"Answer Explanation: "}
                 </Text>
                 <Text style={styles.questionText}>
-                    {rationale}
+                    {`abcd ${rationale}`}
                 </Text>
             </View>
         </View>

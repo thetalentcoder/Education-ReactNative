@@ -9,10 +9,12 @@ import { PTFEButton } from "src/components/button";
 
 type Props = {
     score: number;
+    bShow: boolean;
 }
 
 export default function SectionScore({
     score,
+    bShow = false,
 }: Props) {
     return (
         <View style={styles.container}>
@@ -20,7 +22,7 @@ export default function SectionScore({
             {/* <View style={styles.starContainer}>
                 <PartStars />
             </View> */}
-            <StreakModal />
+            {/* <StreakModal bShow={bShow}/> */}
             <View style={styles.avatarContainer}>
                 {/* <Image style={styles.avatar} source={require("assets/images/avatar/sample.jpg")}/> */}
             </View>

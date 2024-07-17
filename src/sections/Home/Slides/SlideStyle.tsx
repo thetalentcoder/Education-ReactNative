@@ -4,6 +4,7 @@ import { moderateScale, scale, verticalScale } from "src/config/scale";
 
 export default StyleSheet.create({
     container: {
+        marginTop: scale(12),
         justifyContent: 'center',
         alignItems: 'center',
     },

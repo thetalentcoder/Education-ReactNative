@@ -18,16 +18,18 @@ import TickAnim from "src/parts/Question/TickAnim";
 import CloseAnim from "src/parts/Question/CloseAnim";
 import { quizModes } from "src/constants/consts";
 import { quiz_test_data } from "assets/@mockup/data";
-import { sleep } from "src/utils/util";
+import { checkIfUserHastakenQuizToday, sleep } from "src/utils/util";
 import { getAllQuestions } from "src/actions/question/question";
+import { useSelector } from "react-redux";
 
 type Props = {
-    quizID: string,
+    quizID: string[],
     refresh: boolean,
     setCurrentProbNumber: (newValue: number) => void;
     setTotalProbCount: (newValue: number) => void;
     setDataLoadedFlag: (newValue: boolean) => void;
     setCurrent: (newValue: number) => void;
+    topics?: string;
 };
 
 export default function SectionMainContent({
@@ -37,8 +39,11 @@ export default function SectionMainContent({
     setTotalProbCount,
     setDataLoadedFlag,
     setCurrent,
+    topics = "",
 }: Props) {
     const navigation: any = useNavigation();
+
+    const { user } = useSelector((state) => state.userData);
 
     const [submitData, setSubmitData] = useState<any[]>([]);
 
@@ -64,35 +69,44 @@ export default function SectionMainContent({
     const [hideTick, setHideTick] = useState(true);
     const [hide, setHide] = useState(true);
 
+    const [selected, setSelected] = useState(false);
+
+    const [update, forceUpdate] = useState(0);
+
     const scrollRef = useRef<ScrollView>(null);
+
+    useEffect(() => {
+        console.log(refresh);
+
+        if (quizID == undefined) {
+            return;
+        }
+
+        if (refresh == false) {
+            return;
+        }
+
+        setSubmitData([]);
+        setQuizData({});
+        setDataLoaded(false);
+        setDataLoadedFlag(false);
+        setTestEnded(false);
+        setProbCount(0);
+        setCurrentProb(0);
+        setCurrentScore(0);
+        setCurrent(0);
+        setQuizState(0);
+        setProblem('');
+        setRationale('');
+        setAnswers([0, 0, 0, 0]);
+        setSelected(false);
+
+        fetchQuizDetail();
+    }, []);
 
     useFocusEffect(
         React.useCallback(() => {
-            console.log(refresh);
 
-            if (quizID == undefined) {
-                return;
-            }
-
-            if (refresh == false) {
-                return;
-            }
-
-            setSubmitData([]);
-            setQuizData({});
-            setDataLoaded(false);
-            setDataLoadedFlag(false);
-            setTestEnded(false);
-            setProbCount(0);
-            setCurrentProb(0);
-            setCurrentScore(0);
-            setCurrent(0);
-            setQuizState(0);
-            setProblem('');
-            setRationale('');
-            setAnswers([0, 0, 0, 0]);
-
-            fetchQuizDetail();
         }, [quizID, refresh])
     );
 
@@ -109,15 +123,25 @@ export default function SectionMainContent({
     useEffect(() => {
         setProbCount(quizData?.questions?.length);
         setCurrentProb(0);
+        setSubmitData([]);
     }, [quizData]);
 
     useEffect(() => {
         switch (quizState) {
+            case 2:
+                scrollRef.current?.scrollToEnd({
+                    animated: true,
+                });
+                break;
             case 1:
                 setHide(true);
                 setHideTick(true);
                 showCorrectAnswer();
+                forceUpdate(1 - update);
                 setQuizState(2);
+                break;
+            case 0:
+                setSelected(false);
                 break;
         }
     }, [quizState]);
@@ -158,6 +182,7 @@ export default function SectionMainContent({
             currentProb: currentProb + 1,
             totalProbCount: probCount,
             rationale: rationale,
+            topics: topics,
         });
     }, [answers, rationale, currentProb, probCount, currentScore, navigation]);
 
@@ -226,19 +251,35 @@ export default function SectionMainContent({
             )
         })
         setAnswers(newAnswers);
-    }, [answers, setAnswers]);
+        setSelected(true);
+
+        scrollRef.current?.scrollToEnd({
+            animated: true,
+        });
+    }, [answers, scrollRef.current, setAnswers, setSelected]);
 
 
     const NextProb = useCallback(() => {
         setQuizState(0);
         if (currentProb >= probCount - 1) {
+            const hasTakenQuizToday = checkIfUserHastakenQuizToday(user)
             setTestEnded(true);
-            navigation.navigate("Score", {
-                id: quizID,
-                submitData: submitData,
-                score: currentScore,
-                quizMode: quizModes.studyMode,
-            });
+            if (hasTakenQuizToday) {
+                navigation.navigate("Score", {
+                    id: quizID,
+                    submitData: submitData,
+                    score: currentScore,
+                    quizMode: quizModes.studyMode,
+                });
+            } else {
+                navigation.navigate("CurrentStreak", {
+                    id: quizID,
+                    submitData: submitData,
+                    score: currentScore,
+                    quizMode: quizModes.studyMode,
+                });
+            }
+
         }
         else {
             setCurrentProb(currentProb + 1);
@@ -255,63 +296,67 @@ export default function SectionMainContent({
         <View style={styles.container}>
             <TickAnim onTrigger={tickShow} setOnTrigger={setTickShow} hide={hideTick} setHide={setHideTick} CallBack={() => { setQuizState(1) }} />
             <CloseAnim onTrigger={closeShow} setOnTrigger={setCloseShow} hide={hide} setHide={setHide} CallBack={() => { setQuizState(1) }} />
-            <ScrollView style={styles.innerContainer} ref={scrollRef}>
-            <View style={styles.quizContainer}>
-                <Text style={styles.questionText}>
-                    {problem}
-                </Text>
-            </View>
-            <View style={styles.answersContainer}>
-                {
-                    answers.map((item: any, index: number) => {
-                        return (
-                            <>
-                                {
-                                    quizState == 0 || quizState == 1
-                                        ? <PartAnswer
-                                            key={index}
-                                            index={item.index}
-                                            content={item.content}
-                                            enabled={item.enabled}
-                                            clickable={hide && hideTick}
-                                            onClick={() => onSelect(index)}
-                                        />
-                                        : <PartAnswer
-                                            key={index}
-                                            index={item.index}
-                                            content={item.content}
-                                            enabled={item.enabled}
-                                            correct={item.correct}
-                                            mine={item.enabled}
-                                            clickable={false}
-                                            onClick={() => onSelect(index)}
-                                        />
-                                }
-                            </>
-                        )
-                    })
-                }
-                <View style={{ padding: verticalScale(4) }}></View>
-                <View style={styles.buttonContainer}>
-                    <PTFEButton
-                        text={quizState == 2 ? "NEXT" : "SUBMIT"}
-                        type={"rounded"}
-                        color="#FF675B"
-                        enabled={!(hide && hideTick)}
-                        onClick={NextProblem}
-                    />
-
-                    {
-                        quizState == 2
-                        && <PTFEButton
-                            text={"VIEW EXPLANATION"}
-                            type="rounded"
-                            color="#FF675B"
-                            onClick={ToExplainPage}
-                        />
-                    }
+            <ScrollView
+                style={styles.innerContainer}
+                ref={scrollRef}
+                contentContainerStyle={{ flexGrow: 1 }}
+            >
+                <View style={styles.quizContainer}>
+                    <Text style={styles.questionText}>
+                        {problem}
+                    </Text>
                 </View>
-            </View>
+                <View style={styles.answersContainer}>
+                    {
+                        answers.map((item: any, index: number) => {
+                            return (
+                                <>
+                                    {
+                                        quizState == 0 || quizState == 1
+                                            ? <PartAnswer
+                                                key={index}
+                                                index={item.index}
+                                                content={item.content}
+                                                enabled={item.enabled}
+                                                clickable={hide && hideTick}
+                                                onClick={() => onSelect(index)}
+                                            />
+                                            : <PartAnswer
+                                                key={index}
+                                                index={item.index}
+                                                content={item.content}
+                                                enabled={item.enabled}
+                                                correct={item.correct}
+                                                mine={item.enabled}
+                                                clickable={false}
+                                                onClick={() => onSelect(index)}
+                                            />
+                                    }
+                                </>
+                            )
+                        })
+                    }
+                    <View style={{ padding: verticalScale(4) }}></View>
+                    <View style={styles.buttonContainer}>
+                        <PTFEButton
+                            text={quizState == 2 ? "NEXT" : "SUBMIT"}
+                            type={"rounded"}
+                            color="#FF675B"
+                            enabled={!(hide && hideTick && selected)}
+                            onClick={NextProblem}
+                        />
+
+                        {
+                            quizState == 2
+                            && <PTFEButton
+                                text={"VIEW EXPLANATION"}
+                                type="rounded"
+                                color="#87C6E8"
+                                onClick={ToExplainPage}
+                            />
+                        }
+                    </View>
+                </View>
             </ScrollView>
         </View>
     )

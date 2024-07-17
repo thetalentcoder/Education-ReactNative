@@ -36,13 +36,14 @@ export default StyleSheet.create({
         flex: 4,
         marginBottom: scale(16),
         flexDirection: "row",
-        justifyContent: "space-evenly",
+        justifyContent: "center",
+        alignItems: "center",
         width: "100%",
     },
 
     text: {
         fontFamily: "circular-std-medium",
-        fontSize: moderateScale(13),
+        fontSize: moderateScale(14),
         color: "#999999",
         textAlignVertical: "center",
     },

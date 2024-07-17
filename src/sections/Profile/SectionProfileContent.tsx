@@ -1,11 +1,13 @@
 import React from "react";
-import { View } from "react-native";
+import { View, Image, Pressable } from "react-native";
 
 import PartUserInfo from "src/parts/Profile/PartUserInfo";
 import PartPointProgress from "src/parts/Profile/PartPointProgress";
 import PartRecentQuizzes from "src/parts/Profile/PartRecentQuizzes";
 
 import styles from "./SectionProfileContentStyle";
+import { useNavigation } from "@react-navigation/native";
+import { useSelector } from "react-redux";
 
 type Props = {
     fullname?: string,
@@ -16,12 +18,22 @@ export default function SectionProfileContent({
     fullname,
     score,
 }: Props) {
+    const navigation: any = useNavigation()
+    const { user } = useSelector((state) => state.userData);
+    const imageSource = user.avatarUrl ? { uri: user.avatarUrl } : { uri: "" };
+
+    const onAvatarPress = () => {
+        navigation.navigate("AvatarUpload");
+    }
     return (
         <View style={styles.container}>
-            <View style={styles.avatarContainer}>
-            </View>
+            <Pressable onPress={onAvatarPress}>
+                <View style={styles.avatarContainer}>
+                    <Image style={styles.avatar} source={imageSource} />
+                </View>
+            </Pressable>
             <View style={styles.userInfoContainer}>
-                <PartUserInfo 
+                <PartUserInfo
                     fullname={fullname}
                     score={score}
                 />

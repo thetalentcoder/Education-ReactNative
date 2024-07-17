@@ -1,5 +1,5 @@
 import { StyleSheet, Dimensions } from "react-native";
-import { moderateScale, verticalScale } from "src/config/scale";
+import { moderateScale, scale, verticalScale } from "src/config/scale";
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
@@ -8,11 +8,13 @@ export default StyleSheet.create({
     container: {
         flex: 1,
         position: 'relative',
-        justifyContent: 'flex-end',
         alignItems: 'flex-start',
-        
-        paddingHorizontal: verticalScale(32),
-        paddingTop: verticalScale(64),
+    },
+    innerContainer: {
+        width: "100%",
+        position: 'relative',
+        marginTop: moderateScale(64),
+        paddingHorizontal: scale(32),
     },
     timerContainer: {
         position: "absolute",
@@ -29,8 +31,13 @@ export default StyleSheet.create({
         backgroundColor: "white",
     },
     quizContainer: {
-        flex: 4,
         width: "100%",
+        marginVertical: moderateScale(32),
+    },
+    explainButtonContainer: {
+        justifyContent: "flex-start",
+        alignItems: "flex-start",
+        marginTop: verticalScale(16),
     },
     questionText: {
         fontFamily: 'segoe-ui',
@@ -38,10 +45,12 @@ export default StyleSheet.create({
         color: "#707070",
     },
     answersContainer: {
-        flex: 10,
         width: '100%',
-
-        justifyContent: 'space-evenly',
-        alignItems: 'flex-start',
+        gap: moderateScale(12),
     },
+    buttonContainer: {
+        width: '100%',
+        gap: moderateScale(12),
+        marginVertical: moderateScale(16),
+    }
 });

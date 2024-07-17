@@ -1,5 +1,5 @@
 import { StyleSheet, Dimensions } from "react-native";
-import { moderateScale, verticalScale } from "src/config/scale";
+import { moderateScale, scale, verticalScale } from "src/config/scale";
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
@@ -19,14 +19,20 @@ export default StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         paddingBottom: verticalScale(32),
-        paddingHorizontal: verticalScale(32),
+        paddingHorizontal: scale(32),
+    },
+    descriptionContainer: {
+        flex: 1,
+        flexWrap: 'wrap',
+        flexDirection: 'column',
+        justifyContent: 'flex-start',
     },
     item: {
-        width: windowWidth * 0.15,
-        height: windowWidth * 0.15,
+        width: scale(60),
+        height: scale(60),
         justifyContent: 'center',
         alignItems: 'center',
-        margin: verticalScale(5),
+        margin: scale(5),
         borderRadius: verticalScale(4),
     },
     itemText: {

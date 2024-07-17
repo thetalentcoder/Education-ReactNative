@@ -9,7 +9,6 @@ export default StyleSheet.create({
         alignItems: "flex-start",
 
         position: "relative",
-        paddingHorizontal: scale(48),
     },
     avatarContainer: {
         width: verticalScale(120),
@@ -22,16 +21,24 @@ export default StyleSheet.create({
 
         backgroundColor: "#CCCCCC",
     },
+    avatar: {
+        width: verticalScale(120),
+        height: verticalScale(120),
+        borderRadius: verticalScale(60),
+    },
     userInfoContainer: {
         paddingTop: verticalScale(48),
+        paddingHorizontal: scale(48),
         width: "100%",
     },
     progressContainer: {
         paddingTop: verticalScale(48),
+        paddingHorizontal: scale(48),
         width: "100%",
     },
     recentQuizContainer: {
         paddingTop: verticalScale(48),
+        paddingHorizontal: scale(40),
         width: "100%",
     },
 });

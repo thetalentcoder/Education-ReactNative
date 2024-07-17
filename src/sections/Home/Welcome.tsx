@@ -32,7 +32,7 @@ export default function SectionWelcome({
                 />
             </View>
             <View style={styles.textButtonContainer}>
-                <Text style={styles.text}>Not registered yet?</Text>
+                <Text style={styles.text}>Not registered yet?    </Text>
                 <PTFELinkButton
                     text="Register here"
                     color="#FF675B"

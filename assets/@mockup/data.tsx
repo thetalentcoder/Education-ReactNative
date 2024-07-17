@@ -1,24 +1,24 @@
 export const data_dashboard_game_modes = [
     {
-        icon: `check-circle`,
+        icon: `Study`,
         title: `Study Mode`,
         statusText: `No time limits!`,
         buttonText: `Start`,
     },
     {
-        icon: `check-circle`,
-        title: `Quiz Mode`,
+        icon: `Classic`,
+        title: `Classic Mode`,
         statusText: `Classic timed quiz`,
         buttonText: `Start`,
     },
     {
-        icon: `check-circle`,
+        icon: `Survivor`,
         title: `Survivor mode`,
         statusText: `3 lives, no end`,
         buttonText: `Start`,
     },
     {
-        icon: `check-circle`,
+        icon: `Scenario`,
         title: `Scenarios mode`,
         statusText: `Complex Questions`,
         buttonText: `Start`,

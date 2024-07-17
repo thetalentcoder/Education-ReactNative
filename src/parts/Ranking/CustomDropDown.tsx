@@ -1,26 +1,32 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import SelectDropdown from 'react-native-select-dropdown';
-import { FontAwesome5 } from '@expo/vector-icons';
-import { moderateScale } from 'src/config/scale';
+import React, { useEffect, useRef, useState } from "react";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import SelectDropdown from "react-native-select-dropdown";
+import { FontAwesome5 } from "@expo/vector-icons";
+import { moderateScale, scale, verticalScale } from "src/config/scale";
+import Checkbox from "expo-checkbox";
+import { PTFEButton } from "src/components/button";
 
 type Props = {
-  options: any,
+  options: any;
   onSelect: (item: any) => void;
-  title: string,
-}
+  title: string;
+  page: string;
+};
 
-const CustomDropdown = ({
-  options,
-  onSelect,
-  title
-}: Props) => {
+const CustomDropdown = ({ options, onSelect, title, page }: Props) => {
   const [selectedValue, setSelectedValue] = useState(null);
+  const [dropDownList, setDropDownList] = useState(options);
+
+  useEffect(() => {
+    setDropDownList(options);
+  }, [options]);
 
   const handleSelect = (value: any) => {
     setSelectedValue(value);
     if (onSelect) {
-      const selectedOption = options.find((option: any) => option.value === value.value);
+      const selectedOption = options.find(
+        (option: any) => option.value === value.value
+      );
       onSelect(selectedOption);
     }
   };
@@ -28,12 +34,10 @@ const CustomDropdown = ({
   return (
     <View style={styles.container}>
       <SelectDropdown
-        data={options}
+        data={dropDownList}
         defaultValue={null}
         onSelect={(selectedItem, index) => {
-          if (!selectedItem.isCategory) {
-            handleSelect(selectedItem);
-          }
+          handleSelect(selectedItem);
         }}
         renderButton={(selectedItem, isOpened) => {
           return (
@@ -41,28 +45,35 @@ const CustomDropdown = ({
               <Text style={styles.dropdownButtonTxtStyle}>
                 {(selectedItem && selectedItem.title) || title}
               </Text>
-              <FontAwesome5 name="angle-down" style={styles.dropdownButtonIconStyle} />
+              <FontAwesome5
+                name="angle-down"
+                style={styles.dropdownButtonIconStyle}
+              />
             </View>
           );
         }}
         renderItem={(item, index, isSelected) => {
           return (
-            item.title !== title &&
-            <View
-              style={{
-                ...styles.dropdownItemStyle,
-                ...(isSelected && { backgroundColor: '#888888' }),
-                ...(item.isCategory && styles.categoryItemStyle)
-              }}
-              {...item.isCategory && { 'aria-disabled': true }}
-            >
-              <Text style={{
-                ...styles.dropdownItemTxtStyle,
-                ...(item.isCategory && styles.categoryItemTxtStyle)
-              }}>
-                {item.title}
-              </Text>
-            </View>
+            item.title !== title && (
+              <View
+                style={{
+                  ...styles.dropdownItemStyle,
+                  ...(isSelected && { backgroundColor: "#888888" }),
+                }}
+                {...(item.isCategory && { "aria-disabled": true })}
+              >
+                <View style={styles.mainItem}>
+
+                  <Text
+                    style={{
+                      ...styles.dropdownItemTxtStyle,
+                    }}
+                  >
+                    {item.title}
+                  </Text>
+                </View>
+              </View>
+            )
           );
         }}
         showsVerticalScrollIndicator={false}
@@ -75,56 +86,87 @@ const CustomDropdown = ({
 const styles = StyleSheet.create({
   container: {
     width: "100%",
-    flexDirection: "row",
+    flexDirection: "column",
     justifyContent: "center",
-    alignItems: "flex-end",
+    alignItems: "flex-start",
     marginBottom: moderateScale(10),
   },
   dropdownButtonStyle: {
     width: "100%",
     height: moderateScale(50),
-    backgroundColor: '#E9ECEF',
+    backgroundColor: "#E9ECEF",
     borderRadius: moderateScale(12),
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     paddingHorizontal: moderateScale(12),
   },
   dropdownButtonTxtStyle: {
     flex: 1,
     fontSize: moderateScale(18),
-    fontWeight: '500',
-    color: '#151E26',
+    fontWeight: "500",
+    color: "#151E26",
   },
   dropdownButtonIconStyle: {
     fontSize: moderateScale(18),
-    color: '#151E26',
+    color: "#151E26",
   },
   dropdownMenuStyle: {
-    backgroundColor: '#E9ECEF',
+    backgroundColor: "#E9ECEF",
     borderRadius: moderateScale(8),
   },
   dropdownItemStyle: {
-    width: '100%',
-    flexDirection: 'row',
+    width: "100%",
+    flexDirection: "column",
     paddingHorizontal: moderateScale(12),
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     paddingVertical: moderateScale(8),
-    backgroundColor: "white"
+    backgroundColor: "white",
   },
   dropdownItemTxtStyle: {
     flex: 1,
-    fontSize: moderateScale(18),
-    fontWeight: '500',
-    color: '#151E26',
+    fontSize: moderateScale(16),
+    fontWeight: "500",
+    color: "#151E26",
   },
   categoryItemStyle: {
-    backgroundColor: '#f0f0f0'
+    backgroundColor: "#f0f0f0",
   },
   categoryItemTxtStyle: {
-    color: '#a0a0a0',
-    fontStyle: 'italic'
+    color: "#a0a0a0",
+    fontStyle: "italic",
+  },
+  mainItemTouchable: {
+    width: '100%',
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingBottom: moderateScale(5),
+  },
+  subItemTouchable: {
+    width: '100%',
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingLeft: moderateScale(20),
+    paddingBottom: moderateScale(5),
+    paddingTop: moderateScale(5),
+  },
+  mainItem: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  subItem: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  checkbox: {
+    height: scale(24),
+    width: scale(24),
+    marginRight: moderateScale(15),
+  },
+  confirmBtn: {
+    width: "100%",
+    paddingVertical: verticalScale(5)
   }
 });
 

@@ -19,7 +19,7 @@ export default StyleSheet.create({
         backgroundColor: "#87C6E8",
     },
     column1: {
-        flex: 1,
+        flex: 2,
         flexDirection: "row",
         justifyContent: 'center',
         alignItems: 'center',
@@ -27,7 +27,7 @@ export default StyleSheet.create({
         borderRightWidth: 1,
     },
     column2: {
-        flex: 1,
+        flex: 2,
         flexDirection: "row",
         justifyContent: 'center',
         alignItems: 'center',
@@ -35,7 +35,7 @@ export default StyleSheet.create({
         borderRightWidth: 1,
     },
     column3: {
-        flex: 1,
+        flex: 3,
         flexDirection: "row",
         justifyContent: 'center',
         alignItems: 'center',

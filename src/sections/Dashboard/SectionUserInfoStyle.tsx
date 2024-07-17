@@ -21,8 +21,16 @@ export default StyleSheet.create({
         justifyContent: "flex-end",
         height: verticalScale(32),
     },
+    flameButtonContainer: {
+        flexDirection: "row",
+    },
+    flameIconButton: {
+        width: verticalScale(40),
+        height: verticalScale(32),
+        alignItems: "flex-end",
+    },
     flameIcon: {
-        width: verticalScale(32),
+        width: verticalScale(48),
         height: verticalScale(32),
         resizeMode: "center",
         opacity: 0.7,

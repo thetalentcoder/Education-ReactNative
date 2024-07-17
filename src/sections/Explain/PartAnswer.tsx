@@ -26,7 +26,7 @@ export default function PartAnswer({
         <TouchableOpacity 
             style={[
                 styles.container, 
-                correct ? {backgroundColor: "#74F97B"} :
+                correct ? {backgroundColor: "#44D95B"} :
                 mine ? {backgroundColor: "#FF675B"} :
                 enabled ? {backgroundColor: "#87C6E8"}
                 : {}]}

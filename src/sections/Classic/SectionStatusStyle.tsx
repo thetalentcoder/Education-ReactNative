@@ -1,5 +1,5 @@
 import { StyleSheet, Dimensions } from "react-native";
-import { moderateScale, verticalScale } from "src/config/scale";
+import { moderateScale, scale, verticalScale } from "src/config/scale";
 
 const windowHeight = Dimensions.get("window").height;
 
@@ -8,7 +8,7 @@ export default StyleSheet.create({
         flex: 1,
         justifyContent: 'flex-start',
         alignItems: 'center',
-        paddingHorizontal: 20,
+        paddingHorizontal: scale(32),
         paddingVertical: verticalScale(16),
     },
     innerContainer: {
@@ -18,8 +18,42 @@ export default StyleSheet.create({
         borderRadius: 4,
         backgroundColor: "#87C6E8",
     },
-    column1: {
+    modalContainer: {
         flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'rgba(0,0,0,0.5)',
+    },
+    modalContent: {
+        width: scale(350),
+        backgroundColor: 'white',
+        padding: moderateScale(16),
+        borderRadius: moderateScale(8),
+        alignItems: 'center',
+    },
+    textContainer: {
+        flexDirection: "row",
+        alignSelf: "flex-start",
+    },
+    title: {
+        textAlign: "left",
+        alignSelf: "flex-start",
+        fontFamily: 'circular-std-medium',
+        fontSize: moderateScale(20),
+        padding: scale(8),
+    },
+    content: {
+        textAlign: "left",
+        alignSelf: "flex-start",
+        fontFamily: 'circular-std-medium',
+        fontSize: moderateScale(18),
+        padding: scale(8),
+    },
+    space: {
+        padding: moderateScale(8),
+    },
+    column1: {
+        flex: 2,
         flexDirection: "row",
         justifyContent: 'center',
         alignItems: 'center',
@@ -27,7 +61,7 @@ export default StyleSheet.create({
         borderRightWidth: 1,
     },
     column2: {
-        flex: 1,
+        flex: 2,
         flexDirection: "row",
         justifyContent: 'center',
         alignItems: 'center',
@@ -35,15 +69,20 @@ export default StyleSheet.create({
         borderRightWidth: 1,
     },
     column3: {
-        flex: 1,
+        flex: 3,
         flexDirection: "row",
-        justifyContent: "space-evenly",
+        justifyContent: 'center',
         alignItems: 'center',
-        marginHorizontal: moderateScale(8),
+    },
+    buttonContainer: {
+        flexDirection: "row",
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     statusText: {
         fontFamily: 'sf-protext-medium',
-        fontSize: moderateScale(15),
+        fontSize: moderateScale(13),
         color: "white",
+        paddingLeft: moderateScale(4),
     }
 });

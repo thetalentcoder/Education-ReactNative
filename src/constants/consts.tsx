@@ -23,4 +23,5 @@ export const gameModeString = [
     "Classic Mode",
     "Survivor Mode",
     "Scenario Mode",
+    "Flashcards Mode",
 ]

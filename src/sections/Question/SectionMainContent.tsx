@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { View, Text, ScrollView } from "react-native";
 import { useFocusEffect } from '@react-navigation/native';
 import { useNavigation } from "@react-navigation/native";
@@ -18,7 +18,8 @@ import TickAnim from "src/parts/Question/TickAnim";
 import CloseAnim from "src/parts/Question/CloseAnim";
 import { quizModes } from "src/constants/consts";
 import { quiz_test_data } from "assets/@mockup/data";
-import { sleep } from "src/utils/util";
+import { checkIfUserHastakenQuizToday, sleep } from "src/utils/util";
+import { useSelector } from "react-redux";
 
 type Props = {
     quizID: string,
@@ -37,7 +38,9 @@ export default function SectionMainContent({
 }: Props) {
     const navigation: any = useNavigation();
 
-    const [submitData, setSubmitData] = useState<any []>([]);
+    const { user } = useSelector((state) => state.userData);
+
+    const [submitData, setSubmitData] = useState<any[]>([]);
 
     const [quizData, setQuizData] = useState<any>({});
     const [dataLoaded, setDataLoaded] = useState(false);
@@ -53,8 +56,8 @@ export default function SectionMainContent({
     const [answers, setAnswers] = useState<any>([0, 0, 0, 0]);
     const [rationale, setRationale] = useState<string>('');
 
-    const [limitTime, setLimitTime] = useState(1);
-    const [remainTime, setRemainTime] = useState(1);
+    const [limitTime, setLimitTime] = useState(0);
+    const [remainTime, setRemainTime] = useState(0);
 
     const [tickShow, setTickShow] = useState(false);
     const [closeShow, setCloseShow] = useState(false);
@@ -62,12 +65,21 @@ export default function SectionMainContent({
     const [hideTick, setHideTick] = useState(true);
     const [hide, setHide] = useState(true);
 
+    const [selected, setSelected] = useState(false);
+
+    const scrollRef = useRef<ScrollView>(null);
+
+
+    useEffect(() => {
+
+    }, []);
+
     useFocusEffect(
         React.useCallback(() => {
             if (quizID == undefined) {
                 return;
             }
-            
+
             setSubmitData([]);
             setQuizData({});
             setDataLoaded(false);
@@ -79,22 +91,24 @@ export default function SectionMainContent({
             setCurrent(0);
             setProblem('');
             setAnswers([0, 0, 0, 0]);
-            setLimitTime(1);
-            setRemainTime(1);
+            setLimitTime(0);
+            setRemainTime(0);
+            setSelected(false);
 
             fetchQuizDetail();
         }, [])
     );
 
-    const fetchQuizDetail = useCallback(async() => {
+    const fetchQuizDetail = useCallback(async () => {
         const data = await getQuizDataDetail(quizID);
         // await sleep(500);
         // console.log("Loaded");
 
         setQuizData(data);
         setDataLoaded(true);
+        setSubmitData([]);
         setDataLoadedFlag(true);
-    }, [setQuizData, setDataLoaded]);
+    }, [setQuizData, setDataLoaded, setSubmitData, setDataLoadedFlag]);
 
 
     useEffect(() => {
@@ -143,7 +157,7 @@ export default function SectionMainContent({
                 }
             }
         }, 100);
-    
+
         return () => clearInterval(intervalId);
     }, [remainTime, testEnded]);
 
@@ -167,7 +181,8 @@ export default function SectionMainContent({
             setTickShow(true);
             setHideTick(false);
 
-            const newScore: number = Math.floor(currentScore + (10 + remainTime / 1000));
+            const newScore: number = Math.floor(
+                currentScore + (10 + remainTime / 1000) * (user?.currentMultiplier == undefined ? 1 : user?.currentMultiplier));
             setCurrentScore(newScore);
             setCurrent(newScore);
         }
@@ -213,35 +228,62 @@ export default function SectionMainContent({
             )
         })
         setAnswers(newAnswers);
-    }, [answers, setAnswers]);
+        setSelected(true);
+
+        scrollRef.current?.scrollToEnd({
+            animated: true,
+        });
+    }, [answers, setAnswers, setSelected]);
 
     const NextProb = useCallback(() => {
-        if (currentProb >= probCount - 1)
-        {
+        if (currentProb >= probCount - 1) {
+            const hasTakenQuizToday = checkIfUserHastakenQuizToday(user)
             setTestEnded(true);
-            navigation.navigate("Score", {
-                id: quizID,
-                submitData: submitData,
-                score: currentScore,
-                quizMode: quizModes.classicMode,
-            });
+
+            if (hasTakenQuizToday) {
+                navigation.navigate("Score", {
+                    id: quizID,
+                    submitData: submitData,
+                    title: quizData.title,
+                    score: currentScore,
+                    quizMode: quizModes.classicMode,
+                    numberOfQuestions: currentProb + 1,
+                    category: "All Questions"
+                });
+            } else {
+                navigation.navigate("CurrentStreak", {
+                    id: quizID,
+                    submitData: submitData,
+                    title: quizData.title,
+                    score: currentScore,
+                    quizMode: quizModes.classicMode,
+                    numberOfQuestions: currentProb + 1,
+                    category: "All Questions"
+                });
+            }
+
         }
-        else
-        {
+        else {
             setCurrentProb(currentProb + 1);
+            setSelected(true);
         }
-    }, [navigation, currentProb, probCount, submitData, currentScore, setTestEnded, setCurrentProb]);
+
+        scrollRef.current?.scrollTo({
+            y: 0,
+            animated: true,
+        });
+    }, [navigation, currentProb, probCount, submitData, currentScore, setTestEnded, setCurrentProb, setSelected]);
 
 
     return (
         <View style={styles.container}>
-        <TickAnim onTrigger={tickShow} setOnTrigger={setTickShow} hide={hideTick} setHide={setHideTick} CallBack={NextProb}/>
-        <CloseAnim onTrigger={closeShow} setOnTrigger={setCloseShow} hide={hide} setHide={setHide} CallBack={NextProb}/>
+            <TickAnim onTrigger={tickShow} setOnTrigger={setTickShow} hide={hideTick} setHide={setHideTick} CallBack={NextProb} />
+            <CloseAnim onTrigger={closeShow} setOnTrigger={setCloseShow} hide={hide} setHide={setHide} CallBack={NextProb} />
             <View style={styles.timerContainer}>
                 <AnimatedCircularProgress
                     size={verticalScale(90)}
                     width={verticalScale(4)}
-                    fill={(limitTime - remainTime) * 100 / limitTime}
+                    fill={limitTime != 0 ? (limitTime - remainTime) * 100 / limitTime : 0}
                     tintColor="#FFFFFFFF"
                     rotation={180}
                     backgroundColor="#87C6E8">
@@ -252,36 +294,40 @@ export default function SectionMainContent({
                     }
                 </AnimatedCircularProgress>
             </View>
-            <View style={styles.quizContainer}>
-                <ScrollView>
-                    <Text style={styles.questionText}>
-                        {problem}
-                    </Text>
-                </ScrollView>
-            </View>
-            <View style={styles.answersContainer}>
-                {
-                    answers.map((item: any, index: number) => {
-                        return (
-                            <PartAnswer
-                                key={index}
-                                index={item.index}
-                                content={item.content}
-                                enabled={item.enabled}
-                                clickable={hide && hideTick}
-                                onClick={() => onSelect(index)}
-                            />
-                        )
-                    })
-                }
-                <PTFEButton
-                    text="NEXT"
-                    type="rounded"
-                    color="#FF675B"
-                    enabled={!(hide && hideTick)}
-                    onClick={NextProblem}
-                />
-            </View>
+            <ScrollView style={styles.innerContainer} ref={scrollRef}>
+                <View style={styles.quizContainer}>
+                    <ScrollView>
+                        <Text style={styles.questionText}>
+                            {problem}
+                        </Text>
+                    </ScrollView>
+                </View>
+                <View style={styles.answersContainer}>
+                    {
+                        answers.map((item: any, index: number) => {
+                            return (
+                                <PartAnswer
+                                    key={index}
+                                    index={item.index}
+                                    content={item.content}
+                                    enabled={item.enabled}
+                                    clickable={hide && hideTick}
+                                    onClick={() => onSelect(index)}
+                                />
+                            )
+                        })
+                    }
+                    <View style={styles.buttonContainer}>
+                        <PTFEButton
+                            text="NEXT"
+                            type="rounded"
+                            color="#FF675B"
+                            enabled={!(hide && hideTick && selected)}
+                            onClick={NextProblem}
+                        />
+                    </View>
+                </View>
+            </ScrollView>
         </View>
     )
 }
