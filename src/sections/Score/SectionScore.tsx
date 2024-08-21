@@ -23,9 +23,9 @@ export default function SectionScore({
                 <PartStars />
             </View> */}
             {/* <StreakModal bShow={bShow}/> */}
-            <View style={styles.avatarContainer}>
+            {/* <View style={styles.avatarContainer}> */}
                 {/* <Image style={styles.avatar} source={require("assets/images/avatar/sample.jpg")}/> */}
-            </View>
+            {/* </View> */}
             <Text style={styles.complementText}>
                 {`Great  try!`}
             </Text>

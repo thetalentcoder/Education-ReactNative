@@ -91,7 +91,8 @@ export default function CurrentStreak({
 
     return (
         <View style={styles.container}>
-            {isLoading ? <Loading /> : <StreakModal bShow={true} goToScorePage={goToScorePage} />}
+            <StreakModal bShow={true} goToScorePage={goToScorePage} />
+            {isLoading && <Loading />}
         </View>
     )
 }

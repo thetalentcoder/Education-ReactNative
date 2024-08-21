@@ -53,5 +53,28 @@ export default StyleSheet.create({
         flexDirection: "row",
         justifyContent: "flex-end",
         alignItems: "center",
+    },
+    modalContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'rgba(0,0,0,0.5)',
+    },
+    modalContent: {
+        width: "90%",
+        backgroundColor: 'white',
+        paddingTop: moderateScale(32),
+        paddingBottom: moderateScale(8),
+        paddingHorizontal: moderateScale(16),
+        borderRadius: moderateScale(8),
+        alignItems: 'center',
+    },
+    space: {
+        width: "100%",
+        marginVertical: verticalScale(20),
+    },
+    space1: {
+        width: "90%",
+        marginVertical: verticalScale(12),
     }
 });

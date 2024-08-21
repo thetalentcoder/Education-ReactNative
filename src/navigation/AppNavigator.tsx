@@ -16,8 +16,18 @@ import Survival from 'src/screens/Survival/Survival';
 import Score from 'src/screens/Score/Score';
 import ReviewQAs from 'src/screens/ReviewQAs/ReviewQAs';
 import Ranking from 'src/screens/Ranking/Ranking';
+
 import Profile from 'src/screens/Profile/Profile';
+import SettingScreen from 'src/screens/Settings/SettingScreen';
+import AccountSettings from 'src/screens/Settings/AccountSettings/AccountSettings';
+import Notifications from 'src/screens/Settings/Notifications/Notifications';
+import ReportProblem from 'src/screens/Settings/ReportProblem/ReportProblem';
+import WatchTutorial from 'src/screens/Settings/WatchTutorial/WatchTutorial';
+import PrivacyPolicy from 'src/screens/Settings/PrivacyPolicy/PrivacyPolicy';
+import RecentQuizzes from 'src/screens/RecentQuizzes/RecentQuizzes';
+
 import Streak from 'src/screens/Streak/Streak';
+import Points from 'src/screens/Points/Points';
 import StreakInfo from 'src/screens/Streak/StreakInfo';
 import Classic from 'src/screens/Classic/Classic';
 import Scenario from 'src/screens/Scenario/Scenario';
@@ -79,7 +89,14 @@ const ProfileStackNavigator = () => {
   return (
     <ProfileStack.Navigator initialRouteName="ProfileScr" screenOptions={{ headerShown: false }}>
       <ProfileStack.Screen name="ProfileScr" component={Profile} />
+      <ProfileStack.Screen name="SettingScreen" component={SettingScreen} />
+      <ProfileStack.Screen name="AccountSettings" component={AccountSettings} />
+      <ProfileStack.Screen name="Notifications" component={Notifications} />
+      <ProfileStack.Screen name="ReportProblem" component={ReportProblem} />
+      <ProfileStack.Screen name="WatchTutorial" component={WatchTutorial} />
+      <ProfileStack.Screen name="PrivacyPolicy" component={PrivacyPolicy} />
       <ProfileStack.Screen name="AvatarUpload" component={AvatarUpload} />
+      <ProfileStack.Screen name='RecentQuizzes' component={RecentQuizzes} />
     </ProfileStack.Navigator>
   )
 }
@@ -89,6 +106,7 @@ const HomeStackNavigator = () => {
   return (
     <HomeStack.Navigator initialRouteName="Dashboard" screenOptions={{ headerShown: false }}>
       <HomeStack.Screen name="Dashboard" component={Dashboard} />
+      <HomeStack.Screen name="Points" component={Points} />
       <HomeStack.Screen name='Streak' component={Streak} />
       <HomeStack.Screen name='StreakInfo' component={StreakInfo} />
       <HomeStack.Screen name='CreateFlashcard' component={CreateFlashcard} />

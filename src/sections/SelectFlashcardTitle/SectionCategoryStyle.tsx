@@ -6,12 +6,14 @@ const windowHeight = Dimensions.get("window").height;
 
 export default StyleSheet.create({
     container: {
-        alignItems: 'center',
-        borderTopLeftRadius: scale(28),
-        borderTopRightRadius: scale(28),
+        flex: 1,
+        justifyContent: 'flex-start',
+        borderTopLeftRadius: moderateScale(28),
+        borderTopRightRadius: moderateScale(28),
         padding: scale(28),
-
         backgroundColor: "white",
+    },
+    innerContainer: {
     },
     categoryText: {
         fontFamily: "sf-protext-semibold",
@@ -30,13 +32,13 @@ export default StyleSheet.create({
         justifyContent: "center",
     },
     categorySelect: {
-        paddingVertical: verticalScale(8),
+        marginVertical: verticalScale(8),
         width: "100%",
         justifyContent: "center",
         alignItems: "center",
     },
     buttonContainer: {
-        paddingTop: verticalScale(8),
+        marginTop: verticalScale(8),
         gap: verticalScale(8),
         width: "100%",
         justifyContent: "center",

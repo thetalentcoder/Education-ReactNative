@@ -4,6 +4,8 @@ import { useNavigation } from "@react-navigation/native";
 
 import styles from "./FlashcardQuizStyle";
 import { PTFELinkButton } from "src/components/button";
+import FlashCardIcon from "assets/icons/FlashCardIcon";
+import { verticalScale } from "src/config/scale";
 
 type Props = {
     id: string,
@@ -38,25 +40,32 @@ export default function FlashcardQuiz({
             }}
         >
             <View style={styles.topPart}>
+                <FlashCardIcon />
             </View>
             <View style={styles.bottomPart}>
-                <Text style={styles.categoryText}>{"Category Title"}</Text>
+                {/* <Text style={styles.categoryText}>{"Category Title"}</Text> */}
                 <Text style={styles.titleText}>{title}</Text>
                 <Text style={styles.countText}>{`${count} Questions`}</Text>
             </View>
+            {/* <View style={styles.lineContainer}></View> */}
             <View style={styles.buttonContainer}>
-                <PTFELinkButton
-                    text="Edit"
-                    color="#7799FF"
-                    underlined={false}
-                    onClick={onClick}
-                />
-                <PTFELinkButton
-                    text="Remove"
-                    color="#444444"
-                    underlined={false}
-                    onClick={() => onDelete(id)}
-                />
+                <View style={styles.buttonC}>
+                    <PTFELinkButton
+                        text="Edit"
+                        color="#FFFFFF"
+                        underlined={false}
+                        onClick={onClick}
+                    />
+                </View>
+                <View style={styles.verticalLine}/>
+                <View style={styles.buttonC}>
+                    <PTFELinkButton
+                        text="Remove"
+                        color="#FFFFFF"
+                        underlined={false}
+                        onClick={() => onDelete(id)}
+                    />
+                </View>
             </View>
         </TouchableOpacity>
     )

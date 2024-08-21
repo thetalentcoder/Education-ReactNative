@@ -12,7 +12,7 @@ export default StyleSheet.create({
         alignItems: "center",
 
         width: "100%",
-        minHeight: moderateScale(65),
+        height: moderateScale(65),
 
         backgroundColor: "#F2F2F2",
         borderRadius: moderateScale(8),

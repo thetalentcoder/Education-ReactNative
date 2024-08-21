@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import { View, Text, Dimensions, Modal } from "react-native";
+import { View, Text, Dimensions, Modal, TouchableWithoutFeedback } from "react-native";
 import { AntDesign, Entypo, FontAwesome5 } from "@expo/vector-icons";
 
 import { formatNumberWithCommas } from "src/utils/util";
 import styles from './SectionStatusStyle'
 import { moderateScale, verticalScale } from "src/config/scale";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 import { PTFEButton } from "src/components/button";
 
 const windowHeight = Dimensions.get("window").height;
@@ -29,7 +29,9 @@ export default function SectionStatus({
             <View style={styles.innerContainer}>
                 <View style={styles.column1}>
                     <FontAwesome5 name="star" size={moderateScale(20)} color="white" />
-                    <Text style={styles.statusText}>&nbsp;{`${currentProbNumber}/${totalProbCount}`}</Text>
+                    <Text style={styles.statusText}>
+                        &nbsp;{`${currentProbNumber > 20 ? 20 : currentProbNumber}/${totalProbCount > 20 ? 20 : totalProbCount}`}
+                        </Text>
                 </View>
                 <View style={styles.column2}>
                     <Entypo name="check" size={moderateScale(18)} color="white" />
@@ -44,7 +46,7 @@ export default function SectionStatus({
                         <AntDesign name="appstore-o" size={moderateScale(20)} color="white" />
                         <Text style={styles.statusText}>
                             {
-                                topics.length > 1 ? `${topics.length} Topics` : topics?.at(0)?.slice(0, 12) + "..."
+                                topics.length > 1 ? `${topics.length} Topics` : `1 Topic`
                             }
                         </Text>
                     </TouchableOpacity>
@@ -57,30 +59,40 @@ export default function SectionStatus({
                 onRequestClose={() => setModalVisible(false)}
             >
                 <View style={styles.modalContainer}>
+                    <TouchableWithoutFeedback onPress={() => setModalVisible(false)}>
+                        <View style={styles.modalOverlay} />
+                    </TouchableWithoutFeedback>
                     <View style={styles.modalContent}>
-                        <Text style={styles.title}>{`  Your game mode consists of:`}</Text>
-                        {
-                            topics.map((content, index) => {
-                                return (
-                                    <View style={styles.textContainer}>
-                                        <Text style={styles.content}>
-                                            {`${index + 1}.`}
-                                        </Text>
-                                        <Text style={styles.content}>
-                                            {`${content}`}
-                                        </Text>
-                                    </View>
-                                    
-                                )
-                            })
-                        }
-                        <View style={styles.space}></View>
-                        <PTFEButton
-                            text="CLOSE"
-                            type="circle"
-                            color="#FF675B"
-                            onClick={() => {setModalVisible(false)}}
-                        />
+                        <ScrollView style={styles.scrollViewContainer}>
+                            {/* <ScrollView> */}
+                                <View style={styles.space8}></View>
+                                <Text style={styles.title}>{`  Your game mode consists of:`}</Text>
+                                {
+                                    topics?.map((content, index) => {
+                                        return (
+                                            <View style={styles.textContainer}>
+                                                <Text style={styles.contentNo}>
+                                                    {`${index + 1}.`}
+                                                </Text>
+                                                <Text style={styles.content}>
+                                                    {`${content}`}
+                                                </Text>
+                                            </View>
+                                        )
+                                    })
+                                }
+                                <View style={styles.space8}>
+                                    <PTFEButton
+                                        text="CLOSE"
+                                        type="rounded"
+                                        color="#FF675B"
+                                        height={verticalScale(56)}
+                                        onClick={() => {setModalVisible(false)}}
+                                    />
+                                </View>
+                                <View style={styles.space8}></View>
+                            {/* </ScrollView> */}
+                        </ScrollView>
                     </View>
                 </View>
             </Modal>

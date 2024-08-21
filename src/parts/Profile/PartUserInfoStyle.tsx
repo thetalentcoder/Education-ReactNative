@@ -16,7 +16,7 @@ export default StyleSheet.create({
     userInfoContainer: {
         marginTop: verticalScale(16),
         // paddingHorizontal: verticalScale(16),
-        paddingVertical: verticalScale(24),
+        paddingVertical: verticalScale(12),
 
         height: verticalScale(110),
         borderRadius: verticalScale(16),
@@ -40,6 +40,8 @@ export default StyleSheet.create({
         alignItems: "center",
 
         flexDirection: "column",
+
+        rowGap: 0,
     },
     row1: {
         flex: 3,
@@ -66,8 +68,8 @@ export default StyleSheet.create({
         textAlign: "center",
     },
     labelText: {
-        fontFamily: "poppins-regular",
-        fontSize: moderateScale(10),
+        fontFamily: "circular-std-black",
+        fontSize: moderateScale(16),
         color: "white",
         textAlign: "center",
     },

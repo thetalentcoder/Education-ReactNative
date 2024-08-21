@@ -9,6 +9,42 @@ export default StyleSheet.create({
         width: "100%",
         padding: verticalScale(32),
     },
+    seasonContainer: {
+        marginTop: verticalScale(12),
+        flexDirection: "row",
+    },
+    button: {
+        width: scale(80),
+        justifyContent: "center",
+        alignItems: "center",
+    },
+    seasonTitle: {
+        flex: 3,
+        flexDirection: "row",
+        justifyContent: "center",
+        alignItems: "center",
+    },
+    seasonText: {
+        textAlign: "center",
+        fontFamily: "poppins-semibold",
+        fontSize: moderateScale(22),
+        color: "white",
+    },
+    currentSeasonText: {
+        textAlign: "center",
+        fontFamily: "poppins-semibold",
+        fontSize: moderateScale(15),
+        color: "white",
+    },
+    lineContainer: {
+        marginTop: verticalScale(16),
+        height: 2,
+        width: "100%",
+        borderColor: "white",
+        backgroundColor: "white",
+
+        opacity: 0.5,
+    },
     dropDownContainer: {
         marginTop: verticalScale(16),
         width: "100%",

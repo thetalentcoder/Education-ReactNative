@@ -1,17 +1,19 @@
-import React from "react";
-import { View, Text } from "react-native";
+import React, { useEffect, useState } from "react";
+import { View, Text, Modal } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { FontAwesome5 } from "@expo/vector-icons";
 
 import { PTFEButton } from "src/components/button";
 import styles from "./PartGameModeStyle";
-import { moderateScale } from "src/config/scale";
+import { moderateScale, scale } from "src/config/scale";
 
 import StudyModeIcon from "assets/icons/StudyModeIcon";
 import ClassicModeIcon from "assets/icons/ClassicModeIcon";
 import SurvivorModeIcon from "assets/icons/SurvivorModeIcon";
 import ScenarioModeIcon from "assets/icons/ScenarioModeIcon";
 import FlashCardIcon from "assets/icons/FlashCardIcon";
+import { useSelector } from "react-redux";
+import { flashCardCountLimit } from "src/constants/consts";
 
 type Props = {
     index: number;
@@ -28,7 +30,14 @@ export default function PartGameMode({
     statusText,
     buttonText,
 }: Props) {
+    const user = useSelector((state) => state.userData.user);
     const navigation: any = useNavigation();
+    const [currentFlashCards, setCurrentFlashCards] = useState(user?.flashCards);
+    const [closeModalVisible, setCloseModalVisible] = useState(false);
+
+    useEffect(() => {
+        setCurrentFlashCards(user?.flashCards);
+    }, [user]);
 
     console.log(icon);
     const onClickHandler = () => {
@@ -38,6 +47,10 @@ export default function PartGameMode({
                 params: { gameMode: index },
             });
         } else {
+            if (currentFlashCards?.length >= flashCardCountLimit) {
+                setCloseModalVisible(true);
+                return;
+            }
             navigation.navigate('Home', {
                 screen: 'SelectFlashcardTitle',
             });
@@ -72,6 +85,30 @@ export default function PartGameMode({
                     />
                 }
             </View>
+            <Modal
+                animationType="slide"
+                transparent={true}
+                visible={closeModalVisible}
+                onRequestClose={() => setCloseModalVisible(false)}
+            >
+                <View style={styles.modalContainer}>
+                    <View style={styles.modalContent}>
+                        <Text style={{fontSize: moderateScale(18), textAlign: 'center'}}>
+                            {`You have reached the maximum amount of flashcard decks, please remove one before proceeding.`}
+                        </Text>
+                        <View style={styles.space1} />
+                        <View style={styles.space1}>
+                            <PTFEButton
+                                text={"Close"}
+                                type="rounded"
+                                color="#FF675B"
+                                height={scale(48)}
+                                onClick={() => setCloseModalVisible(false)}
+                            />
+                        </View>
+                    </View>
+                </View>
+            </Modal>
         </View>
     )
 }

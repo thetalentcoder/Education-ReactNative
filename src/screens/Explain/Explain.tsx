@@ -24,6 +24,10 @@ export default function Explain({
         navigation.navigate("Study", { refresh: false });
     }, [navigation]);
 
+    const GoToNextQuestion = useCallback(() => {
+        navigation.navigate("Study", { refresh: false, nextQuestion: true });
+    }, [navigation]);
+
     const { answers, currentScore, currentProb, totalProbCount, rationale, topics } = route.params;
 
     console.log(route.params);
@@ -57,10 +61,10 @@ export default function Explain({
                 </View>
                 <View style={styles.buttonContainer}>
                     <PTFEButton
-                        text={"GO BACK"}
+                        text={"NEXT QUESTION"}
                         type="rounded"
-                        color="#87C6E8"
-                        onClick={GoBack}
+                        color="#FF675B"
+                        onClick={GoToNextQuestion}
                     />
                 </View>
             </ScrollView>

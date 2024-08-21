@@ -13,19 +13,20 @@ export default StyleSheet.create({
     innerContainer: {
         width: "100%",
         position: 'relative',
-        marginTop: moderateScale(64),
+        marginTop: moderateScale(32),
         paddingHorizontal: scale(32),
     },
+    
     timerContainer: {
         position: "absolute",
 
         justifyContent: 'center',
         alignItems: 'center',
 
-        top: - verticalScale(45),
-        left: windowWidth / 2 - verticalScale(45),
-        width: verticalScale(90),
-        height: verticalScale(90),
+        top: - verticalScale(44),
+        left: windowWidth / 2 - verticalScale(44),
+        width: verticalScale(88),
+        height: verticalScale(88),
         borderRadius: verticalScale(45),
 
         backgroundColor: "white",
@@ -43,6 +44,7 @@ export default StyleSheet.create({
         fontFamily: 'segoe-ui',
         fontSize: moderateScale(18),
         color: "#707070",
+        textAlign: "left",
     },
     answersContainer: {
         width: '100%',

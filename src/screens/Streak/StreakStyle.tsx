@@ -82,6 +82,7 @@ export default StyleSheet.create({
     },
     split: {
         height: '100%',
+        marginLeft: 4,
         width: 1,
         backgroundColor: 'white',
     },
@@ -119,5 +120,10 @@ export default StyleSheet.create({
 
         justifyContent: "center",
         alignItems: "center",
-    }
+    },
+    navigation: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginBottom: 10,
+      },
 });

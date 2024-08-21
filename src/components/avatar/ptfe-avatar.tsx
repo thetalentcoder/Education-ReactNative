@@ -17,9 +17,9 @@ const PTFEAvatar = ({
 }: Props) => {
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={styles.avatarCircle} >
+      {/* <TouchableOpacity style={styles.avatarCircle} >
         <Image style={styles.avatar} source={{ uri: avatar }} />
-      </TouchableOpacity>
+      </TouchableOpacity> */}
       <View style={styles.userInfoContainer}>
         <Text style={styles.greeting}>{greeting}</Text>
         <Text style={styles.username}>{userName}</Text>

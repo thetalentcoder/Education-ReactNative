@@ -34,8 +34,9 @@ export default function StreakModal({
 
     const UTCToZoneTIme = (dateString: string) => {
         const date = new Date(dateString);
-        const offsetMinutes = date.getTimezoneOffset();
-        const localTime = new Date(date.getTime() + offsetMinutes * 60 * 1000);
+        // const offsetMinutes = date.getTimezoneOffset();
+        // const localTime = new Date(date.getTime() + offsetMinutes * 60 * 1000);
+        const localTime = date;
         return localTime;
     }
 
@@ -67,6 +68,39 @@ export default function StreakModal({
         return format(date, "EEEE");
     };
 
+    function getConsecutiveStreak(dates: any) {
+        // Sort the dates in descending order
+        dates.sort((a: any, b: any) => new Date(b) - new Date(a));
+    
+        let streak: any[] = [];
+    
+        console.log(dates);
+        for (let i = 0; i < dates.length - 1; i++) {
+            const currentDate = new Date(dates[i]);
+            const previousDate = new Date(dates[i + 1]);
+    
+            // Zero out the time to compare only the dates
+            currentDate.setUTCHours(0, 0, 0, 0);
+            previousDate.setUTCHours(0, 0, 0, 0);
+
+            console.log(currentDate.getUTCMonth() + " / " + currentDate.getUTCDate());
+            console.log(previousDate.getUTCMonth() + " / " + previousDate.getUTCDate());
+    
+            // Calculate the difference in days
+            console.log(currentDate - previousDate);
+            const differenceInDays = (currentDate - previousDate) / (1000 * 3600 * 24);
+    
+            // If the difference is exactly 1 day, continue the streak
+            if (differenceInDays === 1) {
+                streak.push(currentDate);
+            } else {
+                break; // Streak breaks
+            }
+        }
+    
+        return streak;
+    }
+
     useEffect(() => {
         const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
         const todaysDate = toZonedTime(new Date(), userTimeZone);
@@ -86,7 +120,7 @@ export default function StreakModal({
         // const currentWeekStart = toZonedTime(startOfWeek(new Date(), { weekStartsOn: 0 }), userTimeZone)
         // const currentWeekEnd = toZonedTime(endOfWeek(new Date(), { weekStartsOn: 0 }), userTimeZone)
 
-        const parseAllStreakDates = user?.streakhistory.map((item: any) =>
+        const parseAllStreakDates = user?.streakhistory?.map((item: any) =>
             UTCToZoneTIme(item.date)
         );
 
@@ -94,9 +128,11 @@ export default function StreakModal({
         //     isWithinInterval(date, { start: currentWeekStart, end: currentWeekEnd })
         // );
 
-        const currentWeekStreaks = parseAllStreakDates
+        const currentWeekStreaks = getConsecutiveStreak(parseAllStreakDates);
+        currentWeekStreaks.push(todaysDate);
+        console.log(currentWeekStreaks);
 
-        setStreakDays(currentWeekStreaks.flat().map(getDayOfTheWeek));
+        setStreakDays(currentWeekStreaks?.map(getDayOfTheWeek));
     }, [user, setStreakDays, setDynamicStreakArr]);
 
     useEffect(() => {

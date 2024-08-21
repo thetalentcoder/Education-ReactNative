@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { View, Text, ScrollView } from "react-native";
+import { View, Text, ScrollView, Modal } from "react-native";
 import { useFocusEffect } from '@react-navigation/native';
 import { useNavigation } from "@react-navigation/native";
 import { Entypo } from "@expo/vector-icons";
@@ -14,7 +14,7 @@ import { getQuizDataDetail } from "src/actions/quiz/quiz";
 import { moderateScale, scale, verticalScale } from "src/config/scale";
 import { PTFELoading } from "src/components/loading";
 import { quiz_test_data } from "assets/@mockup/data";
-import { gameModeString, survivalLife } from "src/constants/consts";
+import { gameModeString, survivalLife, timeLimitPerQuestion } from "src/constants/consts";
 
 import TickAnim from "src/parts/Question/TickAnim";
 import CloseAnim from "src/parts/Question/CloseAnim";
@@ -23,6 +23,7 @@ import { checkIfUserHastakenQuizToday, sleep } from "src/utils/util";
 import { quizModes } from "src/constants/consts";
 import { getAllQuestions } from "src/actions/question/question";
 import { useSelector } from "react-redux";
+import Confetti from "src/parts/Score/Confetti";
 
 type Props = {
     quizID: string[],
@@ -31,6 +32,9 @@ type Props = {
     setDataLoadedFlag: (newValue: boolean) => void;
     setCurrentLife: (newValue: number) => void;
     setCurrent: (newValue: number) => void;
+    timerPaused: boolean;
+    scrollRef: any;
+    previousBest: number;
 };
 
 export default function SectionMainContent({
@@ -40,12 +44,16 @@ export default function SectionMainContent({
     setDataLoadedFlag,
     setCurrentLife,
     setCurrent,
+    timerPaused,
+    scrollRef,
+    previousBest = 0,
 }: Props) {
     const navigation: any = useNavigation();
 
     const { user } = useSelector((state) => state.userData);
 
     const [submitData, setSubmitData] = useState<any[]>([]);
+    const [closeModalVisible, setCloseModalVisible] = useState(false);
 
     const [life, setLife] = useState(survivalLife);
 
@@ -61,6 +69,7 @@ export default function SectionMainContent({
 
     const [problem, setProblem] = useState<string>('');
     const [answers, setAnswers] = useState<any>([0, 0, 0, 0]);
+    const [rationale, setRationale] = useState<string>('');
 
     const [limitTime, setLimitTime] = useState(0);
     const [remainTime, setRemainTime] = useState(0);
@@ -73,9 +82,7 @@ export default function SectionMainContent({
 
     const [selected, setSelected] = useState(false);
 
-    const scrollRef = useRef<ScrollView>(null);
-
-    const timeLimitPerQuestion = 60000
+    const [paused, setPaused] = useState(false);
 
     useEffect(() => {
         if (quizID == undefined) {
@@ -144,6 +151,7 @@ export default function SectionMainContent({
 
             if (currentQuestion) {
                 setProblem(currentQuestion.question);
+                setRationale(currentQuestion.answerExplanation);
                 if (currentQuestion.answers) {
                     const newAnswers = currentQuestion.answers.map((item: any, index: number) => {
                         return {
@@ -159,10 +167,17 @@ export default function SectionMainContent({
         }
     }, [currentProb, dataLoaded, quizData]);
 
+    useEffect(() => {
+        if (previousBest == currentProb && currentProb != 0) {
+            setCloseModalVisible(true);
+            setPaused(true);
+        }
+    }, [currentProb]);
+
 
     useEffect(() => {
         const intervalId = setInterval(() => {
-            if (testEnded) {
+            if (paused || testEnded) {
                 clearInterval(intervalId);
             }
             else {
@@ -178,11 +193,26 @@ export default function SectionMainContent({
         return () => {
             clearInterval(intervalId);
         }
-    }, [remainTime, testEnded]);
+    }, [remainTime, testEnded, dataLoaded, paused]);
 
+    useEffect(() => {
+        setPaused(timerPaused);
+    }, [timerPaused]);
+
+    const updateSubmitData = useCallback(() => {
+        let data = submitData;
+        let newItem = {
+            question: problem,
+            answers: "",
+            answerExplanation: rationale,
+        };
+        newItem.answers = answers;
+        data.push(newItem);
+        setSubmitData(data);
+    }, [quizData, problem, rationale, currentProb, answers, submitData, setSubmitData]);
 
     const NextProblem = useCallback(() => {
-        // updateSubmitData();
+        updateSubmitData();
 
         // Update Submit Data Start
         let isPassed = false;
@@ -204,7 +234,7 @@ export default function SectionMainContent({
             setHideTick(false);
 
             const newScore: number = Math.floor(currentScore +
-                (10 + remainTime / 1000) * life * (user?.currentMultiplier == undefined ? 1 : user?.currentMultiplier));
+                (100 + remainTime / 1000 + life * 10) * (user?.currentMultiplier == undefined ? 1 : user?.currentMultiplier));
             setCurrentScore(newScore);
             setCurrent(newScore);
         }
@@ -246,14 +276,15 @@ export default function SectionMainContent({
             }
 
         }
+        else {
+            setCurrentProb(currentProb + 1);
+            setSelected(false);
 
-        setCurrentProb(currentProb + 1);
-        setSelected(false);
-
-        scrollRef.current?.scrollTo({
-            y: 0,
-            animated: true,
-        });
+            scrollRef.current?.scrollTo({
+                y: 0,
+                animated: true,
+            });
+        }
     }, [life, navigation, setTestEnded, currentProb, currentScore, survivalLife, setCurrentProb, setSelected]);
 
 
@@ -296,7 +327,7 @@ export default function SectionMainContent({
                     }
                 </AnimatedCircularProgress>
             </View>
-            <ScrollView style={styles.innerContainer} ref={scrollRef}>
+            <View style={styles.innerContainer}>
                 <View style={styles.quizContainer}>
                     <ScrollView>
                         <Text style={styles.questionText}>
@@ -329,7 +360,57 @@ export default function SectionMainContent({
                         onClick={NextProblem}
                     />
                 </View>
-            </ScrollView>
+            </View>
+            
+            <Modal
+                animationType="slide"
+                transparent={true}
+                visible={closeModalVisible}
+                onRequestClose={() => {
+                    setPaused(false);
+                    setCloseModalVisible(false);
+                }}
+            >
+                <View style={styles.modalContainer}>
+                    <View style={styles.modalContent}>
+                        <Text 
+                            style={{
+                                fontSize: moderateScale(22), 
+                                fontFamily: 'circular-std-black', 
+                                textAlign: 'center',
+                                paddingBottom: verticalScale(16),
+                            }}
+                        >
+                            {`Congratulations!`}
+                        </Text>
+                        <Text
+                            style={{
+                                fontSize: moderateScale(18), 
+                                fontFamily: 'circular-std-medium', 
+                                textAlign: 'center',
+                                paddingBottom: verticalScale(10),
+                                paddingHorizontal: scale(10),
+                            }}
+                        >
+                            {`You beat your previous best record of ${previousBest}. `}
+                            {`Your new record is ${previousBest + 1} and climbing!`}
+                        </Text>
+                        <View style={styles.space1}>
+                            <PTFEButton
+                                text={"CLOSE"}
+                                type="rounded"
+                                color="#FF675B"
+                                height={scale(48)}
+                                onClick={() => {
+                                    setCloseModalVisible(false);
+                                    setPaused(false);
+                                }}
+                            />
+                        </View>
+                    </View>
+                    <Confetti />
+                </View>
+            </Modal>
         </View>
     )
 }

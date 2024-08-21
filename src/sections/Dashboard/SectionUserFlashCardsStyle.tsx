@@ -28,7 +28,7 @@ export default StyleSheet.create({
     row: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        marginBottom: verticalScale(4),
+        marginBottom: verticalScale(12),
         width: "100%",
     },
     modalContainer: {

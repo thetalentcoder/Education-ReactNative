@@ -149,7 +149,7 @@ export default function SectionMainContent({ navigation, titleValue, id, page }:
                                 <View style={styles.modalContainer}>
                                     <View style={styles.modalContent}>
                                         <Text style={{ fontSize: moderateScale(15), textAlign: 'center' }}>
-                                            Are You sure you want to delete this question?
+                                            Are you sure you want to delete this question?
                                         </Text>
 
                                         <View style={styles.space1}>
@@ -198,7 +198,7 @@ export default function SectionMainContent({ navigation, titleValue, id, page }:
                         />
                         <TextInput
                             style={styles.textArea}
-                            placeholder="Explanation"
+                            placeholder="Answer"
                             value={currentExplanation}
                             onChangeText={setCurrentExplanation}
                             multiline

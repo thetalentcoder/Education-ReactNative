@@ -31,7 +31,7 @@ export default function SectionReviewContent({
         }
     }, [positions])
 
-    const items = quizData?.map((item: any, index: number) => {
+    const items = quizData?.slice(0, 20)?.map((item: any, index: number) => {
         let correctF = false;
         for (let i = 0; i < item?.answers?.length; i++) {
             if (item?.answers[i]?.enabled === true &&
@@ -51,7 +51,7 @@ export default function SectionReviewContent({
         <View style={styles.container}>
             <View style={styles.problemSquareContainer}>
                 {
-                    items.map((item, index) => (
+                    items?.map((item, index) => (
                         <TouchableOpacity
                             key={item.id}
                             style={[styles.item, { backgroundColor: item.color }]}
@@ -64,7 +64,7 @@ export default function SectionReviewContent({
             </View>
             <ScrollView>
                 {
-                    quizData.map((item: any, index: number) => (
+                    quizData?.map((item: any, index: number) => (
                         <View key={index}>
                             {index !== 0 && <View style={styles.lineContainer}></View>}
                             <View
@@ -89,7 +89,7 @@ export default function SectionReviewContent({
                                     {"Answer: "}
                                 </Text>
                                 {
-                                    item?.answers.map((item: any, index: number) => {
+                                    item?.answers?.map((item: any, index: number) => {
                                         return (
                                             <PartAnswer
                                                 key={index}
@@ -98,7 +98,8 @@ export default function SectionReviewContent({
                                                 correct={item?.correct}
                                                 mine={item?.enabled}
                                                 clickable={false}
-                                                onClick={() => { }}
+                                                enabled={false}  
+                                                onClick={() => { } }
                                             />
                                         )
                                     })
@@ -107,7 +108,7 @@ export default function SectionReviewContent({
 
                             <View style={styles.rationaleContainer}>
                                 <Text style={styles.rationaleHeader}>
-                                    {"Answer Explanation: "}
+                                    {"Answer: "}
                                 </Text>
                                 <Text style={styles.rationaleText}>
                                     {item.answerExplanation}

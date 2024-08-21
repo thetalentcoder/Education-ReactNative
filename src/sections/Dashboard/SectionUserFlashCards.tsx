@@ -1,5 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { View, Text, StyleSheet, Modal } from "react-native";
+import { useDispatch } from "react-redux";
+import { rdx_setFlashCards } from "src/redux/userSlice";
 
 import texts from "src/config/texts";
 import { PTFEButton, PTFELinkButton } from "src/components/button";
@@ -22,7 +24,9 @@ export default function SectionUserFlashCards({
     const [flashCardData, setFlashCardData] = useState<any>([]);
     const navigation: any = useNavigation();
     const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false)
-    const [deleteItemId, setDeleteItemId] = useState('')
+    const [deleteItemId, setDeleteItemId] = useState('');
+
+    const dispatch = useDispatch();
 
 
     useFocusEffect(
@@ -39,6 +43,7 @@ export default function SectionUserFlashCards({
         const data = await getAllFlashCards();
         console.log('gh', data.flashcards)
         setFlashCardData(data.flashcards);
+        dispatch(rdx_setFlashCards(data.flashcards));
     }, []);
 
     const onDeleteHandler = async () => {
@@ -114,7 +119,7 @@ export default function SectionUserFlashCards({
                         <View style={styles.modalContainer}>
                             <View style={styles.modalContent}>
                                 <Text style={{ fontSize: moderateScale(15), textAlign: 'center' }}>
-                                    Are You sure you want to delete this question?
+                                    Are you sure you want to delete this flashcard?
                                 </Text>
 
                                 <View style={styles.space1}>

@@ -6,6 +6,7 @@ type Props = {
     text: string;
     color: string;
     underlined: boolean;
+    disabled?: boolean;
     onClick: () => void;
 }
 
@@ -13,10 +14,11 @@ export default function PTFELinkButton({
     text,   // Button Text
     color,   // Button Text Color
     underlined,    // Button Text Underlined
+    disabled,    // Button Disabled
     onClick,   // Button Click Handler
 }: Props) {
     return (
-        <TouchableOpacity style={[styles.container]} onPress={onClick}>
+        <TouchableOpacity style={[styles.container]} onPress={onClick} disabled={disabled}>
             <Text style={[
                 styles.text, 
                 { color: color },

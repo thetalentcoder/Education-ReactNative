@@ -27,6 +27,8 @@ type Props = {
     setTotalProbCount: (newValue: number) => void;
     setDataLoadedFlag: (newValue: boolean) => void;
     setCurrent: (newValue: number) => void;
+    timerPaused: boolean;
+    scrollRef: any;
 };
 
 export default function SectionMainContent({
@@ -35,6 +37,8 @@ export default function SectionMainContent({
     setTotalProbCount,
     setDataLoadedFlag,
     setCurrent,
+    timerPaused,
+    scrollRef,
 }: Props) {
     const navigation: any = useNavigation();
 
@@ -67,8 +71,7 @@ export default function SectionMainContent({
 
     const [selected, setSelected] = useState(false);
 
-    const scrollRef = useRef<ScrollView>(null);
-
+    const [paused, setPaused] = useState(false);
 
     useEffect(() => {
 
@@ -145,7 +148,7 @@ export default function SectionMainContent({
 
     useEffect(() => {
         const intervalId = setInterval(() => {
-            if (testEnded) {
+            if (paused || testEnded) {
                 clearInterval(intervalId);
             }
             else {
@@ -158,8 +161,14 @@ export default function SectionMainContent({
             }
         }, 100);
 
-        return () => clearInterval(intervalId);
-    }, [remainTime, testEnded]);
+        return () => {
+            clearInterval(intervalId);
+        }
+    }, [remainTime, testEnded, dataLoaded, paused]);
+
+    useEffect(() => {
+        setPaused(timerPaused);
+    }, [timerPaused]);
 
 
     const NextProblem = useCallback(() => {
@@ -182,7 +191,7 @@ export default function SectionMainContent({
             setHideTick(false);
 
             const newScore: number = Math.floor(
-                currentScore + (10 + remainTime / 1000) * (user?.currentMultiplier == undefined ? 1 : user?.currentMultiplier));
+                currentScore + (100 + remainTime / 1000) * (user?.currentMultiplier == undefined ? 1 : user?.currentMultiplier));
             setCurrentScore(newScore);
             setCurrent(newScore);
         }

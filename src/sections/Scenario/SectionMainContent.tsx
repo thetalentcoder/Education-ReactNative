@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { View, Text, ScrollView } from "react-native";
+import { View, Text, ScrollView, Modal, TouchableWithoutFeedback } from "react-native";
 import { useFocusEffect } from '@react-navigation/native';
 import { useNavigation } from "@react-navigation/native";
 import { Entypo } from "@expo/vector-icons";
@@ -10,19 +10,19 @@ import { PTFEButton } from "src/components/button";
 import PartAnswer from "src/parts/Question/PartAnswer";
 import styles from "./SectionMainContentStyle"
 
-import { getQuizDataDetail } from "src/actions/quiz/quiz";
 import { moderateScale, scale, verticalScale } from "src/config/scale";
-import { PTFELoading } from "src/components/loading";
-import { quiz_test_data } from "assets/@mockup/data";
-import { gameModeString, survivalLife } from "src/constants/consts";
+import { gameModeString, survivalLife, timeLimitPerQuestion } from "src/constants/consts";
 
 import TickAnim from "src/parts/Question/TickAnim";
 import CloseAnim from "src/parts/Question/CloseAnim";
 import { checkIfUserHastakenQuizToday, sleep } from "src/utils/util";
 
 import { quizModes } from "src/constants/consts";
-import { getAllQuestions } from "src/actions/question/question";
+import { getAllQuestions, getAllScenarioQuestions } from "src/actions/question/question";
 import { useSelector } from "react-redux";
+
+import HTMLView from 'react-native-htmlview';
+
 
 type Props = {
     quizID: string[],
@@ -33,6 +33,8 @@ type Props = {
     setCurrent: (newValue: number) => void;
     setTotalProbCount: (newValue: number) => void;
     topic: string;
+    timerPaused: boolean;
+    scrollRef: any;
 };
 
 export default function SectionMainContent({
@@ -44,6 +46,8 @@ export default function SectionMainContent({
     setCurrent,
     setTotalProbCount,
     topic,
+    timerPaused,
+    scrollRef,
 }: Props) {
     const navigation: any = useNavigation();
 
@@ -73,14 +77,16 @@ export default function SectionMainContent({
     const [tickShow, setTickShow] = useState(false);
     const [closeShow, setCloseShow] = useState(false);
 
+    const [scenario, setScenario] = useState('');
+
     const [hideTick, setHideTick] = useState(true);
     const [hide, setHide] = useState(true);
 
     const [selected, setSelected] = useState(false);
 
-    const scrollRef = useRef<ScrollView>(null);
+    const [paused, setPaused] = useState(false);
 
-    const timeLimitPerQuestion = 60000
+    const [scenarioModalVisible, setScenarioModalVisible] = useState(false);
 
     useEffect(() => {
         if (quizID == undefined) {
@@ -114,8 +120,11 @@ export default function SectionMainContent({
     );
 
     const fetchQuizDetail = useCallback(async () => {
-        const data = await getAllQuestions(quizID);
+        const data = await getAllScenarioQuestions(quizID);
         // await sleep(500);
+
+        console.log(data);
+
 
         setQuizData(data);
         setDataLoaded(true);
@@ -138,6 +147,7 @@ export default function SectionMainContent({
             const currentQuestion = quizData.questions[currentProb];
 
             if (currentQuestion) {
+                setScenario(currentQuestion.scenario);
                 setProblem(currentQuestion.question);
                 setRationale(currentQuestion.answerExplanation);
                 if (currentQuestion.answers) {
@@ -158,7 +168,7 @@ export default function SectionMainContent({
 
     useEffect(() => {
         const intervalId = setInterval(() => {
-            if (testEnded) {
+            if (paused || testEnded) {
                 clearInterval(intervalId);
             }
             else {
@@ -174,7 +184,11 @@ export default function SectionMainContent({
         return () => {
             clearInterval(intervalId);
         }
-    }, [remainTime, testEnded, dataLoaded]);
+    }, [remainTime, testEnded, dataLoaded, paused]);
+
+    useEffect(() => {
+        setPaused(timerPaused || scenarioModalVisible);
+    }, [timerPaused, scenarioModalVisible]);
 
 
     const NextProblem = useCallback(() => {
@@ -198,7 +212,7 @@ export default function SectionMainContent({
             setHideTick(false);
 
             const newScore: number = Math.floor(currentScore +
-                (10 + remainTime / 1000) * (user?.currentMultiplier == undefined ? 1 : user?.currentMultiplier));
+                (100 + remainTime / 1000) * (user?.currentMultiplier == undefined ? 1 : user?.currentMultiplier));
             setCurrentScore(newScore);
             setCurrent(newScore);
         }
@@ -247,14 +261,15 @@ export default function SectionMainContent({
             }
 
         }
+        else {
+            setCurrentProb(currentProb + 1);
+            setSelected(false);
 
-        setCurrentProb(currentProb + 1);
-        setSelected(false);
-
-        scrollRef.current?.scrollTo({
-            y: 0,
-            animated: true,
-        });
+            scrollRef.current?.scrollTo({
+                y: 0,
+                animated: true,
+            });
+        }
     }, [navigation, setTestEnded, currentProb, currentScore, survivalLife, setCurrentProb, setSelected]);
 
 
@@ -298,6 +313,13 @@ export default function SectionMainContent({
                 </AnimatedCircularProgress>
             </View>
             <ScrollView style={styles.innerContainer} ref={scrollRef}>
+                <PTFEButton
+                    text="SHOW SCENARIO"
+                    type="rounded"
+                    color="#FF675B"
+                    enabled={!(hide && hideTick)}
+                    onClick={() => setScenarioModalVisible(true)}
+                />
                 <View style={styles.quizContainer}>
                     <ScrollView>
                         <Text style={styles.questionText}>
@@ -331,6 +353,33 @@ export default function SectionMainContent({
                     />
                 </View>
             </ScrollView>
+            <Modal
+                animationType="fade"
+                transparent={true}
+                visible={scenarioModalVisible}
+                onRequestClose={() => setScenarioModalVisible(false)}
+            >
+                <View style={styles.modalContainer}>
+                    <TouchableWithoutFeedback onPress={() => setScenarioModalVisible(false)}>
+                        <View style={styles.modalOverlay} />
+                    </TouchableWithoutFeedback>
+                    <View style={styles.modalContent}>
+                        <ScrollView style={styles.scrollView}>
+                            <Text style={styles.title}>{`  Scenario`}</Text>
+                            {/* <Text style={styles.title}>{scenario}</Text> */}
+                            <HTMLView value={scenario } />
+                            <View style={styles.space8}></View>
+                        </ScrollView>
+                        <View style={styles.space16}></View>
+                        <PTFEButton
+                            text="CLOSE"
+                            type="circle"
+                            color="#FF675B"
+                            onClick={() => {setScenarioModalVisible(false)}}
+                        />
+                    </View>
+                </View>
+            </Modal>
         </View>
     )
 }

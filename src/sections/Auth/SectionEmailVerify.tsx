@@ -8,6 +8,7 @@ import { login, logout } from "src/actions/auth/auth";
 
 import globalStyle from "src/theme/globalStyle";
 import styles from "./SectionEmailVerifyStyle";
+import { LinearGradient } from "expo-linear-gradient";
 
 type Props = {
     onBackToLogin: () => void;

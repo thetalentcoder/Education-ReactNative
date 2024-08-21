@@ -50,7 +50,7 @@ export default function CloseAnim({
                 <></> : 
                 <LottieView
                     ref={confettiRef}
-                    source={require('../../../assets/animations/close_animation1.json')}
+                    source={require('../../../assets/animations/close_animation.json')}
                     speed={2.5}
                     autoPlay={true}
                     loop={false}

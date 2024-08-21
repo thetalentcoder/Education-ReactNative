@@ -2,7 +2,6 @@ import React from "react";
 import { View, Image, Pressable } from "react-native";
 
 import PartUserInfo from "src/parts/Profile/PartUserInfo";
-import PartPointProgress from "src/parts/Profile/PartPointProgress";
 import PartRecentQuizzes from "src/parts/Profile/PartRecentQuizzes";
 
 import styles from "./SectionProfileContentStyle";
@@ -20,7 +19,7 @@ export default function SectionProfileContent({
 }: Props) {
     const navigation: any = useNavigation()
     const { user } = useSelector((state) => state.userData);
-    const imageSource = user.avatarUrl ? { uri: user.avatarUrl } : { uri: "" };
+    const imageSource = user?.avatarUrl ? { uri: user?.avatarUrl } : { uri: "" };
 
     const onAvatarPress = () => {
         navigation.navigate("AvatarUpload");
@@ -37,9 +36,6 @@ export default function SectionProfileContent({
                     fullname={fullname}
                     score={score}
                 />
-            </View>
-            <View style={styles.progressContainer}>
-                <PartPointProgress />
             </View>
             <View style={styles.recentQuizContainer}>
                 <PartRecentQuizzes />

@@ -41,5 +41,6 @@ export default StyleSheet.create({
     buttonContainer: {
         width: "100%",
         paddingHorizontal: scale(32),
+        paddingBottom: scale(32),
     },
 });

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Text, View } from "react-native";
 import _ from 'lodash';
 
@@ -13,8 +13,9 @@ import { data_ranking4 } from "assets/@mockup/data";
 
 import Cylinder from "src/parts/Ranking/Cylinder";
 import CustomDropdown from "src/parts/Ranking/CustomDropDown";
-import { moderateScale } from "src/config/scale";
+import { moderateScale, scale } from "src/config/scale";
 import globalStyle from "src/theme/globalStyle";
+import { PTFEButton } from "src/components/button";
 
 type Props = {
     handleSelect: (value: any) => void,
@@ -23,19 +24,24 @@ type Props = {
         index: number
         fullname: string
         score: number
-    }[]
+    }[],
+    currentSeason: number;
+    season: number;
+    setSeason: (value: number) => void;
 }
 
 export function TopSection({
     handleSelect,
-    rankingData
+    rankingData,
+    currentSeason,
+    season,
+    setSeason,
 }: Props) {
     const [data_ranking, setDataRanking] = useState<any[]>(data_ranking1);
 
     const options = [
         { title: 'Total', value: "" },
-        { title: 'Study Mode', value: 'studyMode' },
-        { title: 'Classic Mode', value: 'quizMode' },
+        { title: 'Classic Mode', value: 'classicMode' },
         { title: 'Survivor Mode', value: 'survivorMode' },
         { title: 'Scenario Mode', value: 'scenarioMode' },
     ];
@@ -48,11 +54,60 @@ export function TopSection({
         handleSelect(item.value);
     };
 
+    const prevSeason = () => {
+        if (season >= 2) {
+            setSeason(season - 1);
+        }
+    }
+
+    const nextSeason = () => {
+        if (season < currentSeason) {
+            setSeason(season + 1);
+        }
+    }
+
     return (
         <>
             <View style={styles.container}>
+                <View style={styles.seasonContainer}>
+                    <View style={styles.button}>
+                        {
+                            season != 1
+                            ? <PTFEButton 
+                                text="PREV"
+                                type="circle"
+                                color="#FF675B"
+                                onClick={prevSeason}
+                                height={scale(36)}
+                            />
+                            : <></>
+                        }
+                    </View>
+                    <View style={styles.seasonTitle}>
+                        <Text style={styles.seasonText}>Season {season} </Text>
+                        {
+                            season == currentSeason 
+                            ? <Text style={styles.currentSeasonText}>(Current)</Text>
+                            : <></>
+                        }
+                    </View>
+                    {
+                        season == currentSeason
+                        ? <></>
+                        : <View style={styles.button}>
+                            <PTFEButton 
+                                text="NEXT"
+                                type="circle"
+                                color="#FF675B"
+                                onClick={nextSeason}
+                                height={scale(36)}
+                            />
+                        </View>
+                    }
+                </View>
+                <View style={styles.lineContainer} />
                 <View style={styles.dropDownContainer}>
-                    <CustomDropdown options={options} onSelect={onSelect} title="Total" page="ranking" />
+                    <CustomDropdown options={options} onSelect={onSelect} title="Total " page="ranking" />
                 </View>
                 {
                     rankingData.length >= 3 ?

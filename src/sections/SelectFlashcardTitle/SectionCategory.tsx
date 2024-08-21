@@ -16,26 +16,28 @@ export default function SectionCategory() {
 
     return (
         <View style={styles.container}>
-            <View style={styles.categoryTextContainer}>
-                <Text style={styles.categoryText}>{"Flashcard Deck Title"}</Text>
-            </View>
-            <View style={styles.categorySelect}>
-                <TextInput
-                    style={styles.textInput}
-                    value={title}
-                    onChangeText={setTitle}
-                    placeholder="Title"
-                    placeholderTextColor="#999"
-                />
-            </View>
-            <View style={styles.buttonContainer}>
-                <PTFEButton
-                    text="NEXT"
-                    type="rounded"
-                    color="#FF675B"
-                    enabled={title.length == 0}
-                    onClick={onClick}
-                />
+            <View style={styles.innerContainer}>
+                <View style={styles.categoryTextContainer}>
+                    <Text style={styles.categoryText}>{"Flashcard Deck Title"}</Text>
+                </View>
+                <View style={styles.categorySelect}>
+                    <TextInput
+                        style={styles.textInput}
+                        value={title}
+                        onChangeText={setTitle}
+                        placeholder="Title"
+                        placeholderTextColor="#999"
+                    />
+                </View>
+                <View style={styles.buttonContainer}>
+                    <PTFEButton
+                        text="START"
+                        type="rounded"
+                        color="#FF675B"
+                        enabled={title.length == 0}
+                        onClick={onClick}
+                    />
+                </View>
             </View>
         </View>
     );

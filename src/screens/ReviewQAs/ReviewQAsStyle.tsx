@@ -10,6 +10,7 @@ export default StyleSheet.create({
         justifyContent: "flex-start",
         alignItems: "flex-start",
         position: "relative",
+        backgroundColor: "white",
     },
     innerContainer: {
         width: "100%",
@@ -17,7 +18,7 @@ export default StyleSheet.create({
     upperGradientContainer: {
         position: "absolute",
         width: "100%",
-        height: windowHeight * 0.4,
+        height: windowHeight * 0.3,
     },
     headerContainer: {
         height: windowHeight * 8 / 93,

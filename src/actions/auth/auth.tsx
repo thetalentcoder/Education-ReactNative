@@ -1,6 +1,8 @@
 import { auth } from "src/config/firebase-config"
 // import { API_URL } from "@env";
-const API_URL = process.env.EXPO_PUBLIC_API_URL;
+const API_URL = "https://ptfe-game-backend-a0cc7b8d3a77.herokuapp.com";
+// const API_URL = "http://192.168.101.144:5004";
+// const API_URL = "http://10.0.0.2:5004";
 
 console.log(`${API_URL}/api/user`);
 
@@ -69,7 +71,6 @@ export const forgotPassword = async (email: string) => {
 }
 
 export const userRegister = async (email: string, fullName: string) => {
-    console.log(`${API_URL}/api/user`);
     const response = await fetch(`${API_URL}/api/user`, {
         method: 'POST',
         headers: {
@@ -82,4 +83,18 @@ export const userRegister = async (email: string, fullName: string) => {
     });
 
     console.log(response);
+}
+
+export const updatePassword = async(newPassword: string) => {
+    try {
+        const user = auth.currentUser;
+        user?.updatePassword(newPassword);
+
+        return true;
+    } catch (error: any) {
+        const errorCode = error?.code;
+        const errorMessage = error?.message;
+        console.error("Logout error:", errorCode, errorMessage);
+        return false;
+    }
 }

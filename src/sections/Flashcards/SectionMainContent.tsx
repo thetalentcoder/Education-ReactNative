@@ -16,6 +16,7 @@ import CloseAnim from "src/parts/Question/CloseAnim";
 import { quizModes } from "src/constants/consts";
 import { getAllQuestions } from "src/actions/question/question";
 import { getFlashCard, } from "src/actions/flashcard/flashcard";
+import { shuffle } from "src/utils/util";
 
 type Props = {
     quizID: any,
@@ -97,11 +98,13 @@ export default function SectionMainContent({
         let data;
         if (isCustomeFlashCardQuiz) {
             const result = await getFlashCard(quizID)
-            data = result.flashcard
+            data = result.flashcard;
             console.log('here', result.flashcard);
         } else {
             data = await getAllQuestions(quizID);
         }
+
+        data = shuffle(data);
 
         setQuizData(data);
         setDataLoaded(true);
@@ -207,7 +210,7 @@ export default function SectionMainContent({
                                 </View>}
 
                                 <Text style={styles.rationaleHeader}>
-                                    {"Answer Explanation: "}
+                                    {"Answer: "}
                                 </Text>
                                 <Text style={styles.questionText}>
                                     {rationale}

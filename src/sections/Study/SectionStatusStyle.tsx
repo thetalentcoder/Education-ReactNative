@@ -18,6 +18,15 @@ export default StyleSheet.create({
         borderRadius: 4,
         backgroundColor: "#87C6E8",
     },
+    modalOverlay: {
+        position: 'absolute',
+        top: 0,
+        bottom: 0,
+        left: 0,
+        right: 0,
+        backgroundColor: 'rgba(0, 0, 0, 0)',
+        zIndex: 1,
+    },
     modalContainer: {
         flex: 1,
         justifyContent: 'center',
@@ -25,13 +34,21 @@ export default StyleSheet.create({
         backgroundColor: 'rgba(0,0,0,0.5)',
     },
     modalContent: {
-        width: scale(350),
+        width: scale(380),
+        maxHeight: verticalScale(600),
         backgroundColor: 'white',
-        padding: moderateScale(16),
         borderRadius: moderateScale(8),
-        alignItems: 'center',
+        zIndex: 2,
+        flexGrow: 0,
+        flexShrink: 1,
+    },
+    scrollViewContainer: {
+        flexGrow: 1,
+        flexShrink: 1,
+        paddingHorizontal: moderateScale(20),
     },
     textContainer: {
+        width: "100%",
         flexDirection: "row",
         alignSelf: "flex-start",
     },
@@ -42,15 +59,28 @@ export default StyleSheet.create({
         fontSize: moderateScale(20),
         padding: scale(8),
     },
-    content: {
+    contentNo: {
+        flex: 1,
         textAlign: "left",
         alignSelf: "flex-start",
         fontFamily: 'circular-std-medium',
         fontSize: moderateScale(18),
         padding: scale(8),
     },
-    space: {
-        padding: moderateScale(8),
+    content: {
+        flex: 10,
+        textAlign: "left",
+        alignSelf: "flex-start",
+        fontFamily: 'circular-std-medium',
+        fontSize: moderateScale(18),
+        padding: scale(8),
+    },
+    space8: {
+        paddingVertical: moderateScale(8),
+        paddingHorizontal: scale(32),
+    },
+    space16: {
+        padding: moderateScale(24),
     },
     column1: {
         flex: 2,

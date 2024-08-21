@@ -7,14 +7,14 @@ const windowHeight = Dimensions.get("window").height;
 export default StyleSheet.create({
     container: {
         flex: 1,
+        flexDirection: "column",
         position: "relative",
-        justifyContent: "center",
+        justifyContent: "space-evenly",
         alignItems: "center",
         paddingHorizontal: verticalScale(32),
         paddingVertical: verticalScale(16),
     },
     textContainer: {
-        flex: 20,
         justifyContent: "center",
         alignItems: "center",
     },
@@ -24,19 +24,19 @@ export default StyleSheet.create({
         fontSize: moderateScale(20),
         color: "#707070",
     },
-    shareButtonContainer: {
-        flex: 15,
-        flexDirection: "row",
-        justifyContent: "space-evenly",
-        alignItems: "center",
-        width: "100%",
-        paddingHorizontal: verticalScale(32),
-        marginBottom: verticalScale(32),
-    },
+    // shareButtonContainer: {
+    //     flex: 15,
+    //     flexDirection: "row",
+    //     justifyContent: "space-evenly",
+    //     alignItems: "center",
+    //     width: "100%",
+    //     paddingHorizontal: verticalScale(32),
+    //     marginBottom: verticalScale(32),
+    // },
     buttonContainer: {
-        flex: 10,
         justifyContent: "center",
         alignItems: "center",
         width: "100%",
-    }
+    },
+    
 });

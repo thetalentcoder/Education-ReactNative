@@ -21,7 +21,7 @@ export default StyleSheet.create({
     position: "absolute",
     top: - scale(160),
     left: scale(168),
-    width: scale(350),
+    width: '90%',
     height: scale(350),
     borderRadius: scale(350),
     transform: [

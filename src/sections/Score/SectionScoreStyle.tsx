@@ -11,6 +11,7 @@ export default StyleSheet.create({
         justifyContent: "space-evenly",
         alignItems: "center",
         paddingHorizontal: 16,
+        paddingVertical: 72,
     },
     starContainer: {
         zIndex: -1,

@@ -14,12 +14,14 @@ type Props = {
     currentProbNumber: number;
     currentLife: number;
     currentScore: number;
+    previousBest: number;
 }
 
 export default function SectionStatus({
     currentProbNumber = 0,
     currentLife = 0,
     currentScore = 0,
+    previousBest = 0,
 }: Props) {
 
     const [life, setLife] = useState(Array()); 
@@ -34,11 +36,15 @@ export default function SectionStatus({
                     <FontAwesome5 name="star" size={moderateScale(20)} color="white" />
                     <Text style={styles.statusText}>&nbsp;{`${currentProbNumber}`}</Text>
                 </View>
+                <View style={styles.column3}>
+                    <FontAwesome5 name="star" size={moderateScale(20)} color="white" />
+                    <Text style={styles.statusText}>&nbsp;{`${previousBest}`}</Text>
+                </View>
                 <View style={styles.column2}>
                     <FontAwesome5 name="trophy" size={moderateScale(18)} color="white" />
                     <Text style={styles.statusText}>&nbsp;{` ${formatNumberWithCommas(currentScore)}`}</Text>
                 </View>
-                <View style={styles.column3}>
+                <View style={styles.column4}>
                     {
                         life.map((life, index) => (
                         <AntDesign

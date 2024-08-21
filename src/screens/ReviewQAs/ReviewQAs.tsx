@@ -10,10 +10,12 @@ import styles from "./ReviewQAsStyle";
 import { logout } from "src/actions/auth/auth";
 import { PTFEButton } from "src/components/button";
 import { moderateScale, scale } from "src/config/scale";
-import SectionStatus from "src/sections/Question/SectionStatus";
+import SectionStatus from "src/sections/Study/SectionStatus";
 import SectionReviewContent from "src/sections/ReviewQAs/SectionReviewContent";
 
 import { Entypo } from '@expo/vector-icons';
+import SectionHeader from "src/sections/Common/SectionHeader";
+import { useSelector } from "react-redux";
 
 type Props = {
     route?: any;
@@ -24,6 +26,8 @@ export default function ReviewQAs({
     route, 
     navigation,
 }: Props) {
+    const { user } = useSelector((state) => state.userData);
+
     const { quizData, score } = route.params;
     const scrollRef = useRef<ScrollView>(null);
 
@@ -34,8 +38,8 @@ export default function ReviewQAs({
     const [contentVerticalOffset, setContentVerticalOffset] = useState(0);
     const CONTENT_OFFSET_THRESHOLD = 300;
     
-    const gotoDashboard = useCallback(() => {
-        navigation.navigate("Home");
+    const goback = useCallback(() => {
+        navigation.goBack();
     }, [navigation]);
 
     const onSignOut = useCallback(async () => {
@@ -60,13 +64,14 @@ export default function ReviewQAs({
                 }}
             >
                 <View style={styles.headerContainer}>
-                    <SectionHeaderX title="Review Questions" goBack={gotoDashboard}/>
+                    <SectionHeader title="Review Questions" goBack={goback}/>
                 </View>
                 <View style={styles.statusContainer}>
                     <SectionStatus
-                        currentProbNumber={20}
-                        totalProbCount={20}
+                        currentProbNumber={quizData?.length}
+                        totalProbCount={quizData?.length}
                         currentScore={score}
+                        topics={user.selectedCategories}
                     />
                 </View>
                 <View style={styles.mainContent}>

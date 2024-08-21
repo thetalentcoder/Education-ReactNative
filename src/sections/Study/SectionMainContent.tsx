@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState, useRef } from "react";
+import React, { useCallback, useEffect, useState, useRef, useLayoutEffect } from "react";
 import { View, Text, ScrollView } from "react-native";
 import { useFocusEffect } from '@react-navigation/native';
 import { useNavigation } from "@react-navigation/native";
@@ -24,22 +24,30 @@ import { useSelector } from "react-redux";
 
 type Props = {
     quizID: string[],
+    numberOfQuestions: number;
     refresh: boolean,
+    nextQuestion: boolean,
     setCurrentProbNumber: (newValue: number) => void;
     setTotalProbCount: (newValue: number) => void;
     setDataLoadedFlag: (newValue: boolean) => void;
     setCurrent: (newValue: number) => void;
-    topics?: string;
+    topics?: string[];
+    scrollRef: any;
+    setCurrentQuizState: (newValue: number) => void;
 };
 
 export default function SectionMainContent({
     quizID,
+    numberOfQuestions,
     refresh,
+    nextQuestion,
     setCurrentProbNumber,
     setTotalProbCount,
     setDataLoadedFlag,
     setCurrent,
-    topics = "",
+    topics = [],
+    scrollRef,
+    setCurrentQuizState,
 }: Props) {
     const navigation: any = useNavigation();
 
@@ -70,10 +78,30 @@ export default function SectionMainContent({
     const [hide, setHide] = useState(true);
 
     const [selected, setSelected] = useState(false);
-
     const [update, forceUpdate] = useState(0);
 
-    const scrollRef = useRef<ScrollView>(null);
+    const [next, setNext] = useState(false);
+
+    useFocusEffect(
+        React.useCallback(() => {
+            if (next != true)
+                setNext(true);
+        }, [])
+    );
+
+    useFocusEffect(
+        React.useCallback(() => {
+            console.log("Next Question: " + nextQuestion);
+            console.log("Current Prob: " + currentProb);
+            console.log("Current Next: " + next);
+            setTimeout(() => {
+                if (nextQuestion == true && next == true) {
+                    setNext(false);
+                    NextProb()
+                }
+            }, 100);
+        }, [nextQuestion, currentProb, next])
+    );
 
     useEffect(() => {
         console.log(refresh);
@@ -102,7 +130,7 @@ export default function SectionMainContent({
         setSelected(false);
 
         fetchQuizDetail();
-    }, []);
+    }, [quizID, refresh]);
 
     useFocusEffect(
         React.useCallback(() => {
@@ -111,7 +139,7 @@ export default function SectionMainContent({
     );
 
     const fetchQuizDetail = useCallback(async () => {
-        const data = await getAllQuestions(quizID);
+        const data = await getAllQuestions(quizID, 1, numberOfQuestions > 0 ? numberOfQuestions : 20);
         // await sleep(500);
         // console.log("Loaded");
 
@@ -139,6 +167,7 @@ export default function SectionMainContent({
                 showCorrectAnswer();
                 forceUpdate(1 - update);
                 setQuizState(2);
+                setCurrentQuizState(2);
                 break;
             case 0:
                 setSelected(false);
@@ -171,7 +200,7 @@ export default function SectionMainContent({
 
 
     const showCorrectAnswer = useCallback(() => {
-        console.log("Show Correct Answer");
+        // console.log("Show Correct Answer");
     }, []);
 
 
@@ -207,7 +236,7 @@ export default function SectionMainContent({
                         setTickShow(true);
                         setHideTick(false);
 
-                        setCurrentScore(currentScore + 1);
+                        // setCurrentScore(currentScore + 1);
                         setCurrent(currentScore + 1);
                     }
                 }
@@ -223,20 +252,14 @@ export default function SectionMainContent({
     const updateSubmitData = useCallback(() => {
         let data = submitData;
         let newItem = {
-            question: "",
-            answer: "",
+            question: problem,
+            answers: "",
+            answerExplanation: rationale,
         };
-
-        for (const answer of answers) {
-            if (answer.enabled == true) {
-                newItem.question = quizData.questions[currentProb]?._id;
-                newItem.answer = answer.content;
-            }
-        }
-
+        newItem.answers = answers;
         data.push(newItem);
         setSubmitData(data);
-    }, [quizData, currentProb, answers, submitData, setSubmitData]);
+    }, [quizData, problem, rationale, currentProb, answers, submitData, setSubmitData]);
 
 
     const onSelect = useCallback((idx: number) => {
@@ -260,7 +283,9 @@ export default function SectionMainContent({
 
 
     const NextProb = useCallback(() => {
+        updateSubmitData();
         setQuizState(0);
+        setCurrentQuizState(0);
         if (currentProb >= probCount - 1) {
             const hasTakenQuizToday = checkIfUserHastakenQuizToday(user)
             setTestEnded(true);
@@ -283,23 +308,20 @@ export default function SectionMainContent({
         }
         else {
             setCurrentProb(currentProb + 1);
+            scrollRef.current?.scrollTo({
+                y: 0,
+                animated: true,
+            });
         }
-
-        scrollRef.current?.scrollTo({
-            y: 0,
-            animated: true,
-        });
     }, [navigation, currentProb, probCount, submitData, currentScore, setTestEnded, setCurrentProb]);
 
 
     return (
         <View style={styles.container}>
-            <TickAnim onTrigger={tickShow} setOnTrigger={setTickShow} hide={hideTick} setHide={setHideTick} CallBack={() => { setQuizState(1) }} />
-            <CloseAnim onTrigger={closeShow} setOnTrigger={setCloseShow} hide={hide} setHide={setHide} CallBack={() => { setQuizState(1) }} />
-            <ScrollView
+            <TickAnim onTrigger={tickShow} setOnTrigger={setTickShow} hide={hideTick} setHide={setHideTick} CallBack={() => { setQuizState(1); setCurrentQuizState(1); }} />
+            <CloseAnim onTrigger={closeShow} setOnTrigger={setCloseShow} hide={hide} setHide={setHide} CallBack={() => { setQuizState(1); setCurrentQuizState(1); }} />
+            <View
                 style={styles.innerContainer}
-                ref={scrollRef}
-                contentContainerStyle={{ flexGrow: 1 }}
             >
                 <View style={styles.quizContainer}>
                     <Text style={styles.questionText}>
@@ -357,7 +379,7 @@ export default function SectionMainContent({
                         }
                     </View>
                 </View>
-            </ScrollView>
+            </View>
         </View>
     )
 }

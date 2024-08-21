@@ -96,6 +96,6 @@ const CustomKeyboardAvoidingView = ({ children, ...scrollViewProps }: Props) => 
 export default CustomKeyboardAvoidingView;
 
 const styles = StyleSheet.create({
-  keyboardAvoidingView: { flex: 1, flexDirection: 'column', justifyContent: 'center' },
+  keyboardAvoidingView: { flex: 1, backgroundColor: "white", flexDirection: 'column', justifyContent: 'center' },
   defaultContentContainerStyle: { flex: 0 },
 });

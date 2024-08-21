@@ -7,6 +7,7 @@ import { PTFEButton, PTFESquareButton } from "src/components/button";
 import { scale } from "src/config/scale";
 
 import { quizModes } from "src/constants/consts";
+import globalStyle from "src/theme/globalStyle";
 
 type Props = {
     quizMode?: string,
@@ -25,13 +26,14 @@ export default function SectionShareScore({
     
     return (
         <View style={styles.container}>
+            <View style={globalStyle.margin16}/>
             <View style={styles.textContainer}>
                 <Text style={styles.content}>
-                    {`Share your success with all your friends\n` + 
+                    {`Share your success with all your friends ` + 
                     `and invite them to join and learn.`}
                 </Text>
             </View>
-            <View style={styles.shareButtonContainer}>
+            {/* <View style={styles.shareButtonContainer}>
                 <PTFESquareButton
                     icon="telegram-plane"
                     size={scale(56)}
@@ -50,22 +52,26 @@ export default function SectionShareScore({
                     color="#FF6DAA"
                     onClick={() => {}}
                 />
-            </View>
+            </View> */}
+            <View style={globalStyle.margin16}/>
             <View style={styles.buttonContainer}>
                 <PTFEButton
                     type="rounded"
-                    text={ quizMode == quizModes.classicMode ? "REVIEW YOUR QUESTIONS" : "SHARE" }
+                    text={"SHARE YOUR SUCCESS"}
+                    color="#87C6E8"
+                    onClick={() => {}}
+                />
+                <View style={globalStyle.margin8}/>
+                <PTFEButton
+                    type="rounded"
+                    text={"REVIEW YOUR QUESTIONS"}
                     color="#FF675B"
-                    onClick={ quizMode == quizModes.classicMode 
-                        ? () => {
-                            navigation.navigate("ReviewQA", {
-                                quizData: quizData,
-                                score: score,
-                            });
-                        } 
-                        : () => {
-
-                        }}
+                    onClick={() => {
+                        navigation.navigate("ReviewQA", {
+                            quizData: quizData,
+                            score: score,
+                        });
+                    }}
                 />
             </View>
         </View>

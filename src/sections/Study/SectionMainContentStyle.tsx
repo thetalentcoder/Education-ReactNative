@@ -17,16 +17,17 @@ export default StyleSheet.create({
         position: 'relative',
         paddingHorizontal: scale(32),
     },
+    
     timerContainer: {
         position: "absolute",
 
         justifyContent: 'center',
         alignItems: 'center',
 
-        top: - verticalScale(45),
-        left: windowWidth / 2 - verticalScale(45),
-        width: verticalScale(90),
-        height: verticalScale(90),
+        top: - verticalScale(44),
+        left: windowWidth / 2 - verticalScale(44),
+        width: verticalScale(88),
+        height: verticalScale(88),
         borderRadius: verticalScale(45),
 
         backgroundColor: "white",
@@ -41,6 +42,7 @@ export default StyleSheet.create({
         marginTop: verticalScale(16),
     },
     questionText: {
+        textAlign: "left",
         fontFamily: 'segoe-ui',
         fontSize: moderateScale(18),
         color: "#707070",

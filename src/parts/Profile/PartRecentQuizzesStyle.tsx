@@ -59,7 +59,7 @@ export default StyleSheet.create({
         justifyContent: "flex-start",
         alignItems: "flex-start",
     },
-    row: {
+    column: {
         flexDirection: "column",
         width: "100%",
     },

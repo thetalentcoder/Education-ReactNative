@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from "react";
-import { ScrollView, TouchableOpacity, View, Text, Image, Modal, ActivityIndicator } from "react-native";
+import { ScrollView, TouchableOpacity, View, Text, Image, Modal, ActivityIndicator, Platform, Alert } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { LinearGradient } from "expo-linear-gradient";
 
@@ -8,14 +8,9 @@ import styles from "./AvatarUploadStyle";
 import { PTFEButton } from "src/components/button";
 import { scale } from "src/config/scale";
 import { useDispatch, useSelector } from "react-redux";
-import SectionHeaderSetting from "src/sections/Common/SectionHeaderSetting";
+import SectionHeaderX from "src/sections/Common/SectionHeaderX";
 import * as ImagePicker from 'expo-image-picker';
-// import {
-//     ref,
-//     uploadBytes,
-//     getDownloadURL,
-// } from "@firebase/storage";
-// import { storage } from "src/config/firebase-config";
+import storage from '@react-native-firebase/storage';
 import { getMe, updateUser } from "src/actions/user/user";
 import { updateAvatar } from "src/redux/userSlice";
 
@@ -25,10 +20,12 @@ export default function AvatarUpload() {
 
     const navigation: any = useNavigation();
     const [selectedImage, setSelectedImage] = useState("");
-    const [uploading, setUploading] = useState(false);
     const [uploadSuccess, setUploadSuccess] = useState(false);
 
-    const imageSource = selectedImage ? { uri: selectedImage } : { uri: user.avatarUrl };
+    const [uploading, setUploading] = useState(false);
+    const [transferred, setTransferred] = useState(0);
+
+    const imageSource = selectedImage ? { uri: selectedImage } : { uri: user?.avatarUrl };
 
     const gotoProfile = useCallback(() => {
         setUploadSuccess(false);
@@ -50,32 +47,52 @@ export default function AvatarUpload() {
             alert('You did not select any image.');
         }
     };
-/*
-    const updateUserAvatar = async () => {
+
+    const uploadImage = async () => {
+        /*
+        const uri = selectedImage;
+        const filename = uri.substring(uri.lastIndexOf('/') + 1);
+        const uploadUri = Platform.OS === 'ios' ? uri.replace('file://', '') : uri;
+
         setUploading(true);
+        setTransferred(0);
+
+        const task = storage()
+          .ref(filename)
+          .putFile(uploadUri);
+        // set progress state
+        task.on('state_changed', snapshot => {
+          setTransferred(
+            Math.round(snapshot.bytesTransferred / snapshot.totalBytes) * 10000
+          );
+        });
         try {
-            const response = await fetch(selectedImage);
-            const blob = await response.blob();
-
-            const storageRef = ref(storage, `avatar/${Date.now()}`);
-            await uploadBytes(storageRef, blob);
-            const downloadURL = await getDownloadURL(storageRef);
-            await updateUser(user._id, downloadURL)
-
-            console.log(downloadURL);
-            console.log("done");
-
-            setUploading(false);
-            setUploadSuccess(true);
-
-            dispatch(updateAvatar(downloadURL));
-        } catch (error) {
-            setUploading(false);
-            console.log(error);
-            alert('Upload failed');
+            await task;
+        } catch (e) {
+            console.error(e);
+            setUploadSuccess(false);
         }
+        setUploading(false);
+        setUploadSuccess(true);
+        Alert.alert(
+          'Photo uploaded!',
+          'Your photo has been uploaded to Firebase Cloud Storage!'
+        );
+        setSelectedImage("");
+        */
+      };
+
+    const updateUserAvatar = async () => {
+        // setUploading(true);
+        // try {
+            
+        // } catch (error) {
+        //     setUploading(false);
+        //     console.log(error);
+        //     alert('Upload failed');
+        // }
     }
-*/
+
 
     return (
         <View style={styles.container}>
@@ -87,24 +104,26 @@ export default function AvatarUpload() {
             >
             </LinearGradient>
             <View style={styles.headerContainer}>
-                <SectionHeaderSetting title="Upload Photo" goBack={gotoProfile} />
+                <SectionHeaderX title="Upload Photo" goBack={gotoProfile} />
             </View>
-            <View style={styles.imageContainer}>
-                <Image source={imageSource} style={styles.image} />
-            </View>
-            <View style={styles.buttonContainer}>
-                <PTFEButton
-                    text="Choose Photo"
-                    type="rounded"
-                    color="#FF675B"
-                    onClick={pickImageHandler}
-                />
-                <PTFEButton
-                    text="Use this photo"
-                    type="rounded"
-                    color="#87C6E8"
-                    onClick={() => {}/*updateUserAvatar*/}
-                />
+            <View style={styles.innerContainer}>
+                <View style={styles.imageContainer}>
+                    <Image source={imageSource} style={styles.image} />
+                </View>
+                <View style={styles.buttonContainer}>
+                    <PTFEButton
+                        text="Choose Photo"
+                        type="rounded"
+                        color="#FF675B"
+                        onClick={pickImageHandler}
+                    />
+                    <PTFEButton
+                        text="Use this photo"
+                        type="rounded"
+                        color="#87C6E8"
+                        onClick={uploadImage}
+                    />
+                </View>
             </View>
             <Modal
                 transparent={true}

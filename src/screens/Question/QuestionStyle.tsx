@@ -1,4 +1,5 @@
 import { StyleSheet, Dimensions } from "react-native";
+import { moderateScale, scale, verticalScale } from "src/config/scale";
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
@@ -8,7 +9,7 @@ export default StyleSheet.create({
         flex: 1,
         justifyContent: 'flex-start',
         alignItems: 'center',
-        backgroundColor: "#FF675BC0",
+        backgroundColor: "#FFFFFF",
     },
     upperGradientContainer: {
         position: "absolute",
@@ -16,11 +17,11 @@ export default StyleSheet.create({
         height: windowHeight * 32 / 93,
     },
     headerContainer: {
-        flex: 8,
+        height: windowHeight * 8 / 93,
         width: "100%",
     },
     statusContainer: {
-        flex: 15,
+        height: windowHeight * 15 / 93,
         width: "100%",
     },
     mainContent: {
@@ -30,5 +31,26 @@ export default StyleSheet.create({
         borderTopLeftRadius: 32,
         borderTopRightRadius: 32,
         backgroundColor: "#FFFFFF"   
+    },
+    modalContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'rgba(0,0,0,0.5)',
+    },
+    modalContent: {
+        width: scale(350),
+        backgroundColor: 'white',
+        padding: moderateScale(20),
+        borderRadius: moderateScale(8),
+        alignItems: 'center',
+    },
+    space: {
+        width: "100%",
+        marginVertical: verticalScale(20),
+    },
+    space1: {
+        width: "100%",
+        marginVertical: verticalScale(12),
     }
 });

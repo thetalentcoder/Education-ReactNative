@@ -5,11 +5,13 @@ import { Video, ResizeMode } from 'expo-av';
 import SectionCategory from "src/sections/Category/SectionCategory";
 import styles from "./CategoryStyle";
 import SectionHeader from "src/sections/Common/SectionHeader";
+import SectionHeaderX from "src/sections/Common/SectionHeaderX";
 import { LinearGradient } from "expo-linear-gradient";
 import { gameModeString } from "src/constants/consts";
 import { useFocusEffect } from "@react-navigation/native";
 import { user_test_data } from "assets/@mockup/data";
 import { useVideo } from "src/hooks/useVideo";
+
 
 type Props = {
     route?: any,
@@ -52,7 +54,7 @@ export default function Category({
             >
             </LinearGradient>
             <View style={styles.headerContainer}>
-                <SectionHeader 
+                <SectionHeaderX 
                     title={gameModeString[gameMode]}
                     goBack={gotoDashboard}
                 />
@@ -72,7 +74,7 @@ export default function Category({
                         onPlaybackStatusUpdate={status => setStatus(() => status)}
                     />
                 }
-                </View>
+            </View>
             <View style={styles.sectionContentSlider}>
                 <SectionCategory 
                     gameMode={gameMode} 

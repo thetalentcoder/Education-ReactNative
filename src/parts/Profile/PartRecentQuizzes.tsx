@@ -4,6 +4,7 @@ import { View, Text } from "react-native";
 import styles from "./PartRecentQuizzesStyle";
 import { PTFELinkButton } from "src/components/button";
 import { useSelector } from "react-redux";
+import { useNavigation } from "@react-navigation/native";
 
 const data = [
     {
@@ -53,7 +54,15 @@ const data = [
 export default function PartRecentQuizzes() {
     const { user } = useSelector((state) => state.userData);
 
-    console.log(user.gamehistory);
+    const navigation: any = useNavigation();
+
+    const gotoRecentQuizzes = () => {
+        navigation.navigate('Profile', {
+            screen: 'RecentQuizzes',
+        });
+    }
+
+    console.log(user?.gamehistory);
 
     return (
         <View style={styles.container}>
@@ -65,11 +74,11 @@ export default function PartRecentQuizzes() {
                     text="View All >"
                     color="#87C6E8"
                     underlined={false}
-                    onClick={() => { }}
+                    onClick={gotoRecentQuizzes}
                 />
             </View>
             {
-                user.gamehistory.slice(-5).reverse().map((col, index) => {
+                user?.gamehistory.slice(-5).reverse().map((col, index) => {
                     let color = ''
                     switch (col.title) {
                         case "Classic Mode":
@@ -95,9 +104,9 @@ export default function PartRecentQuizzes() {
                                 <Text style={styles.titleText}>
                                     {col.title}
                                 </Text>
-                                <View style={styles.row}>
+                                <View style={styles.column}>
                                     <Text style={styles.smallText}>
-                                        {`${col.numberOfQuestions} Question`}
+                                        { col.numberOfQuestions == 1 ? `${col.numberOfQuestions} Question` : `${col.numberOfQuestions} Questions`}
                                     </Text>
                                     <Text style={styles.smallText} numberOfLines={1} ellipsizeMode="tail">
                                         {col.category}

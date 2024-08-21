@@ -14,7 +14,7 @@ import { getQuizDataDetail } from "src/actions/quiz/quiz";
 import { moderateScale, scale, verticalScale } from "src/config/scale";
 import { PTFELoading } from "src/components/loading";
 import { quiz_test_data } from "assets/@mockup/data";
-import { gameModeString, survivalLife } from "src/constants/consts";
+import { gameModeString, survivalLife, timeLimitPerQuestion } from "src/constants/consts";
 
 import TickAnim from "src/parts/Question/TickAnim";
 import CloseAnim from "src/parts/Question/CloseAnim";
@@ -33,6 +33,8 @@ type Props = {
     setCurrentLife: (newValue: number) => void;
     setCurrent: (newValue: number) => void;
     setTotalProbCount: (newValue: number) => void;
+    timerPaused: boolean;
+    scrollRef: any;
 };
 
 export default function SectionMainContent({
@@ -42,7 +44,9 @@ export default function SectionMainContent({
     setDataLoadedFlag,
     setCurrentLife,
     setCurrent,
-    setTotalProbCount
+    setTotalProbCount,
+    timerPaused,
+    scrollRef,
 }: Props) {
     const navigation: any = useNavigation();
 
@@ -77,9 +81,7 @@ export default function SectionMainContent({
 
     const [selected, setSelected] = useState(false);
 
-    const scrollRef = useRef<ScrollView>(null);
-
-    const timeLimitPerQuestion = 60000
+    const [paused, setPaused] = useState(false);
 
     useEffect(() => {
         if (quizID == undefined) {
@@ -157,7 +159,7 @@ export default function SectionMainContent({
 
     useEffect(() => {
         const intervalId = setInterval(() => {
-            if (testEnded) {
+            if (paused || testEnded) {
                 clearInterval(intervalId);
             }
             else {
@@ -173,8 +175,11 @@ export default function SectionMainContent({
         return () => {
             clearInterval(intervalId);
         }
-    }, [remainTime, testEnded, dataLoaded]);
+    }, [remainTime, testEnded, dataLoaded, paused]);
 
+    useEffect(() => {
+        setPaused(timerPaused);
+    }, [timerPaused]);
 
     const NextProblem = useCallback(() => {
         updateSubmitData();
@@ -197,7 +202,7 @@ export default function SectionMainContent({
             setHideTick(false);
 
             const newScore: number = Math.floor(
-                currentScore + (10 + remainTime / 1000) * (user?.currentMultiplier == undefined ? 1 : user?.currentMultiplier));
+                currentScore + (100 + remainTime / 1000) * (user?.currentMultiplier == undefined ? 1 : user?.currentMultiplier));
             setCurrentScore(newScore);
             setCurrent(newScore);
         }
@@ -217,7 +222,7 @@ export default function SectionMainContent({
     }, [quizData, problem, rationale, currentProb, answers, submitData, setSubmitData]);
 
     const NextProb = useCallback(() => {
-        if (currentProb + 1 == quizData?.questions?.length) {
+        if (currentProb + 1 >= quizData?.questions?.length) {
             setTestEnded(true);
             const keys = Object.keys(quizModes);
             const index = keys.indexOf('classicMode');
@@ -244,17 +249,16 @@ export default function SectionMainContent({
                     category: "All Questions"
                 });
             }
-
-
         }
+        else {
+            setCurrentProb(currentProb + 1);
+            setSelected(false);
 
-        setCurrentProb(currentProb + 1);
-        setSelected(false);
-
-        scrollRef.current?.scrollTo({
-            y: 0,
-            animated: true,
-        });
+            scrollRef.current?.scrollTo({
+                y: 0,
+                animated: true,
+            });
+        }
     }, [navigation, setTestEnded, currentProb, currentScore, survivalLife, setCurrentProb, setSelected]);
 
 
@@ -297,7 +301,7 @@ export default function SectionMainContent({
                     }
                 </AnimatedCircularProgress>
             </View>
-            <ScrollView style={styles.innerContainer} ref={scrollRef}>
+            <View style={styles.innerContainer}>
                 <View style={styles.quizContainer}>
                     <ScrollView>
                         <Text style={styles.questionText}>
@@ -330,7 +334,7 @@ export default function SectionMainContent({
                         onClick={NextProblem}
                     />
                 </View>
-            </ScrollView>
+            </View>
         </View>
     )
 }

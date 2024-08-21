@@ -56,7 +56,11 @@ export default function SectionUserInfo({
                     </View>
                 </TouchableOpacity>
                 <View style={styles.scoreContainer}>
-                    <TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={async () => {
+                            navigation.navigate("Points");
+                        }}
+                    >
                         <Text style={styles.scoreText}>
                             <FontAwesome5 name="trophy" size={moderateScale(14)} color="white" />
                             &nbsp;{formatNumberWithCommas(score)}

@@ -1,12 +1,22 @@
 import React from "react";
-import { View, Text } from "react-native";
+import { View, Text, Linking } from "react-native";
 import { LinearGradient } from 'expo-linear-gradient';
-
+import Toast from 'react-native-simple-toast';
 import { PTFELinkButton } from "src/components/button";
 import texts from "src/config/texts";
 import styles from "./SlideStyle"
 
-export default function Slide1() {
+type Props = {
+    title: string,
+    linkButtonText: string,
+    url: string,
+}
+
+export default function Slide1({
+    title, 
+    linkButtonText,
+    url
+} :Props) {
     return (
         <View style={styles.container}>
             <LinearGradient
@@ -16,14 +26,21 @@ export default function Slide1() {
                 style={styles.linearGradient}
             >
                 <Text style={styles.text_title}>
-                    {texts.txt_screen_dashboard_card}
+                    {title}
                 </Text>
 
                 <PTFELinkButton
-                    text="Explore Now ->"
+                    text={linkButtonText}
                     color="yellow"
                     underlined={false}
-                    onClick={() => {}}
+                    onClick={() => {
+                        if (url == undefined) {
+                            Toast.show(`Could not redirect to the external web page. (Target URL is empty)`, 5000);
+                        }
+                        else {
+                            Linking.openURL(url);
+                        }
+                    }}
                 />
             </LinearGradient>
         </View>

@@ -19,12 +19,18 @@ const CustomDropdown = ({ options, onSelect, title, page }: Props) => {
   const dropDownRef = useRef(null);
 
   useEffect(() => {
-    setDropDownList(options);
+    setDropDownList([{ title: 'All Categories', value: 'all', isCategory: true, isSelected: true }, ...options]);
 
     let selectedSubCategories;
     selectedSubCategories = getSelectedSubcategories();
     onSelect(selectedSubCategories);
   }, [options]);
+
+  useEffect(() => {
+    let selectedSubCategories;
+    selectedSubCategories = getSelectedSubcategories();
+    onSelect(selectedSubCategories);
+  }, [dropDownList]);
 
   const handleSelect = (value: any) => {
     setSelectedValue(value);
@@ -41,24 +47,41 @@ const CustomDropdown = ({ options, onSelect, title, page }: Props) => {
     const item = updatedList[index];
     item.isSelected = !item.isSelected;
 
-    if (item.subCategories) {
-      item.subCategories = item.subCategories.map((sub: any) => ({
-        ...sub,
-        isSelected: item.isSelected,
-      }));
-
-      let selectedItems = 0;
+    if (item.value === 'all') {
       updatedList.forEach((item) => {
-        if (item.subCategories) {
-          item.subCategories.forEach((subItem: any) => {
-            if (subItem.isSelected)
-              selectedItems++;
-          })
-        }
-      })
+        item.isSelected = updatedList[0].isSelected
+        item.subCategories?.forEach((subItem: any) => {
+          subItem.isSelected = updatedList[0].isSelected;
+        })
+      });
 
-      if (selectedItems == 0 && !item.subCategories.some((sub: any) => sub.isSelected)) {
-        item.subCategories[0].isSelected = true;
+      if (item.isSelected == false) {
+        let selectedItems = 0;
+        updatedList.forEach((item) => {
+          if (item.subCategories) {
+            item.subCategories?.forEach((subItem: any) => {
+              if (subItem.isSelected)
+                selectedItems ++;
+            })
+          }
+        })
+      }
+    } else {
+      if (item.subCategories) {
+        item.subCategories = item.subCategories.map((sub: any) => ({
+          ...sub,
+          isSelected: item.isSelected,
+        }));
+
+        let selectedItems = 0;
+        updatedList.forEach((item) => {
+          if (item.subCategories) {
+            item.subCategories.forEach((subItem: any) => {
+              if (subItem.isSelected)
+                selectedItems++;
+            })
+          }
+        })
       }
     }
 
@@ -82,29 +105,47 @@ const CustomDropdown = ({ options, onSelect, title, page }: Props) => {
       }
     })
 
-    // Ensure at least one subcategory is checked
-    if (selectedItems == 0 && !mainItem.subCategories.some((sub: any) => sub.isSelected)) {
-      subItem.isSelected = true; // Revert change if it results in no subcategories being checked
-    }
-
     setDropDownList(updatedList);
   };
 
-  useEffect(() => {
-    let selectedSubCategories;
-    selectedSubCategories = getSelectedSubcategories();
-    onSelect(selectedSubCategories);
-  }, [dropDownList]);
-
-  // Puts all the titles of the selected subcategories in an array
   const getSelectedSubcategories = () => {
-    return dropDownList.flatMap((item: { subCategories: any[] }) =>
+    const selectedSubcategories = dropDownList.flatMap((item: { subCategories: any[] }) =>
       item.subCategories
         ? item.subCategories
           .filter((sub) => sub.isSelected)
           .map((sub) => sub.title)
         : []
     );
+    return selectedSubcategories;
+  };
+
+  const getAllSubCategoriesCount = () => {
+    const categoryList = [...dropDownList];
+
+    let itemCount = 0;
+    categoryList.forEach((item) => {
+      if (item.subCategories) {
+        item.subCategories.forEach((subItem: any) => {
+            itemCount++;
+        })
+      }
+    })
+
+    return itemCount;
+  }
+
+  const getSelectedCount = () => {
+    const selectedSubcategories = getSelectedSubcategories();
+    const subCategoriesCount = getAllSubCategoriesCount();
+    if (selectedSubcategories.length === 0) {
+      return title;
+    } else if (selectedSubcategories.length === subCategoriesCount) {
+      return "All Categories Selected";
+    } else if (selectedSubcategories.length === 1) {
+      return "1 Category Selected";
+    } else {
+      return `${selectedSubcategories.length} Categories Selected`;
+    }
   };
 
   return (
@@ -122,7 +163,7 @@ const CustomDropdown = ({ options, onSelect, title, page }: Props) => {
           return (
             <View style={styles.dropdownButtonStyle}>
               <Text style={styles.dropdownButtonTxtStyle}>
-                {(selectedItem && selectedItem.title) || title}
+                {getSelectedCount()}
               </Text>
               <FontAwesome5
                 name="angle-down"

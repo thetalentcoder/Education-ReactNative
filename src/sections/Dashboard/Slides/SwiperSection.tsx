@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Dimensions, StyleSheet, View, Text } from "react-native";
 import Swiper from "react-native-swiper";
 
@@ -6,40 +6,67 @@ import Slide1 from "./Slide1";
 import Slide2 from "./Slide2";
 import Slide3 from "./Slide3";
 import { moderateScale, scale, verticalScale } from "src/config/scale";
+import { getAllSliderCards } from "src/actions/slidercard/slidercard";
 
-const slides = [
-    { id: 1, text: 'Slide 1' },
-    { id: 2, text: 'Slide 2' },
-    { id: 3, text: 'Slide 3' },
-];
-
-const windowHeight = Dimensions.get("window").height;
+// const slides = [
+//     { id: 1, text: 'Slide 1' },
+//     { id: 2, text: 'Slide 2' },
+//     { id: 3, text: 'Slide 3' },
+// ];
 
 export default function SwiperSection() {
+    const [slides, setSlides] = useState([]);
+
+    useEffect(() => {
+        getAllSliderCards()
+            .then((res) => {
+                console.log("Slider Cards");
+                console.log(res.slidercards);
+                setSlides(res.slidercards.map((item, index) => {
+                    return { 
+                        id: item.id, 
+                        title: item.title, 
+                        linkText: item.linkText,
+                        url: item.url,
+                    };
+                }));
+            })
+            .catch((error) => {
+                console.log(error)
+            })
+            .finally(() => {
+
+            })
+    }, []);
     return (
         <>
             <View style={styles.container}>
-                <Swiper
-                    loop={true}
-                    dot={<View style={styles.dot} />}
-                    activeDot={<View style={styles.activeDot} />}
-                    paginationStyle={{ bottom: 0 }}
-                    index={1}
-                    autoplayDirection={true}
-                    scrollViewStyle={{ overflow: 'visible' }}
-                    removeClippedSubviews={false}
-                    containerStyle={{ width: scale(340) }}
-                    loadMinimal={false}
-                    loadMinimalLoader={<Text>Loading</Text>}
-                >
-                    {slides.map((slide) => (
-                        <View key={slide.id}>
-                            {slide.id == 1 ? <Slide1 /> :
-                                slide.id == 2 ? <Slide2 /> :
-                                    slide.id == 3 ? <Slide3 /> : <></>}
-                        </View>
-                    ))}
-                </Swiper>
+                {
+                    slides.length > 0 && 
+                    <Swiper
+                        loop={true}
+                        dot={<View style={styles.dot} />}
+                        activeDot={<View style={styles.activeDot} />}
+                        paginationStyle={{ bottom: 0 }}
+                        index={1}
+                        autoplayDirection={true}
+                        scrollViewStyle={{ overflow: 'visible' }}
+                        removeClippedSubviews={false}
+                        containerStyle={{ width: scale(340) }}
+                        loadMinimal={false}
+                        loadMinimalLoader={<Text>Loading</Text>}
+                    >
+                        {slides?.map((slide: any, index: number) => (
+                            <View key={slide.id + index}>
+                                <Slide1 
+                                    title={slide.title}
+                                    linkButtonText={slide.linkText}
+                                    url={slide.url}
+                                />
+                            </View>
+                        ))}
+                    </Swiper>
+                }
             </View>
         </>
     )

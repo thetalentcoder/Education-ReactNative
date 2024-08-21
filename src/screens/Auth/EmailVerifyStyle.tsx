@@ -9,6 +9,13 @@ export default StyleSheet.create({
     alignItems: 'center',
     backgroundColor: "#FFDFFF",
   },
+  upperGradientContainer: {
+    zIndex: -2,
+    position: "absolute",
+    top: 0,
+    width: "100%",
+    height: windowHeight,
+  },
   sectionEmailVerify: {
     height: windowHeight * 0.3,
     width: '100%',

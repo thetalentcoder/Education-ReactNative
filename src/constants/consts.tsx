@@ -25,3 +25,6 @@ export const gameModeString = [
     "Scenario Mode",
     "Flashcards Mode",
 ]
+
+export const timeLimitPerQuestion = 80000;
+export const flashCardCountLimit = 10;

@@ -9,6 +9,9 @@ import { gameModeString } from "src/constants/consts";
 import { useFocusEffect } from "@react-navigation/native";
 import CustomKeyboardAvoidingView from "src/wrappers/CustomKeyboardAvoidingView";
 
+import { useVideo } from "src/hooks/useVideo";
+import { ResizeMode, Video } from "expo-av";
+
 type Props = {
     route?: any,
     navigation?: any,
@@ -19,6 +22,11 @@ export default function SelectFlashcardTitle({
     navigation,
 }: Props) {
     const [gameMode, setGameMode] = useState(route.params && route.params["gameMode"] != undefined ? route.params["gameMode"] : 1);
+
+    const player = React.useRef(null);
+    const [status, setStatus] = useState({});
+    
+    const { thumbnailUrl, videoUrl, video } = useVideo();
 
     useFocusEffect(
         React.useCallback(() => {
@@ -47,6 +55,22 @@ export default function SelectFlashcardTitle({
                         title='New Flashcard Deck'
                         goBack={gotoDashboard}
                     />
+                </View>
+                <View style={styles.vimeoVideoContainer}>
+                {
+                    videoUrl && 
+                    <Video
+                        ref={player}
+                        style={styles.video}
+                        source={{
+                        uri: videoUrl,
+                        }}
+                        useNativeControls
+                        resizeMode={ResizeMode.CONTAIN}
+                        isLooping
+                        onPlaybackStatusUpdate={status => setStatus(() => status)}
+                    />
+                }
                 </View>
                 <View style={styles.sectionContentSlider}>
                     <SectionCategory />

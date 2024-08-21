@@ -1,12 +1,16 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { View, Text } from "react-native";
+import { View, Text, Modal } from "react-native";
 import { PTFEButton, PTFELinkButton } from "src/components/button";
 import styles from "./SectionCategoryStyle";
 import { useNavigation } from "@react-navigation/native";
+import { useDispatch } from "react-redux";
 
 import CustomDropdown from "src/parts/Category/CustomDropDown";
 import { getAllQuestionsCategories } from "src/actions/question/question";
 import { gameModeString } from "src/constants/consts";
+import { moderateScale, scale } from "src/config/scale";
+import { rdx_setSelectedCategories } from "src/redux/userSlice";
+import QuestionModal from "src/components/modal/QuestionOptionModal";
 
 type Props = {
     gameMode: number;
@@ -17,11 +21,19 @@ export default function SectionCategory({
     gameMode,
     goBack,
 }: Props) {
+    const dispatch = useDispatch();
     const [categories, setCategories] = useState<
         { title: string; value: string | undefined, isCategory: boolean }[]
-    >([{ title: "Choose Categories", value: undefined, isCategory: true }]);
+    >([{ title: "No Category Selected", value: undefined, isCategory: true }]);
     const [selectedCategories, setSelectedCategories] = useState([])
+    const [closeModalVisible, setCloseModalVisible] = useState(false);
     const navigation: any = useNavigation();
+
+    const [optionModalVisible, setOptionModalVisible] = useState(false);
+
+    const onSelectQuestions = useCallback((option) => {
+        navigation.navigate('Study', { quizID: selectedCategories, refresh: true, numberOfQuestions: option });
+    }, [selectedCategories]);
 
     useEffect(() => {
         getAllCategories()
@@ -30,7 +42,7 @@ export default function SectionCategory({
     const getAllCategories = async () => {
         const data = await getAllQuestionsCategories();
         const options = [
-            { title: "Choose Categories", value: undefined, isCategory: true, subCategories: [], isSelected: false },
+            { title: "No Category Selected", value: undefined, isCategory: true, subCategories: [], isSelected: false },
         ];
 
         data.forEach((item: any, idx: number) => {
@@ -38,12 +50,12 @@ export default function SectionCategory({
                 title: item.name,
                 value: item._id,
                 isCategory: true,
-                isSelected: false,
+                isSelected: true,
                 subCategories: item.subcategories.map((subcategory: any, index: number) => ({
                     title: subcategory,
                     value: subcategory,
                     isCategory: false,
-                    isSelected: idx == 0 && index == 0 ? true : false,
+                    isSelected: idx == 0 && index == 0 ? true : true,
                 })),
             });
 
@@ -53,8 +65,6 @@ export default function SectionCategory({
     }
 
     useEffect(() => {
-        console.log('>>>>>>', categories)
-        console.log('>>>>>> selected', selectedCategories)
     }, [categories, selectedCategories])
 
     // const options = [
@@ -65,35 +75,42 @@ export default function SectionCategory({
     // ];
 
     const onSelect = (item: any) => {
-        console.log('On sectionCategory', item);
-        setSelectedCategories(item)
+        setSelectedCategories(item);
     };
 
     const onClick = () => {
-        console.log(gameMode);
-        if (!selectedCategories) {
-            return
+        console.log(selectedCategories);
+        if (!selectedCategories || selectedCategories.length == 0) {
+            setCloseModalVisible(true);
+            return;
         }
+        
+        dispatch(rdx_setSelectedCategories(selectedCategories));
 
-        switch (gameMode) {
-            case 0:
-                navigation.navigate('Study', { quizID: selectedCategories, refresh: true });
-                break;
-            case 1:
-                navigation.navigate('Classic', { quizID: selectedCategories, refresh: true });
-                break;
-            case 2:
-                navigation.navigate('Survival', { quizID: selectedCategories, refresh: true });
-                break;
-            case 3:
-                navigation.navigate('Scenario', { quizID: selectedCategories, refresh: true });
-                break;
-            case 4:
-                navigation.navigate('Flashcards', { quizID: "All Topics", refresh: true, custom: false });
-                break;
-            default:
-                navigation.navigate('Question', { quizID: "6653447b75888277b055e2ec" });
-                break;
+        if (gameMode == 0) {
+            setOptionModalVisible(true);
+        }
+        else {
+            switch (gameMode) {
+                // case 0:
+                //     navigation.navigate('Study', { quizID: selectedCategories, refresh: true });
+                //     break;
+                case 1:
+                    navigation.navigate('Classic', { quizID: selectedCategories, refresh: true });
+                    break;
+                case 2:
+                    navigation.navigate('Survival', { quizID: selectedCategories, refresh: true });
+                    break;
+                case 3:
+                    navigation.navigate('Scenario', { quizID: selectedCategories, refresh: true });
+                    break;
+                case 4:
+                    navigation.navigate('Flashcards', { quizID: "All Topics", refresh: true, custom: false });
+                    break;
+                default:
+                    navigation.navigate('Question', { quizID: "6653447b75888277b055e2ec" });
+                    break;
+            }
         }
     }
 
@@ -103,24 +120,54 @@ export default function SectionCategory({
                 <Text style={styles.gameModeText}>Game Mode: {gameModeString[gameMode]}</Text>
             </View> */}
             <View style={styles.categoryTextContainer}>
-                <Text style={styles.categoryText}>Select Category: </Text>
+                <Text style={styles.categoryText}>Test All or Choose Specific Category: </Text>
             </View>
             <View style={styles.categorySelect}>
                 <CustomDropdown
                     options={categories}
                     onSelect={onSelect}
-                    title="Choose Categories"
+                    title="No Category Selected"
                     page="category"
                 />
             </View>
             <View style={styles.buttonContainer}>
                 <PTFEButton
-                    text="SELECT"
+                    text="START"
                     type="rounded"
                     color="#FF675B"
                     onClick={onClick}
                 />
             </View>
+            <Modal
+                animationType="slide"
+                transparent={true}
+                visible={closeModalVisible}
+                onRequestClose={() => setCloseModalVisible(false)}
+            >
+                <View style={styles.modalContainer}>
+                    <View style={styles.modalContent}>
+                        <Text style={{fontSize: moderateScale(18), textAlign: 'center'}}>
+                            {`You must select at least 1 category.`}
+                        </Text>
+                        <View style={styles.space1} />
+                        <View style={styles.space1}>
+                            <PTFEButton
+                                text={"Close"}
+                                type="rounded"
+                                color="#FF675B"
+                                height={scale(48)}
+                                onClick={() => setCloseModalVisible(false)}
+                            />
+                        </View>
+                    </View>
+                </View>
+            </Modal>
+            
+            <QuestionModal
+                optionModalVisible={optionModalVisible}
+                setOptionModalVisible={setOptionModalVisible}
+                onSelectQuestions={onSelectQuestions}
+            />
         </View>
     );
 }

@@ -16,13 +16,18 @@ import globalStyle from "src/theme/globalStyle";
 import ToggleSwitch from 'toggle-switch-react-native';
 import { verticalScale } from "src/config/scale";
 
+import Mailer from 'react-native-email';
+import useSendEmail from "src/hooks/useSendMail";
+
 
 export default function ReportProblem() {
     const navigation: any = useNavigation();
     const { user } = useSelector((state) => state.userData);
 
-    const [title, setTitle] = useState('');
+    const [title, setTitle] = useState('Problems with using NPTE Ninja');
     const [content, setContent] = useState('');
+
+    const { sendMail } = useSendEmail();
     
 
     const goBack = useCallback(() => {
@@ -38,17 +43,17 @@ export default function ReportProblem() {
         navigation.navigate(path);
     }, [navigation]);
 
-    const sendEmail = useCallback((sTitle: string, sContent: string) => {
-        const recipients = ['jin@perceptively.com', '']; // Array of recipient emails
-        const subject = sTitle;
-        const body = sContent;
-      
-        const to = recipients.join(',');
-        const mailtoUrl = `mailto:${to}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-      
-        Linking.openURL(mailtoUrl).catch((err) => console.error('Error opening email client', err));
-    }, []);
-      
+    const handleEmail = useCallback(() => {
+        // sendMail({
+        //     subject: title,
+        //     description: `${content}`,
+        //     isHTML: true,
+        //     attachments: [],
+        //     userid: user._id,
+        // }); 
+        Linking.openURL('mailto:nick@perceptively.com; luka@perceptively.com; jin@perceptively.com'
+             + `?subject=${title}&body=${content} \nAccount Id: ${user?._id}`);
+    }, [title, content]);
 
     return (
         <View style={styles.container}>
@@ -87,7 +92,7 @@ export default function ReportProblem() {
                             text="SEND"
                             type="rounded"
                             color="#FF675B"
-                            onClick={() => { sendEmail(title, content) }}
+                            onClick={() => {handleEmail()}}
                         />
                     </View>
                 </View>

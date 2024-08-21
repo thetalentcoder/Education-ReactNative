@@ -9,11 +9,13 @@ import SettingIcon from "assets/icons/SettingIcon";
 type Props = {
     title: string;
     goBack: () => void;
+    showModal: () => void;
 }
 
 export default function SectionHeaderSetting({
     title,
     goBack,
+    showModal,
 }: Props) {
     return (
         <View style={styles.container}>
@@ -26,7 +28,7 @@ export default function SectionHeaderSetting({
                         color="#FF675B" />
                 </View>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.settingContainer}>
+            <TouchableOpacity style={styles.settingContainer} onPress={showModal}>
                 <SettingIcon />
             </TouchableOpacity>
         </View>

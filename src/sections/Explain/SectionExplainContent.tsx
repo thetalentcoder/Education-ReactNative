@@ -39,10 +39,10 @@ export default function SectionExplainContent({
             </View>
             <View style={styles.quizContainer}>
                 <Text style={styles.rationaleHeader}>
-                    {"Answer Explanation: "}
+                    {"Answer Explanation:"}
                 </Text>
                 <Text style={styles.questionText}>
-                    {`abcd ${rationale}`}
+                    {`${rationale}`}
                 </Text>
             </View>
         </View>

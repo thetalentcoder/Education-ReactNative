@@ -2,35 +2,27 @@ import React, { useCallback, useState } from "react";
 import { ScrollView, View, Text } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { LinearGradient } from "expo-linear-gradient";
-
+import Toast from 'react-native-simple-toast';
 import SectionHeader from "src/sections/Common/SectionHeader";
 
 import styles from "./AccountSettingsStyle";
-import { logout } from "src/actions/auth/auth";
+import { logout, updateUser } from "src/actions/auth/auth";
 import { PTFEButton } from "src/components/button";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { PTFEEdit } from "src/components/edit";
-
+import { setUser } from 'src/redux/userSlice';
 import globalStyle from "src/theme/globalStyle";
+import { PTFELoading } from "src/components/loading";
+import { updateUserSettings } from "src/actions/user/user";
 
 export default function AccountSettings() {
     const navigation: any = useNavigation();
+    const dispatch = useDispatch();
     const { user } = useSelector((state) => state.userData);
-
-    const [modalVisible, setModalVisible] = useState(false);
-
-    const [userName, setUserName] = useState('');
+    const [userName, setUserName] = useState(user?.fullname);
     const [newPassword, setNewPassword] = useState('');
-    const [current, setCurrentPassword] = useState('');
     const [newPasswordConfirm, setNewPasswordConfirm] = useState('');
-    
-    const showModal = useCallback(() => {
-        setModalVisible(true);
-    }, [setModalVisible]);
-
-    const hideModal = useCallback(() => {
-        setModalVisible(false);
-    }, [setModalVisible]);
+    const [isLoading, setIsLoading] = useState(false);
 
     const goBack = useCallback(() => {
         navigation.goBack();
@@ -45,8 +37,41 @@ export default function AccountSettings() {
         navigation.navigate(path);
     }, [navigation]);
 
+    const saveUserSettings = useCallback(async () => {
+        if (newPassword != newPasswordConfirm) {
+            Toast.show(`Passwords do not match.`, 5000);
+            return;
+        }
+        if (newPassword == "") {
+            Toast.show(`Passwords must not be empty.`, 5000);
+            return;
+        }
+        else {
+            setIsLoading(true);
+            const success = await updateUserSettings(user?.id, userName, newPassword);
+            setIsLoading(false);
+
+            console.log("\n User Settings: " + JSON.stringify(success));
+            dispatch(setUser(success?.newUser));
+
+            if (success?.passwordUpdated != true) {
+                Toast.show(`Password update failed.`, 5000);
+                return;
+            }
+            else if (success?.newUser == undefined) {
+                Toast.show(`Account update failed.`, 5000);
+                return;
+            }
+            else {
+                Toast.show(`Profile updated successfully.`, 5000);
+                return;
+            }
+        }
+    }, [userName, newPassword, newPasswordConfirm]);
+
     return (
         <View style={styles.container}>
+            {isLoading ? <PTFELoading/> : <></>}
             <LinearGradient
                 colors={['#FF675B', '#87C6E8']}
                 start={{ x: 0, y: 0 }}
@@ -90,13 +115,13 @@ export default function AccountSettings() {
                                 text="Save"
                                 type="rounded"
                                 color="#FF675B"
-                                onClick={() => {}}
+                                onClick={() => { saveUserSettings(); }}
                             />
                             <PTFEButton
                                 text="Back"
                                 type="rounded"
                                 color="#87C6E8"
-                                onClick={() => {goBack}}
+                                onClick={() => { goBack(); }}
                             />
                         </View>
                     </View>

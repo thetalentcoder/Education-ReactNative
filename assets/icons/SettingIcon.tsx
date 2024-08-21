@@ -9,8 +9,8 @@ export default function SettingIcon() {
       <Svg
         fill={"white"}
         id="svg69"
-        width="30%"
-        height="30%"
+        width="36%"
+        height="36%"
         viewBox="0 0 682.66669 682.66669"><Defs
           id="defs73"><ClipPath
             id="clipPath83"><Path

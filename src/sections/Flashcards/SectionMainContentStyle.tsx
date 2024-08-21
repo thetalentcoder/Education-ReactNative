@@ -23,10 +23,10 @@ export default StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
 
-        top: - verticalScale(45),
-        left: windowWidth / 2 - verticalScale(45),
-        width: verticalScale(90),
-        height: verticalScale(90),
+        top: - verticalScale(44),
+        left: windowWidth / 2 - verticalScale(44),
+        width: verticalScale(88),
+        height: verticalScale(88),
         borderRadius: verticalScale(45),
 
         backgroundColor: "white",

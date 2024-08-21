@@ -14,7 +14,7 @@ import { useFocusEffect } from "@react-navigation/native";
 import { getMe } from "src/actions/user/user";
 import { setUser } from "src/redux/userSlice";
 import SectionHeaderX from "src/sections/Common/SectionHeaderX";
-import { sleep } from "src/utils/util";
+import { checkIfUserHastakenQuizToday, sleep } from "src/utils/util";
 
 type Props = {
     route?: any;
@@ -25,7 +25,9 @@ export default function Score({
     route,
     navigation,
 }: Props) {
-    const { id, submitData, score, quizMode, numberOfQuestions, title, category } = route.params;
+    const { id, submitData, score, quizMode, numberOfQuestions, title, category, survivorLevel } = route.params;
+
+    console.log(submitData);
     // console.log(route.params);
     // console.log(score);
     const [showModal, setShowModal] = useState(false);
@@ -36,27 +38,31 @@ export default function Score({
 
     useFocusEffect(
         React.useCallback(() => {
-            const processResult = async () => {
-                setCurrentScore(Math.floor(score));
-                // await submitResult();
-                // await updateStatus();
-            };
-
-            processResult().catch(console.error);
+            // const hasTakenQuizToday = checkIfUserHastakenQuizToday(user)
+            // if (! hasTakenQuizToday) {
+                const processResult = async () => {
+                    console.log("Submit Result");
+                    setCurrentScore(Math.floor(score));
+                    await submitResult();
+                    // await updateStatus();
+                };
+                
+                processResult().catch(console.error);
+            // }
         }, [id, submitData, score])
     );
 
-    // const submitResult = useCallback(async () => {
-    //     const result = await postSubmitQuizResult({
-    //         id: id,
-    //         score: currentScore,
-    //         quizMode: quizMode,
-    //         title: title,
-    //         numberOfQuestions: numberOfQuestions,
-    //         category: category
-    //     });
-    //     // setScore(result.score);
-    // }, [id, quizMode, category, title, numberOfQuestions, currentScore]);
+    const submitResult = useCallback(async () => {
+        const result = await postSubmitQuizResult({
+            id: id,
+            score: currentScore,
+            quizMode: quizMode,
+            title: title,
+            numberOfQuestions: numberOfQuestions,
+            category: category,
+        });
+        // setScore(result.score);
+    }, [id, quizMode, category, title, numberOfQuestions, currentScore]);
 
     // const updateStatus = useCallback(async () => {
     //     const userInfo = await getMe();

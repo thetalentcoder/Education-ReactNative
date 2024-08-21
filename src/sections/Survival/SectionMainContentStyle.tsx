@@ -13,7 +13,7 @@ export default StyleSheet.create({
     innerContainer: {
         width: "100%",
         position: 'relative',
-        marginTop: moderateScale(64),
+        marginTop: moderateScale(32),
         paddingHorizontal: scale(32),
     },
     timerContainer: {
@@ -22,10 +22,10 @@ export default StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
 
-        top: - verticalScale(45),
-        left: windowWidth / 2 - verticalScale(45),
-        width: verticalScale(90),
-        height: verticalScale(90),
+        top: - verticalScale(44),
+        left: windowWidth / 2 - verticalScale(44),
+        width: verticalScale(88),
+        height: verticalScale(88),
         borderRadius: verticalScale(45),
 
         backgroundColor: "white",
@@ -43,6 +43,7 @@ export default StyleSheet.create({
         fontFamily: 'segoe-ui',
         fontSize: moderateScale(18),
         color: "#707070",
+        textAlign: "left",
     },
     answersContainer: {
         width: '100%',
@@ -52,5 +53,31 @@ export default StyleSheet.create({
         width: '100%',
         gap: moderateScale(12),
         marginVertical: moderateScale(16),
+    },
+    modalContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'rgba(0,0,0,0.5)',
+        zIndex: 3,
+    },
+    modalContent: {
+        width: "90%",
+        backgroundColor: 'white',
+        paddingTop: moderateScale(32),
+        paddingBottom: moderateScale(8),
+        paddingHorizontal: moderateScale(20),
+        borderRadius: moderateScale(8),
+        alignItems: 'center',
+        zIndex: 3,
+    },
+    space: {
+        width: "100%",
+        marginVertical: verticalScale(20),
+    },
+    space1: {
+        width: "90%",
+        marginVertical: verticalScale(12),
+        zIndex: 3,
     }
 });

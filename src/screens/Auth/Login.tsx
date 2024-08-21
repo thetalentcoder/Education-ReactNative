@@ -109,10 +109,10 @@ export default function Login() {
                     end={{ x: 1, y: 1 }}
                     style={styles.upperGradientContainer}
                 />
-                {/*<View style={styles.backgroundCircle1} />
+                <View style={styles.backgroundCircle1} />
                 <View style={styles.backgroundCircle2} />
                 <View style={styles.backgroundCircle3} />
-                <View style={styles.backgroundSquare} />*/}
+                <View style={styles.backgroundSquare} />
                 <View style={styles.sectionLogin}>
                     <SectionLogin 
                         onLogin={handleLogin}

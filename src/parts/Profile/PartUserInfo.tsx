@@ -33,7 +33,7 @@ export default function PartUserInfo({
                     <Text style={styles.statusText}>{score}</Text>
                     <Text style={styles.labelText}>Points</Text>
                 </View>
-                <View style={styles.columnWithLine}>
+                <View style={styles.column}>
                     <View style={{paddingBottom: verticalScale(8)}}>
                         <Ionicons 
                             name="trophy-outline" 
@@ -42,9 +42,9 @@ export default function PartUserInfo({
                         />
                     </View>
                     <Text style={styles.statusText}>17</Text>
-                    <Text style={styles.labelText}>Ranking</Text>
+                    <Text style={styles.labelText}>Current Ranking</Text>
                 </View>
-                <View style={styles.column}>
+                {/* <View style={styles.column}>
                     <View style={{paddingBottom: verticalScale(8)}}>
                         <Ionicons 
                             name="people-outline" 
@@ -54,7 +54,7 @@ export default function PartUserInfo({
                     </View>
                     <Text style={styles.statusText}>8912</Text>
                     <Text style={styles.labelText}>Followers</Text>
-                </View>
+                </View> */}
             </View>
         </View>
     )

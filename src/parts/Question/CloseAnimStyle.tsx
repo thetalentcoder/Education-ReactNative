@@ -8,10 +8,10 @@ export default StyleSheet.create({
     lottie: {
         position: 'absolute',
 
-        left: windowWidth / 2 - scale(100),
-        top: windowHeight / 2 - scale(200),
-        width: scale(200),
-        height: scale(200),
+        left: windowWidth / 2 - scale(160),
+        top: windowHeight / 2 - scale(260),
+        width: scale(320),
+        height: scale(320),
 
         zIndex: 1000,
         pointerEvents: 'none',

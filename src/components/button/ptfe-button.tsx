@@ -26,7 +26,8 @@ export default function PTFEButton({
             return (
                 <TouchableOpacity disabled={ enabled == undefined || !enabled ? false : true } 
                     style={[styles.container, 
-                        (enabled == undefined || !enabled) ? { backgroundColor: color} : { backgroundColor: "grey" }
+                        (enabled == undefined || !enabled) ? { backgroundColor: color} : { backgroundColor: "grey" },
+                        (height == undefined) ? {} : { height: height }
                     ]} 
                     onPress={onClick}
                 >
@@ -40,7 +41,8 @@ export default function PTFEButton({
             return (
                 <TouchableOpacity disabled={ enabled == undefined || !enabled ? false : true } 
                     style={[styles.container_ex, 
-                        (enabled == undefined || !enabled) ? { backgroundColor: color} : { backgroundColor: "grey" }
+                        (enabled == undefined || !enabled) ? { backgroundColor: color} : { backgroundColor: "grey" },
+                        (height == undefined) ? {} : { height: height }
                     ]} 
                     onPress={onClick}
                 >
