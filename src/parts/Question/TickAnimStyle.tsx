@@ -6,6 +6,7 @@ const windowWidth = Dimensions.get("window").width;
 
 export default StyleSheet.create({
     lottie: {
+        display: 'none',
         position: 'absolute',
 
         left: windowWidth / 2 - scale(100),

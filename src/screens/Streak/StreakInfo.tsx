@@ -3,7 +3,7 @@ import { ScrollView, View, Text } from "react-native";
 import { useVideo } from "src/hooks/useVideo";
 import { LinearGradient } from "expo-linear-gradient";
 import { ResizeMode, Video } from "expo-av";
-
+import { scale, verticalScale } from "src/config/scale";
 import SectionHeader from "src/sections/Common/SectionHeader";
 import styles from "./StreakInfoStyle";
 
@@ -21,7 +21,7 @@ export default function StreakInfo({
 }: Props) {
     const { thumbnailUrl, videoUrl, video } = useVideo();
     const { title, content } = route.params;
-    
+
     const player = React.useRef(null);
     const [status, setStatus] = useState({});
 
@@ -40,26 +40,26 @@ export default function StreakInfo({
             </LinearGradient>
             <ScrollView style={styles.scrollContainer}>
                 <View style={styles.headerContainer}>
-                    <SectionHeader title={""} goBack={goBack}/>
+                    <SectionHeader title={""} goBack={goBack} />
                 </View>
                 <View style={styles.innerContainer}>
-                    <View style={styles.vimeoVideoContainer}>
                     {
-                        videoUrl && 
-                        <Video
-                            ref={player}
-                            style={styles.video}
-                            source={{
-                                uri: videoUrl,
-                            }}
-                            useNativeControls
-                            resizeMode={ResizeMode.CONTAIN}
-                            isLooping
-                            onPlaybackStatusUpdate={status => setStatus(() => status)}
-                        />
+                        videoUrl &&
+                        <View style={styles.vimeoVideoContainer}>
+                            <Video
+                                ref={player}
+                                style={styles.video}
+                                source={{
+                                    uri: videoUrl,
+                                }}
+                                useNativeControls
+                                resizeMode={ResizeMode.CONTAIN}
+                                isLooping
+                                onPlaybackStatusUpdate={status => setStatus(() => status)}
+                            />
+                        </View>
                     }
-                    </View>
-                    <View style={styles.mainContent}>
+                    <View style={[styles.mainContent, { marginTop: videoUrl ? scale(32) : verticalScale(482) }]}>
                         <View style={styles.titleContainer}>
                             <Text style={styles.title}>{`${title}`}</Text>
                         </View>

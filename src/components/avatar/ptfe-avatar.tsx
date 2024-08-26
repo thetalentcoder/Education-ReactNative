@@ -21,8 +21,11 @@ const PTFEAvatar = ({
         <Image style={styles.avatar} source={{ uri: avatar }} />
       </TouchableOpacity> */}
       <View style={styles.userInfoContainer}>
-        <Text style={styles.greeting}>{greeting}</Text>
-        <Text style={styles.username}>{userName}</Text>
+        <Text style={styles.greeting}>{"Welcome!"}</Text>
+        <View style={styles.greetingCombine}>
+          <Text style={styles.greeting}>{greeting}</Text>
+          <Text style={styles.username}>{userName.split(' ')[0]}</Text>
+        </View>
       </View>
     </View>
   );
@@ -47,9 +50,14 @@ const styles = StyleSheet.create({
   userInfoContainer: {
     flex: 1,
     flexDirection: "column",
-    justifyContent: "space-evenly",
+    justifyContent: "space-between",
     paddingLeft: 16,
     paddingVertical: 6,
+    marginLeft: 10
+  },
+  greetingCombine: {
+    flex: 1,
+    flexDirection: 'column'
   },
   greeting: {
     fontFamily: 'circular-std-medium',
@@ -58,7 +66,7 @@ const styles = StyleSheet.create({
   },
   username: {
     fontFamily: 'circular-std-black',
-    fontSize: moderateScale(18),
+    fontSize: moderateScale(16),
     color: "#565656",
   },
 });

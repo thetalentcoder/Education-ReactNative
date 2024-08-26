@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "NPTE Ninja",
-    "slug": "npte-ninja",
+    "slug": "ptfe-game",
     "version": "1.0.15",
     "orientation": "portrait",
     "icon": "./assets/icon.jpg",
@@ -32,7 +32,7 @@
     },
     "extra": {
       "eas": {
-        "projectId": "f6b03393-ae03-401e-95c8-a5fd36530291"
+        "projectId": "86274dee-3ec5-40bb-8226-38bd4dc26fd1"
       }
     },
     "plugins": [

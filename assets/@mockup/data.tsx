@@ -2,25 +2,25 @@ export const data_dashboard_game_modes = [
     {
         icon: `Study`,
         title: `Study Mode`,
-        statusText: `No time limits!`,
+        statusText: `No Time Limits!`,
         buttonText: `Start`,
     },
     {
         icon: `Classic`,
         title: `Classic Mode`,
-        statusText: `Classic timed quiz`,
+        statusText: `Classic Timed Quiz`,
         buttonText: `Start`,
     },
     {
         icon: `Survivor`,
-        title: `Survivor mode`,
-        statusText: `3 lives, no end`,
+        title: `Survivor Mode`,
+        statusText: `3 Lives, No End`,
         buttonText: `Start`,
     },
     {
         icon: `Scenario`,
-        title: `Scenarios mode`,
-        statusText: `Complex Questions`,
+        title: `Scenario Mode`,
+        statusText: `Patient Case Questions`,
         buttonText: `Start`,
     }
 ];

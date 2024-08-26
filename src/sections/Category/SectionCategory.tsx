@@ -120,7 +120,7 @@ export default function SectionCategory({
                 <Text style={styles.gameModeText}>Game Mode: {gameModeString[gameMode]}</Text>
             </View> */}
             <View style={styles.categoryTextContainer}>
-                <Text style={styles.categoryText}>Test All or Choose Specific Category: </Text>
+                <Text style={styles.categoryText}>Select Content Category: </Text>
             </View>
             <View style={styles.categorySelect}>
                 <CustomDropdown

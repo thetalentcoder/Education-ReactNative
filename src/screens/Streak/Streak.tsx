@@ -104,7 +104,7 @@ export default function Streak() {
             <View style={styles.split} />
             <View style={styles.longestMilstone}>
               <TimeLine />
-              <Text style={styles.streakDetailsDesp}>{"Time to next\nmilestone"}</Text>
+              <Text style={styles.streakDetailsDesp}>{"Time to Next\nMilestone"}</Text>
               <Text style={styles.longestMilstoneText}>{remainDays} {remainDays > 1 ? "days" : "day"}</Text>
               <View style={styles.infoIcon}>
                 <TouchableOpacity
@@ -120,7 +120,7 @@ export default function Streak() {
             <View style={styles.split} />
             <View style={styles.longestMilstone}>
               <SpeedMeter />
-              <Text style={styles.streakDetailsDesp}>{"Score\nMultiplier"}</Text>
+              <Text style={styles.streakDetailsDesp}>{"Score\nmultiplier"}</Text>
               <Text style={styles.longestMilstoneText}>{user?.currentMultiplier}x</Text>
               <View style={styles.infoIcon}>
                 <TouchableOpacity
