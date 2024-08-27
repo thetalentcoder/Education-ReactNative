@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text } from "react-native";
+import { View, Text, Linking } from "react-native";
 
 import { PTFEButton, PTFELinkButton } from "src/components/button";
 import PartLogin from "src/parts/Auth/PartLogin";
@@ -28,6 +28,12 @@ export default function SectionLogin({
     setEmail,
     setPassword,
 }: Props) {
+
+    const openLink = () => {
+        Linking.openURL('http://ninja.ptfefinalexam.com/start')
+            .catch(err => console.error("Failed to open URL:", err));
+    };
+
     return(
         <View style={styles.container}>
             <View style={styles.loginFormContainer}>
@@ -56,7 +62,7 @@ export default function SectionLogin({
                         text="Register here"
                         color="#FF675B"
                         underlined={false}
-                        onClick={onRegister}
+                        onClick={openLink}
                     />
                     <Text></Text>
                 </View>
