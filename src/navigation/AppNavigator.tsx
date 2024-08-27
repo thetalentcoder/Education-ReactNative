@@ -7,6 +7,7 @@ import { BottomTabBar } from 'src/components/tabbar/BottomTabBar';
 import Welcome from 'src/screens/Home/Home';
 import Login from 'src/screens/Auth/Login';
 import Register from 'src/screens/Auth/Register';
+import ForgotPassword from 'src/screens/Auth/ForgotPassword';
 import EmailVerify from 'src/screens/Auth/EmailVerify';
 import Dashboard from 'src/screens/Dashboard/Dashboard';
 import Study from 'src/screens/Study/Study';
@@ -139,6 +140,7 @@ export const MainStackNavigator = () => {
       <MainStack.Screen name="Welcome" component={Welcome} />
       <MainStack.Screen name="Login" component={Login} />
       <MainStack.Screen name="Register" component={Register} />
+      <MainStack.Screen name="ForgotPassword" component={ForgotPassword} />
       <MainStack.Screen name="EmailVerify" component={EmailVerify} />
       <MainStack.Screen name="Main" component={TabNavigator} />
       {/* <MainStack.Screen name="Streak" component={StreakStackNavigator} /> */}

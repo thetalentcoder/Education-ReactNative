@@ -93,12 +93,9 @@ export default function Login() {
     }, []);
 
 
-    const handleForgetPassword = useCallback(async() => {
-        if (email.length != 0) {
-            await forgotPassword(email);
-            Toast.show(`Password Reset Email sent.`, 5000);
-        }
-    }, [email]);
+    const handleForgetPassword = () => {
+        navigation.navigate('ForgotPassword');
+    };
     
     return (
         <CustomKeyboardAvoidingView>
