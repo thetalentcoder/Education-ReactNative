@@ -21,7 +21,7 @@ const PTFEAvatar = ({
         <Image style={styles.avatar} source={{ uri: avatar }} />
       </TouchableOpacity> */}
       <View style={styles.userInfoContainer}>
-        <Text style={styles.greeting}>{"Welcome!"}</Text>
+        {/* <Text style={styles.greeting}>{"Welcome!"}</Text> */}
         <View style={styles.greetingCombine}>
           <Text style={styles.greeting}>{greeting}</Text>
           <Text style={styles.username}>{userName.split(' ')[0]}</Text>
@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: "space-between",
     paddingLeft: 16,
-    paddingVertical: 6,
+    paddingVertical: 5,
     marginLeft: 10
   },
   greetingCombine: {

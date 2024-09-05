@@ -26,6 +26,12 @@ export default StyleSheet.create({
         justifyContent: "flex-end",
         height: "100%",
     },
+    backRoute: {
+        position: "absolute",
+        left: scale(20),
+        justifyContent: "flex-end",
+        height: "100%",
+    },
     back: {
         backgroundColor: "white",
         borderRadius: verticalScale(20),
