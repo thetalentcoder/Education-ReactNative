@@ -35,7 +35,7 @@ export default function SectionForgotPassword({
 
             <View style={styles.buttonContainer}>
                 <PTFEButton
-                    text="SUBMIT"
+                    text="Submit"
                     type="rounded"
                     color="#FF675B"
                     onClick={onRegister}

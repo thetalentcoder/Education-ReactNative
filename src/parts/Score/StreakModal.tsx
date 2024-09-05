@@ -201,7 +201,7 @@ export default function StreakModal({
                     </View>
                     <View style={styles.streakDescription}>
                         <Text style={styles.streakDescriptionHeader}>
-                            {user.streak} day streak!
+                            {user.streak} Day Streak!
                         </Text>
                         <Text style={styles.streakDescriptionText}>
                             You're on fire! keep the flame lit every day, today was
@@ -212,7 +212,7 @@ export default function StreakModal({
                 <View style={styles.btn}>
 
                     <PTFEButton
-                        text="CONTINUE"
+                        text="Continue"
                         type="rounded"
                         color="#FF675B"
                         onClick={goToScorePage}

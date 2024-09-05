@@ -61,7 +61,7 @@ export default function Explain({
                 </View>
                 <View style={styles.buttonContainer}>
                     <PTFEButton
-                        text={"NEXT QUESTION"}
+                        text={"Next Question"}
                         type="rounded"
                         color="#FF675B"
                         onClick={GoToNextQuestion}

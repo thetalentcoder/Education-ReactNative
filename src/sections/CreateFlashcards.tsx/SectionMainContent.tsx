@@ -175,7 +175,7 @@ export default function SectionMainContent({ navigation, titleValue, id, page }:
             )}
             <View style={styles.space}>
                 <PTFEButton
-                    text={isEditPage ? "UPDATE" : "SUBMIT"}
+                    text={isEditPage ? "UPDATE" : "Submit"}
                     type="rounded"
                     color="#FF675B"
                     onClick={submitData}

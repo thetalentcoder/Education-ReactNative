@@ -328,7 +328,7 @@ export default function SectionMainContent({
                     }
                     <View style={styles.buttonContainer}>
                         <PTFEButton
-                            text="NEXT"
+                            text="Next"
                             type="rounded"
                             color="#FF675B"
                             enabled={!(hide && hideTick && selected)}

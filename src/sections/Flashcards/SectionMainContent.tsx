@@ -218,7 +218,7 @@ export default function SectionMainContent({
                             </View>
                         }
                         <PTFEButton
-                            text={isCustomeFlashCardQuiz && currentProb + 2 > quizData?.questions?.length ? "FINISH" : "NEXT QUESTION"}
+                            text={isCustomeFlashCardQuiz && currentProb + 2 > quizData?.questions?.length ? "Finish" : "Next Question"}
                             type={"rounded"}
                             color="#FF675B"
                             enabled={!(hide && hideTick)}

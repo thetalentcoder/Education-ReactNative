@@ -70,7 +70,7 @@ export default function StreakInfo({
                         </View>
                         <View style={styles.buttonContainer}>
                             <PTFEButton
-                                text="CONTINUE"
+                                text="Continue"
                                 type="rounded"
                                 color="#FF675B"
                                 onClick={goBack}
