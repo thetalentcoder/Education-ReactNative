@@ -361,7 +361,7 @@ export default function SectionMainContent({
                     <View style={{ padding: verticalScale(4) }}></View>
                     <View style={styles.buttonContainer}>
                         <PTFEButton
-                            text={quizState == 2 ? "NEXT" : "SUBMIT"}
+                            text={quizState == 2 ? "Next" : "Submit"}
                             type={"rounded"}
                             color="#FF675B"
                             enabled={!(hide && hideTick && selected)}
@@ -371,7 +371,7 @@ export default function SectionMainContent({
                         {
                             quizState == 2
                             && <PTFEButton
-                                text={"VIEW EXPLANATION"}
+                                text={"View Explanation"}
                                 type="rounded"
                                 color="#87C6E8"
                                 onClick={ToExplainPage}

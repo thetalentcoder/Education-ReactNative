@@ -57,14 +57,14 @@ export default function SectionShareScore({
             <View style={styles.buttonContainer}>
                 <PTFEButton
                     type="rounded"
-                    text={"SHARE YOUR SUCCESS"}
+                    text={"Share Your Success"}
                     color="#87C6E8"
                     onClick={() => {}}
                 />
                 <View style={globalStyle.margin8}/>
                 <PTFEButton
                     type="rounded"
-                    text={"REVIEW YOUR QUESTIONS"}
+                    text={"Review Your Questions"}
                     color="#FF675B"
                     onClick={() => {
                         navigation.navigate("ReviewQA", {

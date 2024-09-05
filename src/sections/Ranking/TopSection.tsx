@@ -96,7 +96,7 @@ export function TopSection({
                         ? <></>
                         : <View style={styles.button}>
                             <PTFEButton 
-                                text="NEXT"
+                                text="Next"
                                 type="circle"
                                 color="#FF675B"
                                 onClick={nextSeason}

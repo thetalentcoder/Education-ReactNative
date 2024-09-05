@@ -314,7 +314,7 @@ export default function SectionMainContent({
             </View>
             <ScrollView style={styles.innerContainer} ref={scrollRef}>
                 <PTFEButton
-                    text="SHOW SCENARIO"
+                    text="Show Scenario"
                     type="rounded"
                     color="#FF675B"
                     enabled={!(hide && hideTick)}
@@ -345,7 +345,7 @@ export default function SectionMainContent({
                 </View>
                 <View style={styles.buttonContainer}>
                     <PTFEButton
-                        text="NEXT"
+                        text="Next"
                         type="rounded"
                         color="#FF675B"
                         enabled={!(hide && hideTick && selected)}
