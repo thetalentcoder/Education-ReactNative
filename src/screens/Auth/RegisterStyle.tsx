@@ -58,8 +58,8 @@ export default StyleSheet.create({
     backgroundColor: "#FFFFFF24",
   },
   sectionRegister: {
-    marginTop: verticalScale(132),
-    height: verticalScale(800),
+    marginTop: verticalScale(230),
+    height: verticalScale(630),
     width: '100%',
   },
 })

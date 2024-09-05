@@ -19,7 +19,7 @@ export default function SectionHeader({
             <View style={styles.titleContainer}>
                 <Text style={styles.title}>{title}</Text>
             </View>
-            <TouchableOpacity style={styles.backContainer} onPress={goBack}>
+            <TouchableOpacity style={styles.backRoute} onPress={goBack}>
                 <View style={styles.back}>
                     <Entypo name="chevron-left" size={moderateScale(20)}
                         color="#FF675B" />

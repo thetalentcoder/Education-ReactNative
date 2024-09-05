@@ -31,7 +31,7 @@ export default function SectionUserInfo({
     return (
         <View style={styles.container}>
             <PTFEAvatar
-                greeting="Good to see you,"
+                greeting="Good to see you, "
                 userName={user?.fullname}
                 avatar={user?.avatarUrl}
             />

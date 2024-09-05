@@ -24,8 +24,8 @@ export default function SectionFlashCards() {
                     key={5}
                     index={5}
                     icon={'FlashCards'}
-                    title={'Flashcard Deck'}
-                    statusText={"Fun way to study"}
+                    title={'Create Flashcard Deck'}
+                    statusText={"Study With a Purpose"}
                     buttonText={"Create"}
                 />
             </>

@@ -55,7 +55,7 @@ export default function RecentQuizzes({ route, navigation }: Props) {
                     <SectionMainContent navigation={navigation} gamehistory={gameHistory}/>
                 </View>
             </ScrollView>
-            { isLoading && <PTFELoading /> }
+            {/* { isLoading && <PTFELoading /> } */}
         </View>
     );
 }

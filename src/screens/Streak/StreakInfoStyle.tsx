@@ -52,7 +52,7 @@ export default StyleSheet.create({
     },
     mainContent: {
         width: "100%",
-        marginTop: scale(32),
+        // marginTop: scale(32),
         paddingTop: scale(32),
         paddingBottom: scale(32),
         borderTopLeftRadius: moderateScale(32),

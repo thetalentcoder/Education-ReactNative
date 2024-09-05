@@ -28,12 +28,13 @@ export default StyleSheet.create({
     },
     textContainer: {
         marginTop: verticalScale(16),
-        flexDirection: "row",
+        flexDirection: "column",
         justifyContent: "space-evenly",
     },
     text: {
         fontFamily: "circular-std-medium",
         fontSize: moderateScale(13),
         color: "#999999",
+        marginBottom: verticalScale(5)
     },
 });

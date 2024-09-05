@@ -21,7 +21,8 @@ export default StyleSheet.create({
     },
     rememberSection: {
         flexDirection: "row",
-        justifyContent: "space-between",
+        justifyContent: "flex-end",
         marginTop: verticalScale(26),
+        marginRight: 6
     },
 });

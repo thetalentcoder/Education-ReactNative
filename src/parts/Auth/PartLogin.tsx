@@ -53,12 +53,12 @@ export default function PartLogin({
                 />
                 
                 <View style={styles.rememberSection}>
-                    <PTFECheckBox
+                    {/* <PTFECheckBox
                         text="Remember me"
                         color="#FF675B"
                         checked={rememberMe}
                         setChecked={setRememberMe}
-                    />
+                    /> */}
                     <PTFELinkButton
                         text="Forgot Password?"
                         color="#FF675B"
