@@ -22,7 +22,7 @@ import { PTFELoading } from 'src/components/loading';
 export default function Points() {
     const navigation: any = useNavigation();
     
-    const { user } = useSelector((state) => state.userData);
+    const { user } = useSelector((state: any) => state.userData);
     const data = user?.milestones;
 
     const [remainDays, setRemainningDays] = useState(0);

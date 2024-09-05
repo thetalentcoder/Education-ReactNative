@@ -28,7 +28,7 @@ export default function SectionProfileContent({
         <View style={styles.container}>
             <Pressable onPress={onAvatarPress}>
                 <View style={styles.avatarContainer}>
-                    <Image style={styles.avatar} source={imageSource} />
+                    <Image style={styles.avatar} source={require("../../../assets/images/chore/upload_placeholder.png")} />
                 </View>
             </Pressable>
             <View style={styles.userInfoContainer}>

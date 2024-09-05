@@ -61,4 +61,14 @@ export default StyleSheet.create({
     height: scale(450),
     width: '100%',
   },
+  sectionStartImage: {
+    height: windowHeight - scale(450),
+    width: '100%',
+    justifyContent: "center",
+  },
+  grayImage: {
+    height: windowHeight - scale(524),
+    marginHorizontal: scale(32),
+    backgroundColor: "gray",
+  }
 })

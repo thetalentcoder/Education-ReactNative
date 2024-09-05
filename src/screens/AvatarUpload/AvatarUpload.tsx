@@ -112,13 +112,13 @@ export default function AvatarUpload() {
                 </View>
                 <View style={styles.buttonContainer}>
                     <PTFEButton
-                        text="Choose Photo"
+                        text="CHOOSE PHOTO"
                         type="rounded"
                         color="#FF675B"
                         onClick={pickImageHandler}
                     />
                     <PTFEButton
-                        text="Use this photo"
+                        text="USE THIS PHOTO"
                         type="rounded"
                         color="#87C6E8"
                         onClick={uploadImage}

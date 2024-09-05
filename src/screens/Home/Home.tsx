@@ -30,6 +30,10 @@ export default function Welcome() {
             <View style={styles.backgroundCircle3} />
             <View style={styles.backgroundSquare} />
 
+            <View style={styles.sectionStartImage}>
+                <View style={styles.grayImage} />
+            </View>
+
             <View style={styles.sectionContentSlider}>
                 <SectionWelcome onClick={handleClick} onRegister={handleRegister}/>
             </View>

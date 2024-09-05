@@ -74,7 +74,7 @@ export function TopSection({
                         {
                             season != 1
                             ? <PTFEButton 
-                                text="PREV"
+                                text="PREVIOUS"
                                 type="circle"
                                 color="#FF675B"
                                 onClick={prevSeason}

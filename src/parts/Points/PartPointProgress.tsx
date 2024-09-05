@@ -56,6 +56,7 @@ export default function PartPointProgress({
   });
 
   const [rerender, forceRerender] = useState(false);
+  const [showGraph, setShowGraph] = useState(true);
 
   const getTenDays = async () => {
       setIsLoading(true);
@@ -79,10 +80,15 @@ export default function PartPointProgress({
     
         console.log(response);
         // Validate and map server response to data
+        let show = false;
         const data1 = response.slice(0, 5).map(item => {
           const point = parseFloat(item);
+          if (point != 0)
+            show = true;
           return isFinite(point) ? point : 0; // Ensure data is valid
         }).reverse();
+
+        setShowGraph(show);
 
         setChartData({
           labels: labels,
@@ -112,20 +118,35 @@ export default function PartPointProgress({
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Recent Activity</Text>
-      <View style={{ justifyContent: "center", alignItems: "center" }}>
-        <BarChart
-          data={chatData}
-          width={windowWidth - scale(80)}
-          height={verticalScale(280)}
-          fromZero
-          yAxisLabel=""
-          yAxisSuffix=""
-          chartConfig={chartConfig}
-          style={{
-          }}
-        />
-      </View>
+      {
+        showGraph ? 
+        <>
+        <Text style={styles.title}>Recent Activity</Text>
+          <View style={{ justifyContent: "center", alignItems: "center" }}>
+            <BarChart
+              data={chatData}
+              width={windowWidth - scale(80)}
+              height={verticalScale(280)}
+              fromZero
+              yAxisLabel=""
+              yAxisSuffix=""
+              chartConfig={chartConfig}
+              style={{
+              }}
+            />
+          </View>
+        </>
+        : 
+        <View style={{ justifyContent: "center", alignItems: "center", width: "100%"}}>
+          <Text style={{
+            textAlign: "center",
+            fontFamily: "poppins-regular",
+            fontSize: moderateScale(16),
+          }}>
+            {`No recent score.\nPlease play some games!`}
+          </Text>
+        </View>
+      }
     </View>
   );
 }

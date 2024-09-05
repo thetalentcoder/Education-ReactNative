@@ -51,7 +51,7 @@ export default function SectionMainContent({
 }: Props) {
     const navigation: any = useNavigation();
 
-    const { user } = useSelector((state) => state.userData);
+    const { user } = useSelector((state: any) => state.userData);
 
     const [submitData, setSubmitData] = useState<any[]>([]);
 

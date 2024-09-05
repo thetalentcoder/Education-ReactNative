@@ -14,7 +14,7 @@ export default StyleSheet.create({
         flexDirection: "row",
     },
     button: {
-        width: scale(80),
+        width: scale(90),
         justifyContent: "center",
         alignItems: "center",
     },

@@ -1,4 +1,5 @@
 import { StyleSheet, Dimensions } from "react-native";
+import { scale, verticalScale } from "src/config/scale";
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
@@ -14,7 +15,7 @@ export default StyleSheet.create({
         position: "absolute",
         width: "100%",
         top: 0,
-        height: windowHeight * 0.65,
+        height: windowHeight * 0.9,
         zIndex: -1,
     },
     headerContainer: {
@@ -22,8 +23,19 @@ export default StyleSheet.create({
         width: "100%",
     },
     statusContainer: {
-        flex: 50,
+        flex: 25,
         width: "100%",
+    },
+    imageContainer: {
+        flex: 25,
+        width: "100%",
+        justifyContent: "flex-start",
+        alignItems: "center",
+    },
+    grayImage: {
+        width: scale(350),
+        height: verticalScale(200),
+        backgroundColor: "grey",
     },
     mainContent: {
         width: "100%",

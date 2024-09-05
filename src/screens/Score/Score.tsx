@@ -98,6 +98,9 @@ export default function Score({
                     bShow={showModal}
                 />
             </View>
+            <View style={styles.imageContainer}>
+                <View style={styles.grayImage} />
+            </View>
             <View style={styles.mainContent}>
                 <SectionShareScore
                     quizMode={quizMode}
