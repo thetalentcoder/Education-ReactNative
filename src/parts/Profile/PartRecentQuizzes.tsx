@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { View, Text } from "react-native";
 import moment from "moment";
 import styles from "./PartRecentQuizzesStyle";
 import { PTFELinkButton } from "src/components/button";
 import { useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
+import { useDispatch } from 'react-redux';
+import { getMe } from 'src/actions/user/user';
+import { setUser } from 'src/redux/userSlice';
 
 const data = [
   {
@@ -53,8 +56,21 @@ const data = [
 
 export default function PartRecentQuizzes() {
   const { user } = useSelector((state: any) => state.userData);
+  const dispatch = useDispatch();
+  const [isLoading, setIsLoading] = useState(false);
 
   const navigation: any = useNavigation();
+
+  useEffect(() => {
+    refreshUserData();
+}, []);
+
+const refreshUserData = useCallback(async () => {
+    setIsLoading(true);
+    const userInfo = await getMe();
+    dispatch(setUser(userInfo));
+    setIsLoading(false);
+}, [setIsLoading, dispatch]);
 
   const gotoRecentQuizzes = () => {
     navigation.navigate("Profile", {
@@ -124,9 +140,9 @@ export default function PartRecentQuizzes() {
                 </View>
               </View>
               <View style={[styles.percentContainer]}>
-              <Text style={styles.smallText}>
-                    {calculateDaysAgo(col.date)}
-                  </Text>
+                <Text style={styles.smallText}>
+                  {calculateDaysAgo(col.date)}
+                </Text>
                 <Text style={[styles.percentText, { color: color }]}>
                   {col.score}
                 </Text>
