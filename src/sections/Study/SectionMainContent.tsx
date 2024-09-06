@@ -292,6 +292,7 @@ export default function SectionMainContent({
             if (hasTakenQuizToday) {
                 navigation.navigate("Score", {
                     id: quizID,
+                    title: "Study Mode",
                     submitData: submitData,
                     score: currentScore,
                     quizMode: quizModes.studyMode,
@@ -299,6 +300,7 @@ export default function SectionMainContent({
             } else {
                 navigation.navigate("CurrentStreak", {
                     id: quizID,
+                    title: "Study Mode",
                     submitData: submitData,
                     score: currentScore,
                     quizMode: quizModes.studyMode,
