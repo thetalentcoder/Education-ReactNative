@@ -23,19 +23,19 @@ export default StyleSheet.create({
         width: "100%",
     },
     statusContainer: {
-        flex: 25,
+        flex: 30,
         width: "100%",
     },
     imageContainer: {
-        flex: 25,
+        flex: 30,
         width: "100%",
         justifyContent: "flex-start",
         alignItems: "center",
     },
     grayImage: {
-        width: scale(350),
-        height: verticalScale(200),
-        backgroundColor: "grey",
+        aspectRatio: 1,
+        width: '80%',
+        height: 'auto',
     },
     mainContent: {
         width: "100%",

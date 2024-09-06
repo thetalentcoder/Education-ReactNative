@@ -62,13 +62,20 @@ export default StyleSheet.create({
     width: '100%',
   },
   sectionStartImage: {
-    height: windowHeight - scale(450),
-    width: '100%',
+    // height: windowHeight - scale(450),
     justifyContent: "center",
+
   },
   grayImage: {
     height: windowHeight - scale(524),
     marginHorizontal: scale(32),
     backgroundColor: "gray",
+  },
+  welcomePanda: {
+    aspectRatio: 1,
+    zIndex: 10,
+    width: '90%',
+    height: 'auto',
+    top: 45
   }
 })

@@ -82,6 +82,7 @@ export default StyleSheet.create({
     percentText: {
         fontFamily: "poppins-medium",
         fontSize: moderateScale(15),
+        textAlign: 'center',
         color: "black",
         width: '100%',
     }
