@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text } from "react-native";
+import { View, Text, Share } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
 import styles from "./SectionShareScoreStyle";
@@ -23,7 +23,28 @@ export default function SectionShareScore({
     const navigation: any = useNavigation();
 
     console.log(quizData);
-    
+
+    const onShare = async () => {
+        try {
+            const result = await Share.share({
+                message: `I just scored ${score} points in the quiz! Can you beat my score?`,
+            });
+            if (result.action === Share.sharedAction) {
+                if (result.activityType) {
+                    // shared with specific activity (e.g., email)
+                    console.log(`Shared with activity: ${result.activityType}`);
+                } else {
+                    // shared via other means (e.g., iMessage, WhatsApp)
+                    console.log("Shared successfully!");
+                }
+            } else if (result.action === Share.dismissedAction) {
+                console.log("Share dismissed");
+            }
+        } catch (error) {
+            console.log("Error sharing: ", error);
+        }
+    };
+
     return (
         <View style={styles.container}>
             <View style={globalStyle.margin16}/>
@@ -59,7 +80,7 @@ export default function SectionShareScore({
                     type="rounded"
                     text={"Share Your Success"}
                     color="#87C6E8"
-                    onClick={() => {}}
+                    onClick={onShare}
                 />
                 <View style={globalStyle.margin8}/>
                 <PTFEButton

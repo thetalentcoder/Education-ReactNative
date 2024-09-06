@@ -74,8 +74,8 @@ export default StyleSheet.create({
   welcomePanda: {
     aspectRatio: 1,
     zIndex: 10,
-    width: '90%',
+    width: '75%',
     height: 'auto',
-    top: 45
+    top: verticalScale(50)
   }
 })

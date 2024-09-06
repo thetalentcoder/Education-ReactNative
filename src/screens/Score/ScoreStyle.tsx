@@ -23,23 +23,24 @@ export default StyleSheet.create({
         width: "100%",
     },
     statusContainer: {
-        flex: 30,
+        flex: 25,
         width: "100%",
     },
     imageContainer: {
         flex: 30,
         width: "100%",
-        justifyContent: "flex-start",
+        justifyContent: "center",
         alignItems: "center",
     },
     grayImage: {
         aspectRatio: 1,
         width: '80%',
         height: 'auto',
+        top: windowHeight * 0.02
     },
     mainContent: {
         width: "100%",
-        flex: 32,
+        flex: 30,
         bottom: 0,
         borderTopLeftRadius: 32,
         borderTopRightRadius: 32,
