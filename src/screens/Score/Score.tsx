@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { View } from "react-native";
+import { View, Image } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 
 import SectionScore from "src/sections/Score/SectionScore";
@@ -99,7 +99,7 @@ export default function Score({
                 />
             </View>
             <View style={styles.imageContainer}>
-                <View style={styles.grayImage} />
+                <Image source={require("../../../assets/images/imgs/pandasuccess.png")} style={styles.grayImage}/>
             </View>
             <View style={styles.mainContent}>
                 <SectionShareScore

@@ -18,7 +18,7 @@ const PTFEAvatar = ({
   return (
     <View style={styles.container}>
       <TouchableOpacity style={styles.avatarCircle} >
-        {/* <Image style={styles.avatar} source={{ uri: avatar }} /> */}
+        <Image style={styles.avatar} source={ avatar ? {uri: avatar} : require("assets/images/imgs/profileDefault.png")} />
       </TouchableOpacity>
       <View style={styles.userInfoContainer}>
         {/* <Text style={styles.greeting}>{"Welcome!"}</Text> */}
@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   avatarCircle: {
-    backgroundColor: "#CACACA",
+    backgroundColor: "#F0EFEF",
     width: verticalScale(56),
     height: verticalScale(56),
     borderRadius: verticalScale(28),

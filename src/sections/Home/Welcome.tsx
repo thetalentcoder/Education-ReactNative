@@ -24,7 +24,7 @@ const SectionWelcome: React.FC<Props> = ({ onClick }) => {
             </View>
             <View style={styles.buttonContainer}>
                 <PTFEButton
-                    text="LOG IN NOW"
+                    text="Log In Now"
                     type="rounded"
                     color="#FF675B"
                     onClick={onClick}
