@@ -318,6 +318,7 @@ import React, {
         if (hasTakenQuizToday) {
           navigation.navigate("Score", {
             id: quizID,
+                    title: "Study Mode",
             submitData: submitData,
             score: currentScore,
             quizMode: quizModes.studyMode,
@@ -325,6 +326,7 @@ import React, {
         } else {
           navigation.navigate("CurrentStreak", {
             id: quizID,
+                    title: "Study Mode",
             submitData: submitData,
             score: currentScore,
             quizMode: quizModes.studyMode,
