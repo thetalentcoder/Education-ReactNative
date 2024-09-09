@@ -11,11 +11,15 @@ import { useSelector } from "react-redux";
 type Props = {
     fullname?: string,
     score?: string,
+    currentSeasonPoints: any,
+    currentSeasonRank: any
 }
 
 export default function SectionProfileContent({
     fullname,
     score,
+    currentSeasonPoints,
+    currentSeasonRank
 }: Props) {
     const navigation: any = useNavigation()
     const { user } = useSelector((state) => state.userData);
@@ -35,6 +39,8 @@ export default function SectionProfileContent({
                 <PartUserInfo
                     fullname={fullname}
                     score={score}
+                    currentSeasonPoints={currentSeasonPoints}
+                    currentSeasonRank={currentSeasonRank}
                 />
             </View>
             <View style={styles.recentQuizContainer}>
