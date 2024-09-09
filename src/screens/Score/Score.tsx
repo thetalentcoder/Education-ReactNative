@@ -27,7 +27,7 @@ export default function Score({
 }: Props) {
     const { id, submitData, score, quizMode, numberOfQuestions, title, category, survivorLevel } = route.params;
 
-    console.log(submitData);
+    console.log("SUBMIT DATA",submitData);
     // console.log(route.params);
     // console.log(score);
     const [showModal, setShowModal] = useState(false);

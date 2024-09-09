@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useState, useEffect } from "react";
 import { ScrollView, TouchableOpacity, View, Text, Modal } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { LinearGradient } from "expo-linear-gradient";
@@ -14,18 +14,34 @@ import { scale } from "src/config/scale";
 import { useSelector } from "react-redux";
 import SectionHeaderSetting from "src/sections/Common/SectionHeaderSetting";
 import { PTFEEdit } from "src/components/edit";
+import { useDispatch } from 'react-redux';
+import { getMe } from 'src/actions/user/user';
+import { setUser } from 'src/redux/userSlice';
 
 export default function Profile() {
     const navigation: any = useNavigation();
-    const { user } = useSelector((state) => state.userData);
+    const { user } = useSelector((state: any) => state.userData);
+    const dispatch = useDispatch();
 
     const [modalVisible, setModalVisible] = useState(false);
+
+    const [currentSeasonPoints, setCurrentSeasonPoints] = useState<any>(0);
+    const [currentSeasonRank, setCurrentSeasonRank] = useState<any>(0);
 
     const [userName, setUserName] = useState('');
     const [newPassword, setNewPassword] = useState('');
     const [current, setCurrentPassword] = useState('');
     const [newPasswordConfirm, setNewPasswordConfirm] = useState('');
+
+    useEffect(() => {
+        refreshUserData();
+    }, []);
     
+    const refreshUserData = useCallback(async () => {
+        const userInfo = await getMe();
+        dispatch(setUser(userInfo));
+    }, [dispatch]);
+
     const showModal = useCallback(() => {
         navigation.navigate("SettingScreen");
     }, [navigation]);
@@ -33,6 +49,10 @@ export default function Profile() {
     const hideModal = useCallback(() => {
         setModalVisible(false);
     }, [setModalVisible]);
+
+    useEffect(() => {
+        calculateSeasonInfo(user?.score_total_months);
+    }, [user]);
 
     const gotoDashboard = useCallback(() => {
         navigation.navigate("Home");
@@ -46,6 +66,29 @@ export default function Profile() {
     const NavigateTo = useCallback((path: string) => {
         navigation.navigate(path);
     }, [navigation]);
+    console.log("###USERDATA", user)
+
+    function calculateSeasonInfo(scoreTotalMonths: number[]) {
+        const seasons: number[] = [
+            scoreTotalMonths.slice(0, 3).reduce((a, b) => a + b, 0),
+            scoreTotalMonths.slice(3, 6).reduce((a, b) => a + b, 0),
+            scoreTotalMonths.slice(6, 9).reduce((a, b) => a + b, 0),
+            scoreTotalMonths.slice(9, 12).reduce((a, b) => a + b, 0)
+        ];
+    
+        const currentMonth: number = new Date().getMonth();
+        const currentSeason: number = Math.floor(currentMonth / 3);
+    
+        const sortedSeasons: number[] = [...seasons].sort((a, b) => b - a);
+        const ranks: number[] = seasons.map(season => sortedSeasons.indexOf(season) + 1);
+    
+        const currentSeasonPoints: number = seasons[currentSeason];
+        const currentSeasonRank: number = ranks[currentSeason];
+    
+        setCurrentSeasonPoints(currentSeasonPoints); 
+        setCurrentSeasonRank(currentSeasonRank);
+    }
+
 
     return (
         <View style={styles.container}>
@@ -68,6 +111,8 @@ export default function Profile() {
                     <SectionProfileContent 
                         fullname={user?.fullname}
                         score={user?.score}
+                        currentSeasonPoints={currentSeasonPoints}
+                        currentSeasonRank={currentSeasonRank}
                     />
                 </View>
             </ScrollView>

@@ -22,7 +22,7 @@ export default function SectionShareScore({
 } : Props ) {
     const navigation: any = useNavigation();
 
-    console.log(quizData);
+    console.log( "THIS IS QUIZDATA:", quizData ,"##END");
 
     const onShare = async () => {
         try {

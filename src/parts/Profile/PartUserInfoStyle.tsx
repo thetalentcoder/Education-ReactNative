@@ -18,7 +18,7 @@ export default StyleSheet.create({
         // paddingHorizontal: verticalScale(16),
         paddingVertical: verticalScale(12),
 
-        height: verticalScale(110),
+        height: verticalScale(130),
         borderRadius: verticalScale(16),
 
         backgroundColor: "#87C6E8",
