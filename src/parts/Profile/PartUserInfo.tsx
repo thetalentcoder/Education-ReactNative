@@ -2,6 +2,7 @@ import React from "react";
 import { View, Text } from "react-native";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
+import NinjaStarIcon from "assets/icons/NinjaStarIcon";
 
 import { moderateScale, verticalScale } from "src/config/scale";
 
@@ -26,40 +27,36 @@ export default function PartUserInfo({
       <View style={styles.userInfoContainer}>
         <View style={styles.columnWithLine}>
           <View style={{ paddingBottom: verticalScale(8) }}>
-            <Ionicons
-              name="ribbon-outline"
-              size={moderateScale(18)}
-              color="white"
-            />
+            <View style={{ height: verticalScale(22.5) }}>
+              <NinjaStarIcon />
+            </View>
           </View>
           <Text style={styles.statusText}>
-            {score > 1000 ? `${Math.round(score / 1000)}K` : score.toString()}
+            {score > 1000 ? `${(score / 1000).toFixed(1)}k` : score.toString()}
           </Text>
-          <Text style={styles.labelText}>Lifetime Points</Text>
+          <Text style={styles.labelText}>{"Lifetime\nPoints"}</Text>
         </View>
         <View style={styles.columnWithLine}>
           <View style={{ paddingBottom: verticalScale(8) }}>
-            <Ionicons
-              name="ribbon-outline"
-              size={moderateScale(18)}
-              color="white"
-            />
+            <View style={{ height: verticalScale(22.5) }}>
+              <NinjaStarIcon />
+            </View>
           </View>
           <Text style={styles.statusText}>
-            {currentSeasonPoints > 1000 ? `${Math.round(currentSeasonPoints / 1000)}K` : currentSeasonPoints.toString()}
+            {currentSeasonPoints > 1000 ? `${(currentSeasonPoints / 1000).toFixed(1)}k` : currentSeasonPoints.toString()}
           </Text>
-          <Text style={styles.labelText}>Season Points</Text>
+          <Text style={styles.labelText}>{"Season\nPoints"}</Text>
         </View>
         <View style={styles.column}>
           <View style={{ paddingBottom: verticalScale(8) }}>
             <Ionicons
               name="trophy-outline"
-              size={moderateScale(18)}
+              size={moderateScale(19)}
               color="white"
             />
           </View>
           <Text style={styles.statusText}>{currentSeasonRank}</Text>
-          <Text style={styles.labelText}>Season Ranking</Text>
+          <Text style={styles.labelText}>{"Season\nRanking"}</Text>
         </View>
         {/* <View style={styles.column}>
                     <View style={{paddingBottom: verticalScale(8)}}>

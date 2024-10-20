@@ -30,13 +30,13 @@ export default StyleSheet.create({
 
         borderRadius: 1000,
         backgroundColor: "transparent",
-        borderColor: "#A0A0A2",
+        borderColor: "#363636FF",
         borderWidth: scale(1),
     },
     index: {
         fontFamily: "circular-std-black",
         fontSize: moderateScale(14),
-        color: "#A0A0A2",
+        color: "#363636FF",
     },
     columnContent: {
         justifyContent: "center",
@@ -50,6 +50,6 @@ export default StyleSheet.create({
     content: {
         fontFamily: "poppins-regular",
         fontSize: moderateScale(14),
-        color: "#A0A0A2",
+        color: "#363636FF",
     }
 });

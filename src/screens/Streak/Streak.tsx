@@ -82,12 +82,12 @@ export default function Streak() {
       />
       <ScrollView style={styles.innerContainer}>
         <View style={styles.headerContainer}>
-          <SectionHeaderX title="Streaks" goBack={() => navigation.navigate('Dashboard')} />
+          <SectionHeaderX title="Ninja Streaks" goBack={() => navigation.navigate('Dashboard')} />
         </View>
         <View style={styles.statusContainer}>
           <View style={styles.streakDetails}>
             <View style={styles.longestMilstone}>
-              <FontAwesome5 name="fire-alt" size={moderateScale(38)} color="white" />
+              <FontAwesome5 name="fire-alt" size={moderateScale(38)} color="white" style={{marginTop: moderateScale(20), marginBottom: moderateScale(10)}}/>
               <Text style={styles.streakDetailsDesp}>{"Current\nStreak"}</Text>
               <Text style={styles.longestMilstoneText}>{user?.streak} {user?.streak > 1 ? "days" : "day"}</Text>
               <View style={styles.infoIcon}>
@@ -104,7 +104,7 @@ export default function Streak() {
             <View style={styles.split} />
             <View style={styles.longestMilstone}>
               <TimeLine />
-              <Text style={styles.streakDetailsDesp}>{"Time to Next\nMilestone"}</Text>
+              <Text style={styles.streakDetailsDesp}>{"Time to Next\nMultiplier"}</Text>
               <Text style={styles.longestMilstoneText}>{remainDays} {remainDays > 1 ? "days" : "day"}</Text>
               <View style={styles.infoIcon}>
                 <TouchableOpacity
@@ -120,7 +120,7 @@ export default function Streak() {
             <View style={styles.split} />
             <View style={styles.longestMilstone}>
               <SpeedMeter />
-              <Text style={styles.streakDetailsDesp}>{"Score\nmultiplier"}</Text>
+              <Text style={styles.streakDetailsDesp}>{"Score\nMultiplier"}</Text>
               <Text style={styles.longestMilstoneText}>{user?.currentMultiplier}x</Text>
               <View style={styles.infoIcon}>
                 <TouchableOpacity

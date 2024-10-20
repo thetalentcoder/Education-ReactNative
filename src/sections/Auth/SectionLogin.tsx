@@ -30,7 +30,7 @@ export default function SectionLogin({
 }: Props) {
 
     const openLink = () => {
-        Linking.openURL('http://ninja.ptfefinalexam.com/start')
+        Linking.openURL('https://ninja.ptfinalexam.com/')
             .catch(err => console.error("Failed to open URL:", err));
     };
 

@@ -143,6 +143,16 @@ export const MainStackNavigator = () => {
       <MainStack.Screen name="ForgotPassword" component={ForgotPassword} />
       <MainStack.Screen name="EmailVerify" component={EmailVerify} />
       <MainStack.Screen name="Main" component={TabNavigator} />
+
+      <ProfileStack.Screen name="ProfileScr" component={Profile} />
+      <ProfileStack.Screen name="SettingScreen" component={SettingScreen} />
+      <ProfileStack.Screen name="AccountSettings" component={AccountSettings} />
+      <ProfileStack.Screen name="Notifications" component={Notifications} />
+      <ProfileStack.Screen name="ReportProblem" component={ReportProblem} />
+      <ProfileStack.Screen name="WatchTutorial" component={WatchTutorial} />
+      <ProfileStack.Screen name="PrivacyPolicy" component={PrivacyPolicy} />
+      <ProfileStack.Screen name="AvatarUpload" component={AvatarUpload} />
+      <ProfileStack.Screen name='RecentQuizzes' component={RecentQuizzes} />
       {/* <MainStack.Screen name="Streak" component={StreakStackNavigator} /> */}
     </MainStack.Navigator>
   );

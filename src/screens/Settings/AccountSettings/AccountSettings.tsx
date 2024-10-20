@@ -54,12 +54,8 @@ export default function AccountSettings() {
             console.log("\n User Settings: " + JSON.stringify(success));
             dispatch(setUser(success?.newUser));
 
-            if (success?.passwordUpdated != true) {
+            if (!success?.newUser) {
                 Toast.show(`Password update failed.`, 5000);
-                return;
-            }
-            else if (success?.newUser == undefined) {
-                Toast.show(`Account update failed.`, 5000);
                 return;
             }
             else {

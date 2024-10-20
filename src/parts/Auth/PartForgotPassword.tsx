@@ -8,16 +8,16 @@ import styles from "./PartRegisterStyle";
 
 type Props = {
     setEmail: () => (newValue: string) => void;
-    setFullName: () => (newValue: string) => void;
-    setPassword: () => (newValue: string) => void;
-    setConfirmPassword: () => (newValue: string) => void;
+    // setFullName: () => (newValue: string) => void;
+    // setPassword: () => (newValue: string) => void;
+    // setConfirmPassword: () => (newValue: string) => void;
 }
 
 export default function PartForgotPassword({
     setEmail,
-    setFullName,
-    setPassword,
-    setConfirmPassword,
+    // setFullName,
+    // setPassword,
+    // setConfirmPassword,
 }: Props) {
     return (
         <>
@@ -31,11 +31,11 @@ export default function PartForgotPassword({
                 <PTFEEdit
                     type="text"
                     // initValue="Jin"
-                    onChangeText={setFullName}
+                    onChangeText={setEmail}
                 />
 
                 <View style={globalStyle.margin32} />
-                <Text style={styles.subtitle}>
+                {/* <Text style={styles.subtitle}>
                     New Password
                 </Text>
                 <PTFEEdit
@@ -46,12 +46,12 @@ export default function PartForgotPassword({
                 <View style={globalStyle.margin8} />
                 <Text style={styles.subtitle}>
                     Confirm New Password
-                </Text>
-                <PTFEEdit
+                </Text> */}
+                {/* <PTFEEdit
                     type="password"
                     // initValue="123456"
                     onChangeText={setConfirmPassword}
-                />
+                /> */}
             </View>
         </>
     );

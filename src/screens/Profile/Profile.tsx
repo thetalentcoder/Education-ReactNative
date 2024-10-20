@@ -15,7 +15,7 @@ import { useSelector } from "react-redux";
 import SectionHeaderSetting from "src/sections/Common/SectionHeaderSetting";
 import { PTFEEdit } from "src/components/edit";
 import { useDispatch } from 'react-redux';
-import { getMe } from 'src/actions/user/user';
+import { getMe, getRankingSeason } from 'src/actions/user/user';
 import { setUser } from 'src/redux/userSlice';
 
 export default function Profile() {
@@ -68,6 +68,30 @@ export default function Profile() {
     }, [navigation]);
     console.log("###USERDATA", user)
 
+    const fetchRank = async (season: number | undefined, username: string) => {
+        let resultWithUserRank = 0; // Declare with let to allow reassignment
+        try {
+            // setIsLoading(true);
+            const result = await getRankingSeason(season);
+            
+            // Use forEach instead of map for side effects
+            result?.seasonScores.forEach((userlist: any, index: number) => {
+                if (userlist.userName === username) {
+                    resultWithUserRank = index + 1; // Update rank if user found
+                }
+            });
+    
+            setCurrentSeasonRank(resultWithUserRank); // Update the state with the user's rank
+    
+        } catch (error) {
+            console.log(error);
+        } finally {
+            // setIsLoading(false); // Uncomment this if you manage loading state
+            console.log("finally");
+        }
+    }
+    
+
     function calculateSeasonInfo(scoreTotalMonths: number[]) {
         const seasons: number[] = [
             scoreTotalMonths.slice(0, 3).reduce((a, b) => a + b, 0),
@@ -83,10 +107,14 @@ export default function Profile() {
         const ranks: number[] = seasons.map(season => sortedSeasons.indexOf(season) + 1);
     
         const currentSeasonPoints: number = seasons[currentSeason];
-        const currentSeasonRank: number = ranks[currentSeason];
+        // const currentSeasonRank: number = ranks[currentSeason];
     
         setCurrentSeasonPoints(currentSeasonPoints); 
-        setCurrentSeasonRank(currentSeasonRank);
+        // setCurrentSeasonRank(currentSeasonRank);
+        if (user) {
+            const username = user?.fullname; // Get the username
+            fetchRank(currentSeason, username); // Fetch the rank for the user
+        }
     }
 
 
@@ -150,7 +178,7 @@ export default function Profile() {
                                         color="#87C6E8"
                                         onClick={() => {
                                             hideModal();
-                                            Linking.openURL('https://ptfinalexam.com/');
+                                            Linking.openURL('https://ninja.ptfinalexam.com/my-account/');
                                         }}
                                     />
                                     <PTFEButton

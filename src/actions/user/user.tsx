@@ -3,6 +3,7 @@ import apiService from "../middleware/apiService";
 
 export const getMe = async () => {
     const responseData = await apiService.getDataWithAuth("/api/user/me");
+    
     return responseData;
 }
 
@@ -39,14 +40,15 @@ export const updateUser = async (id: string, avatarUrl: string) => {
 }
 
 export const updateUserSettings = async (id: string, fullname: string, newPassword: string) => {
-    const passwordUpdate = await updatePassword(newPassword);
 
     const data = {
-        fullname: fullname
+        name: fullname,
+        password: newPassword
     }
-    const responseData = await apiService.putDataWithAuth(`/api/user/${id}`, data)
+
+    const responseData = await apiService.putDataWithAuth(`/api/user/me`, data);
+
     return {
-        newUser: { ...responseData },
-        passwordUpdated: passwordUpdate,
+        newUser: { ...responseData }
     };
 }

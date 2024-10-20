@@ -27,7 +27,7 @@ export default function CurrentStreak({
     route,
     navigation,
 }: Props) {
-    const { id, submitData, score, quizMode, numberOfQuestions, title, category } = route.params;
+    const { id, submitData, score, quizMode, numberOfQuestions, title, category, answers } = route.params;
     // console.log(route.params);
     // console.log(score);
     const [showModal, setShowModal] = useState(false);
@@ -85,7 +85,7 @@ export default function CurrentStreak({
             score,
             quizMode,
             numberOfQuestions,
-            category
+            answers
         });
     }
 

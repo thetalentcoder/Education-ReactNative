@@ -5,6 +5,7 @@ import { AntDesign, FontAwesome5, MaterialIcons } from "@expo/vector-icons";
 import { formatNumberWithCommas } from "src/utils/util";
 import styles from './SectionStatusStyle'
 import { moderateScale, verticalScale } from "src/config/scale";
+import NinjaStarIcon from "assets/icons/NinjaStarIcon";
 
 const windowHeight = Dimensions.get("window").height;
 
@@ -27,7 +28,7 @@ export default function SectionStatus({
                     <Text style={styles.statusText}>&nbsp;{`${currentProbNumber}/${totalProbCount}`}</Text>
                 </View>
                 <View style={styles.column2}>
-                    <FontAwesome5 name="trophy" size={moderateScale(18)} color="white" />
+                    <View><NinjaStarIcon /></View>
                     <Text style={styles.statusText}>&nbsp;{` ${formatNumberWithCommas(currentScore)}`}</Text>
                 </View>
                 <View style={styles.column3}>

@@ -11,7 +11,7 @@ type Props = {
 const SectionWelcome: React.FC<Props> = ({ onClick }) => {
 
     const openLink = () => {
-        Linking.openURL('http://ninja.ptfefinalexam.com/start')
+        Linking.openURL('https://ninja.ptfinalexam.com/')
             .catch(err => console.error("Failed to open URL:", err));
     };
 

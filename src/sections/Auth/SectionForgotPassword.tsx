@@ -10,7 +10,7 @@ type Props = {
     setFullName:() => (newValue: string) => void;
     setPassword:() => (newValue: string) => void;
     setConfirmPassword:() => (newValue: string) => void;
-    onRegister:() => void;
+    onSubmit:() => void;
     onGoBack:() => void;
 }
 
@@ -19,7 +19,7 @@ export default function SectionForgotPassword({
     setFullName,
     setPassword,
     setConfirmPassword,
-    onRegister,
+    onSubmit,
     onGoBack,
 }: Props) {
     return(
@@ -27,9 +27,9 @@ export default function SectionForgotPassword({
             <View style={styles.loginFormContainer}>
                 <PartForgotPassword 
                     setEmail={setEmail}
-                    setFullName={setFullName}
-                    setPassword={setPassword}
-                    setConfirmPassword={setConfirmPassword}
+                    // setFullName={setFullName}
+                    // setPassword={setPassword}
+                    // setConfirmPassword={setConfirmPassword}
                 />
             </View>
 
@@ -38,7 +38,7 @@ export default function SectionForgotPassword({
                     text="Submit"
                     type="rounded"
                     color="#FF675B"
-                    onClick={onRegister}
+                    onClick={onSubmit}
                 />
                 <View style={styles.textContainer}>
                     <Text></Text>

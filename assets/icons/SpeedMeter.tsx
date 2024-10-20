@@ -1,6 +1,8 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
 import Svg, { Path } from "react-native-svg";
+import { verticalScale, moderateScale } from "src/config/scale";
+
 
 export default function SpeedMeter() {
   return (
@@ -26,5 +28,6 @@ const styles = StyleSheet.create({
     aspectRatio: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    marginTop: moderateScale(15)
   },
 });

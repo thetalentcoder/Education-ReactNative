@@ -33,7 +33,7 @@ export default StyleSheet.create({
         padding: verticalScale(16),
 
         borderRadius: verticalScale(20),
-        backgroundColor: "#87C6E850",
+        // backgroundColor: "#87C6E850",
 
         justifyContent: "space-between",
         alignItems: "center",
@@ -51,7 +51,7 @@ export default StyleSheet.create({
         height: verticalScale(48),
         borderRadius: verticalScale(8),
 
-        backgroundColor: "#8270F6",
+        // backgroundColor: "#8270F6",
 
         justifyContent: "center",
         alignItems: "center",

@@ -43,7 +43,7 @@ export default StyleSheet.create({
     questionText: {
         fontFamily: 'segoe-ui',
         fontSize: moderateScale(18),
-        color: "#707070",
+        color: "#363636FF",
         textAlign: "left",
     },
     answersContainer: {

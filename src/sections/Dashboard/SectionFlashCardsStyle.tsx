@@ -25,6 +25,7 @@ export default StyleSheet.create({
     },
     flashcardContainer: {
         marginTop: verticalScale(10),
+        width: '100%'
     },
     row: {
         flexDirection: 'row',

@@ -1,5 +1,5 @@
 import { StyleSheet, Dimensions } from 'react-native';
-import { scale, verticalScale } from 'src/config/scale';
+import { scale, verticalScale, moderateScale } from 'src/config/scale';
 
 const windowHeight = Dimensions.get("window").height;
 
@@ -58,8 +58,21 @@ export default StyleSheet.create({
     backgroundColor: "#FFFFFF24",
   },
   sectionRegister: {
-    marginTop: verticalScale(230),
-    height: verticalScale(630),
+    zIndex: 10,
+    marginTop: verticalScale(400),
     width: '100%',
+  },
+  backContainer: {
+    position: "absolute",
+    top: verticalScale(60),   // Adjust the top position to place it correctly
+    left: scale(20),          // Keep the left positioning
+    zIndex: 1,             // Ensures it stays on top of other components
+    padding: moderateScale(5), // Optional: increase touchable area
+    height: 'auto',           // Removes full height
+  },
+  back: {
+    backgroundColor: "white",
+    borderRadius: verticalScale(20),
+    padding: moderateScale(2),
   },
 })

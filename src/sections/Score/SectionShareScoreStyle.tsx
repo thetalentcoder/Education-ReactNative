@@ -21,7 +21,7 @@ export default StyleSheet.create({
     content: {
         textAlign: "center",
         fontFamily: "segoe-ui",
-        fontSize: moderateScale(20),
+        fontSize: 18,
         color: "#707070",
     },
     // shareButtonContainer: {

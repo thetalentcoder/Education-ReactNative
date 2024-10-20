@@ -61,5 +61,9 @@ export default StyleSheet.create({
         fontFamily: "poppins-medium",
         fontSize: moderateScale(40),
         color: "#7B68ED",
-    }
+    },
+    slashText: {
+        fontSize: 32,  
+        alignSelf: 'center',
+    },
 });

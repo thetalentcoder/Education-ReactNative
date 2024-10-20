@@ -12,11 +12,11 @@ export default StyleSheet.create({
     },
     topPart: {
         height: windowWidth * 0.2,
-        backgroundColor: "#CACACA",
-
         borderTopLeftRadius: 16,
         borderTopRightRadius: 16,
-    },
+        backgroundColor: "#FF675BEE",
+        alignItems: "center",
+      },
     bottomPart: {
         height: windowWidth * 0.16,
         backgroundColor: "#FBF5FF",

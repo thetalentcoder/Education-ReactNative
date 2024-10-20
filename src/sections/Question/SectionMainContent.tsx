@@ -291,7 +291,7 @@ export default function SectionMainContent({
             <View style={styles.timerContainer}>
                 <AnimatedCircularProgress
                     size={verticalScale(90)}
-                    width={verticalScale(4)}
+                    width={verticalScale(8)}
                     fill={limitTime != 0 ? (limitTime - remainTime) * 100 / limitTime : 0}
                     tintColor="#FFFFFFFF"
                     rotation={180}

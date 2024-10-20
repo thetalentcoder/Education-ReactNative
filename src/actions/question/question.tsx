@@ -7,10 +7,11 @@ export const getAllQuestions = async (subCategories: string[], page = 1, limit =
         subCategories
     };
     const responseData = await apiService.postDataWithAuth("/api/question/getAllQuestions", data)
+    console.log("##get question", responseData)
     return responseData;
 }
 
-export const getAllScenarioQuestions = async (subCategories: string[], page = 1, limit = 20) => {
+export const getAllScenarioQuestions = async (subCategories: string[], page = 1, limit = 5) => {
     const data = {
         page,
         limit,

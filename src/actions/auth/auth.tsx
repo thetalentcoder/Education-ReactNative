@@ -1,100 +1,174 @@
-import { auth } from "src/config/firebase-config"
-// import { API_URL } from "@env";
+import { auth } from "src/config/firebase-config";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+// const API_URL = "https://4d26-88-216-2-162.ngrok-free.app";
 const API_URL = "https://ptfe-game-backend-a0cc7b8d3a77.herokuapp.com";
-// const API_URL = "http://192.168.101.144:5004";
-// const API_URL = "http://10.0.0.2:5004";
+const API_SSO_URL = "https://ninja.ptfinalexam.com";
 
-console.log(`${API_URL}/api/user`);
+// export const login = async (email: any, password: any) => {
+//   try {
+//     const userCredential = await auth.signInWithEmailAndPassword(
+//       email,
+//       password
+//     );
+//     const user = userCredential.user;
+//     console.log("LOGIN RES ", JSON.stringify(user))
+//     return user;
+//   } catch (error: any) {
+//     console.log(error.message);
+//     throw error;
+//   }
+// };
 
-export const login = async (email: string, password: string) => {
-    try {
-        const userCredential = await auth.signInWithEmailAndPassword(email, password);
-        const user = userCredential.user;
-        return user;
-    } catch(error: any) {
-        console.log(error.message);
-        throw error;
+export const login = async (username: string, password: string) => {
+  const queryParams = new URLSearchParams({ username, password }).toString();
+  try {
+    const response = await fetch(
+      `${API_SSO_URL}/wp-json/jwt-auth/v1/token?${queryParams}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+      }
+    );
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(
+        // `Server responded with status ${errorData.code}: ${errorData}-----------------${errorData[0]}--------------------${errorData.Error}`
+        errorData.code
+      );
     }
-}
+
+    const user = await response.json();
+    await AsyncStorage.setItem("token", user?.token);
+    console.log("LOGIN RES ", JSON.stringify(user));
+    return user;
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      console.log(error.message);
+      throw error;
+    }
+
+    throw new Error("An unknown error occurred");
+  }
+};
+
+export const resetPassReq = async (email: string) => {
+  try {
+    const response = await fetch(
+      `${API_SSO_URL}/wp-json/custom/v1/send-password-reset`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email: email }),
+      }
+    );
+
+    const data = await response.json();
+
+    if (data.message === "Password reset email has been sent.") {
+      console.log(data.message);
+      return true;
+    } else {
+      console.error("Failed to send password reset email:", data.message);
+      return false;
+    }
+  } catch (error) {
+    if (error instanceof Error) {
+      console.log(error.message);
+      throw error;
+    }
+
+    throw new Error("An unknown error occurred");
+  }
+};
 
 export const logout = async () => {
-    try {
-        const user = await auth.signOut();
-        return user;
-    } catch (error: any) {
-        const errorCode = error?.code;
-        const errorMessage = error?.message;
-        console.error("Logout error:", errorCode, errorMessage);
-        throw error;
-    }
-}
+  try {
+    const user = await auth.signOut();
+    return user;
+  } catch (error: any) {
+    const errorCode = error?.code;
+    const errorMessage = error?.message;
+    console.error("Logout error:", errorCode, errorMessage);
+    throw error;
+  }
+};
 
 export const signup = async (email: string, password: string) => {
-    try {
-        const userCredential = await auth.createUserWithEmailAndPassword(email, password);
-        console.log(userCredential.user);
+  try {
+    const userCredential = await auth.createUserWithEmailAndPassword(
+      email,
+      password
+    );
+    console.log(userCredential.user);
 
-        await emailVerification();
+    await emailVerification();
 
-        const user = userCredential.user;
-        console.log("User registered:", user);
-        return user;
-    } catch (error) {
-        throw error;
-    }
-}
+    const user = userCredential.user;
+    console.log("User registered:", user);
+    return user;
+  } catch (error) {
+    throw error;
+  }
+};
 
 export const emailVerification = async () => {
-    const user = auth.currentUser;
-    try {
-        await auth.currentUser?.sendEmailVerification({
-            handleCodeInApp: true,
-            url: "https://ptfe-game.firebaseapp.com",
-        }).then(() => {
-            console.log("Verification Sent");
-        })
-    } catch (error: any) {
-        const errorCode = error?.code;
-        const errorMessage = error?.message;
-        console.error("Email verification error:", errorCode, errorMessage);
-        throw error;
-    }
-}
+  const user = auth.currentUser;
+  try {
+    await auth.currentUser
+      ?.sendEmailVerification({
+        handleCodeInApp: true,
+        url: "https://ptfe-game.firebaseapp.com",
+      })
+      .then(() => {
+        console.log("Verification Sent");
+      });
+  } catch (error: any) {
+    const errorCode = error?.code;
+    const errorMessage = error?.message;
+    console.error("Email verification error:", errorCode, errorMessage);
+    throw error;
+  }
+};
 
 export const forgotPassword = async (email: string) => {
-    try {
-        await auth.sendPasswordResetEmail(email);
-    } catch(error: any) {
-        console.log(error.message);
-        throw error;
-    }
-}
+  try {
+    await auth.sendPasswordResetEmail(email);
+  } catch (error: any) {
+    console.log(error.message);
+    throw error;
+  }
+};
 
 export const userRegister = async (email: string, fullName: string) => {
-    const response = await fetch(`${API_URL}/api/user`, {
-        method: 'POST',
-        headers: {
-        'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            email: email,
-            fullname: fullName,
-        }),
-    });
+  const response = await fetch(`${API_URL}/api/user`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      email: email,
+      fullname: fullName,
+    }),
+  });
 
-    console.log(response);
-}
+  console.log(response);
+};
 
-export const updatePassword = async(newPassword: string) => {
-    try {
-        const user = auth.currentUser;
-        user?.updatePassword(newPassword);
+export const updatePassword = async (newPassword: string) => {
+  try {
+    const user = auth.currentUser;
+    user?.updatePassword(newPassword);
 
-        return true;
-    } catch (error: any) {
-        const errorCode = error?.code;
-        const errorMessage = error?.message;
-        console.error("Logout error:", errorCode, errorMessage);
-        return false;
-    }
-}
+    return true;
+  } catch (error: any) {
+    const errorCode = error?.code;
+    const errorMessage = error?.message;
+    console.error("Logout error:", errorCode, errorMessage);
+    return false;
+  }
+};

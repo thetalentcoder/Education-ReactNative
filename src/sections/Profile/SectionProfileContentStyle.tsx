@@ -19,7 +19,7 @@ export default StyleSheet.create({
         left: windowWidth / 2 - verticalScale(60),
         position: "absolute",
 
-        backgroundColor: "#F1EDED",
+        backgroundColor: "#FF675B",
     },
     avatar: {
         width: verticalScale(120),

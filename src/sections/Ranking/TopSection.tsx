@@ -24,6 +24,7 @@ type Props = {
         index: number
         fullname: string
         score: number
+        url: string
     }[],
     currentSeason: number;
     season: number;
@@ -65,7 +66,7 @@ export function TopSection({
             setSeason(season + 1);
         }
     }
-
+console.log("XXX", rankingData)
     return (
         <>
             <View style={styles.container}>
@@ -74,7 +75,7 @@ export function TopSection({
                         {
                             season != 1
                             ? <PTFEButton 
-                                text="PREVIOUS"
+                                text="Previous"
                                 type="circle"
                                 color="#FF675B"
                                 onClick={prevSeason}
@@ -119,6 +120,7 @@ export function TopSection({
                                         ranking={rankingData[1]?.index}
                                         name={rankingData[1]?.fullname}
                                         score={rankingData[1]?.score}
+                                        imagePath={rankingData[1]?.url}
                                     />
                                     <Cylinder
                                         topColor="#FF6DAA"
@@ -134,6 +136,7 @@ export function TopSection({
                                         ranking={rankingData[0]?.index}
                                         name={rankingData[0]?.fullname}
                                         score={rankingData[0]?.score}
+                                        imagePath={rankingData[0]?.url}
                                     />
                                     <Cylinder
                                         topColor="#6852F2"
@@ -149,6 +152,7 @@ export function TopSection({
                                         ranking={rankingData[2]?.index}
                                         name={rankingData[2]?.fullname}
                                         score={rankingData[2]?.score}
+                                        imagePath={rankingData[2]?.url}
                                     />
                                     <Cylinder
                                         topColor="#FFD967"

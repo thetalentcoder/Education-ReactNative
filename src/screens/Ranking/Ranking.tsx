@@ -54,6 +54,7 @@ export default function Ranking() {
         try {
             setIsLoading(true);
             const result = await getRankingSeason(season);
+            console.log("X22XXX", result)
             const resultWithUserIndex = result.seasonScores.map((user: any, index: number) => ({
                 ranking: user.rank,
                 fullname: user.seasonScore == 0 ? "-" : user.userName,
@@ -61,6 +62,7 @@ export default function Ranking() {
                 index: index + 1,
                 currentUser: false,
                 rank: '',
+                url: user.userAvatar
                 // currentUser: result.userScore.userId === user._id ? true : false,
                 // rank: result.userScore.userId === user._id ? result.userScore.rank : '',
             }))
@@ -102,7 +104,7 @@ export default function Ranking() {
     }
 
     return (
-        <View style={styles.container}>
+        <View style={season == currentSeason ?styles.container: styles.precontainer}>
             {isLoading && <PTFELoading />}
             <ScrollView style={styles.innerContainer}>
                 <View style={styles.topSection}>

@@ -16,7 +16,7 @@ export default StyleSheet.create({
 
         paddingHorizontal: moderateScale(16),
 
-        backgroundColor: '#87C6E850',
+        backgroundColor: '#DBEBF3FF',
         borderRadius: moderateScale(16),
     },
     iconContainer: {

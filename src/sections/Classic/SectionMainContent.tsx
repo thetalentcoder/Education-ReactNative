@@ -1,20 +1,25 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { View, Text, ScrollView } from "react-native";
-import { useFocusEffect } from '@react-navigation/native';
+import { useFocusEffect } from "@react-navigation/native";
 import { useNavigation } from "@react-navigation/native";
 import { Entypo } from "@expo/vector-icons";
 import { AnimatedCircularProgress } from "react-native-circular-progress";
 
 import { PTFEButton } from "src/components/button";
+import Toast from "react-native-simple-toast";
 
 import PartAnswer from "src/parts/Question/PartAnswer";
-import styles from "./SectionMainContentStyle"
+import styles from "./SectionMainContentStyle";
 
 import { getQuizDataDetail } from "src/actions/quiz/quiz";
 import { moderateScale, scale, verticalScale } from "src/config/scale";
 import { PTFELoading } from "src/components/loading";
 import { quiz_test_data } from "assets/@mockup/data";
-import { gameModeString, survivalLife, timeLimitPerQuestion } from "src/constants/consts";
+import {
+  gameModeString,
+  survivalLife,
+  timeLimitPerQuestion,
+} from "src/constants/consts";
 
 import TickAnim from "src/parts/Question/TickAnim";
 import CloseAnim from "src/parts/Question/CloseAnim";
@@ -24,317 +29,430 @@ import { quizModes } from "src/constants/consts";
 import { getAllQuestions } from "src/actions/question/question";
 import { useSelector } from "react-redux";
 
+type Answer = {
+  questionId: string;
+  isCorrect: boolean;
+};
 
 type Props = {
-    quizID: string[],
-    refresh: boolean,
-    setCurrentProbNumber: (newValue: number) => void;
-    setDataLoadedFlag: (newValue: boolean) => void;
-    setCurrentLife: (newValue: number) => void;
-    setCurrent: (newValue: number) => void;
-    setTotalProbCount: (newValue: number) => void;
-    timerPaused: boolean;
-    scrollRef: any;
+  quizID: string[];
+  refresh: boolean;
+  setCurrentProbNumber: (newValue: number) => void;
+  setDataLoadedFlag: (newValue: boolean) => void;
+  setCurrentLife: (newValue: number) => void;
+  setCurrent: (newValue: number) => void;
+  setTotalProbCount: (newValue: number) => void;
+  timerPaused: boolean;
+  scrollRef: any;
 };
 
 export default function SectionMainContent({
-    quizID,
-    refresh,
-    setCurrentProbNumber,
-    setDataLoadedFlag,
-    setCurrentLife,
-    setCurrent,
-    setTotalProbCount,
-    timerPaused,
-    scrollRef,
+  quizID,
+  refresh,
+  setCurrentProbNumber,
+  setDataLoadedFlag,
+  setCurrentLife,
+  setCurrent,
+  setTotalProbCount,
+  timerPaused,
+  scrollRef,
 }: Props) {
-    const navigation: any = useNavigation();
+  const navigation: any = useNavigation();
 
-    const { user } = useSelector((state) => state.userData);
+  const { user } = useSelector((state: any) => state.userData);
 
-    const [submitData, setSubmitData] = useState<any[]>([]);
+  const [submitData, setSubmitData] = useState<any[]>([]);
 
-    const [life, setLife] = useState(survivalLife);
+  const [life, setLife] = useState(survivalLife);
+  const [quizState, setQuizState] = useState(0);
 
-    const [quizData, setQuizData] = useState<any>({});
-    const [dataLoaded, setDataLoaded] = useState(false);
-    const [testEnded, setTestEnded] = useState(false);
+  const [quizData, setQuizData] = useState<any>({});
+  const [dataLoaded, setDataLoaded] = useState(false);
+  const [testEnded, setTestEnded] = useState(false);
 
-    const [probCount, setProbCount] = useState(0);
-    const [currentProb, setCurrentProb] = useState(0);
-    const [passedQuestion, setPassedQuestionCount] = useState(0);
+  const [probCount, setProbCount] = useState(0);
+  const [currentProb, setCurrentProb] = useState(0);
+  const [passedQuestion, setPassedQuestionCount] = useState(0);
 
-    const [currentScore, setCurrentScore] = useState(0);
+  const [currentScore, setCurrentScore] = useState(0);
 
-    const [problem, setProblem] = useState<string>('');
-    const [answers, setAnswers] = useState<any>([0, 0, 0, 0]);
-    const [rationale, setRationale] = useState<string>('');
+  const [statistics, setStatistics] = useState<number>(0);
 
-    const [limitTime, setLimitTime] = useState(0);
-    const [remainTime, setRemainTime] = useState(0);
+  const [submitAnswers, setSubmitAnswers] = useState<Answer[]>([]);
 
-    const [tickShow, setTickShow] = useState(false);
-    const [closeShow, setCloseShow] = useState(false);
+  const [problem, setProblem] = useState<string>("");
+  const [answers, setAnswers] = useState<any>([0, 0, 0, 0]);
+  const [rationale, setRationale] = useState<string>("");
+  const [statisticsFlag, setStatisticsFlag] = useState(false);
 
-    const [hideTick, setHideTick] = useState(true);
-    const [hide, setHide] = useState(true);
+  const [limitTime, setLimitTime] = useState(0);
+  const [remainTime, setRemainTime] = useState(0);
 
-    const [selected, setSelected] = useState(false);
+  const [tickShow, setTickShow] = useState(false);
+  const [closeShow, setCloseShow] = useState(false);
 
-    const [paused, setPaused] = useState(false);
+  const [hideTick, setHideTick] = useState(true);
+  const [hide, setHide] = useState(true);
 
-    useEffect(() => {
-        if (quizID == undefined) {
-            return;
-        }
+  const [selected, setSelected] = useState(false);
 
-        setLife(survivalLife);
+  const [paused, setPaused] = useState(false);
 
-        setDataLoadedFlag(false);
-        setSubmitData([]);
-        setQuizData({});
+  useEffect(() => {
+    if (quizID == undefined) {
+      return;
+    }
 
-        setDataLoaded(false);
-        setTestEnded(false);
+    setLife(survivalLife);
 
-        setProbCount(0);
-        setCurrentProb(0);
-        setCurrentScore(0);
-        setCurrent(0);
-        setProblem('');
-        setAnswers([0, 0, 0, 0]);
-        setSelected(false);
+    setDataLoadedFlag(false);
+    setSubmitData([]);
+    setQuizData({});
 
-        fetchQuizDetail();
-    }, []);
+    setDataLoaded(false);
+    setTestEnded(false);
 
-    useFocusEffect(
-        React.useCallback(() => {
-        }, [quizID, refresh])
-    );
+    setProbCount(0);
+    setCurrentProb(0);
+    setCurrentScore(0);
+    setCurrent(0);
+    setProblem("");
+    setAnswers([0, 0, 0, 0]);
+    setSelected(false);
 
-    const fetchQuizDetail = useCallback(async () => {
-        const data = await getAllQuestions(quizID);
-        // await sleep(500);
+    fetchQuizDetail();
+  }, []);
 
-        setQuizData(data);
-        setDataLoaded(true);
-        setSubmitData([]);
-        setDataLoadedFlag(true);
-    }, [setQuizData, setDataLoaded, setSubmitData, setDataLoadedFlag, quizID]);
+  useFocusEffect(React.useCallback(() => {}, [quizID, refresh]));
 
-    useEffect(() => {
-        setProbCount(quizData?.questions?.length);
-        setCurrentProb(currentProb)
-    }, [quizData, currentProb]);
+  const goToSetting = useCallback(() => {
+    console.log("Navigating to SettingScreen");
+    navigation.navigate("SettingScreen");
+  }, [navigation]);
 
-    useEffect(() => {
-        if (dataLoaded && quizData.questions?.length) {
-            setCurrentProbNumber(currentProb + 1);
-            setTotalProbCount(probCount)
+  const fetchQuizDetail = useCallback(async () => {
+    const data = await getAllQuestions(quizID);
+    if (data.success == false) {
+      Toast.show(
+        "Your game is only available on paid accounts. Subscribe to your account",
+        5000
+      );
+      goToSetting();
+    }
+    // await sleep(500);
+    const statistics = data.questions[currentProb]?.statistics;
+    if (statistics) {
+      const totalCorrect = statistics.totalCorrect || 0;
+      const totalAnswered = statistics.totalAnswered || 1;
+      const percentageCorrect = (totalCorrect / totalAnswered) * 100;
+      setStatistics(Math.round(percentageCorrect));
+    }
+    setQuizData(data);
+    setDataLoaded(true);
+    setSubmitData([]);
+    setDataLoadedFlag(true);
+  }, [setQuizData, setDataLoaded, setSubmitData, setDataLoadedFlag, quizID]);
 
-            setRemainTime(timeLimitPerQuestion);
-            setLimitTime(timeLimitPerQuestion);
+  useEffect(() => {
+    setProbCount(quizData?.questions?.length);
+    setCurrentProb(currentProb);
+  }, [quizData, currentProb]);
 
-            const currentQuestion = quizData.questions[currentProb];
+  useEffect(() => {
+    if (dataLoaded && quizData.questions?.length) {
+      setCurrentProbNumber(currentProb + 1);
+      setTotalProbCount(probCount);
 
-            if (currentQuestion) {
-                setProblem(currentQuestion.question);
-                setRationale(currentQuestion.answerExplanation);
-                if (currentQuestion.answers) {
-                    const newAnswers = currentQuestion.answers.map((item: any, index: number) => {
-                        return {
-                            index: String.fromCharCode(0x41 + index),
-                            content: item.answer,
-                            enabled: false,
-                            correct: item.correct,
-                        };
-                    });
-                    setAnswers(newAnswers);
-                }
+      setRemainTime(timeLimitPerQuestion);
+      setLimitTime(timeLimitPerQuestion);
+
+      const currentQuestion = quizData.questions[currentProb];
+      const statistics = quizData.questions[currentProb + 1]?.statistics;
+      if (statistics) {
+        const totalCorrect = statistics.totalCorrect || 0;
+        const totalAnswered = statistics.totalAnswered || 1;
+        const percentageCorrect = (totalCorrect / totalAnswered) * 100;
+        setStatistics(Math.round(percentageCorrect));
+      }
+      if (currentQuestion) {
+        setProblem(currentQuestion.question);
+        setRationale(currentQuestion.answerExplanation);
+        if (currentQuestion.answers) {
+          const newAnswers = currentQuestion.answers.map(
+            (item: any, index: number) => {
+              return {
+                index: String.fromCharCode(0x41 + index),
+                content: item.answer,
+                enabled: false,
+                correct: item.correct,
+              };
             }
+          );
+          setAnswers(newAnswers);
         }
-    }, [currentProb, dataLoaded, quizData, setLimitTime, setRemainTime]);
+      }
+    }
+  }, [currentProb, dataLoaded, quizData, setLimitTime, setRemainTime]);
 
-
-    useEffect(() => {
-        const intervalId = setInterval(() => {
-            if (paused || testEnded) {
-                clearInterval(intervalId);
-            }
-            else {
-                if (remainTime <= 0 && dataLoaded) {
-                    NextProblem();
-                }
-                else {
-                    setRemainTime(remainTime - 100);
-                }
-            }
-        }, 100);
-
-        return () => {
-            clearInterval(intervalId);
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      if (paused || testEnded) {
+        clearInterval(intervalId);
+      } else {
+        if (remainTime <= 0 && dataLoaded) {
+          goSubmit();
+          NextClicked()
+        } else {
+          setRemainTime(remainTime - 100);
         }
-    }, [remainTime, testEnded, dataLoaded, paused]);
+      }
+    }, 100);
 
-    useEffect(() => {
-        setPaused(timerPaused);
-    }, [timerPaused]);
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, [remainTime, testEnded, dataLoaded, paused]);
 
-    const NextProblem = useCallback(() => {
-        updateSubmitData();
+  useEffect(() => {
+    setPaused(timerPaused);
+  }, [timerPaused]);
 
-        // Update Submit Data Start
-        let isPassed = false;
-        for (const answer of answers) {
-            if (answer.enabled == true && answer.correct == true) {
-                setPassedQuestionCount(passedQuestion + 1);
-                isPassed = true;
-            }
+  const goSubmit = useCallback(() => {
+    setStatisticsFlag(true);
+
+    if (quizState == 0) {
+      // Update Submit Data Start
+      let isPassed = false;
+      for (const answer of answers) {
+        if (answer.enabled == true && answer.correct == true) {
+          setPassedQuestionCount(passedQuestion + 1);
+          isPassed = true;
         }
+      }
 
-        if (!isPassed) {
-            setCloseShow(true);
-            setHide(false);
-        }
-        else {
-            setTickShow(true);
-            setHideTick(false);
+      if (!isPassed) {
+        setCloseShow(true);
+        // setHide(false);
+      } else {
+        // setTickShow(true);
+        // setHideTick(false);
 
-            const newScore: number = Math.floor(
-                currentScore + (100 + remainTime / 1000) * (user?.currentMultiplier == undefined ? 1 : user?.currentMultiplier));
-            setCurrentScore(newScore);
-            setCurrent(newScore);
-        }
-        // Update Submit Data End
-    }, [answers, life, submitData, currentProb, probCount, navigation, setLife, setCurrentLife, setCurrentProb, setTestEnded]);
+        const newScore: number = Math.floor(
+          currentScore +
+            (100 + remainTime / 1000) *
+              (user?.currentMultiplier == undefined
+                ? 1
+                : user?.currentMultiplier)
+        );
+        setCurrentScore(newScore);
+        setCurrent(newScore);
+      }
+      setQuizState(2);
+    }
+    // Update Submit Data End
+  }, [
+    answers,
+    life,
+    submitData,
+    currentProb,
+    probCount,
+    navigation,
+    setLife,
+    setCurrentLife,
+    setCurrentProb,
+    setTestEnded,
+  ]);
 
-    const updateSubmitData = useCallback(() => {
-        let data = submitData;
-        let newItem = {
-            question: problem,
-            answers: "",
-            answerExplanation: rationale,
-        };
-        newItem.answers = answers;
-        data.push(newItem);
-        setSubmitData(data);
-    }, [quizData, problem, rationale, currentProb, answers, submitData, setSubmitData]);
+  const updateSubmitData = useCallback(() => {
+    let data = submitData;
+    let newItem = {
+      question: problem,
+      answers: "",
+      answerExplanation: rationale,
+    };
+    newItem.answers = answers;
+    data.push(newItem);
+    setSubmitData(data);
+  }, [
+    quizData,
+    problem,
+    rationale,
+    currentProb,
+    answers,
+    submitData,
+    setSubmitData,
+  ]);
 
-    const NextProb = useCallback(() => {
-        if (currentProb + 1 >= quizData?.questions?.length) {
-            setTestEnded(true);
-            const keys = Object.keys(quizModes);
-            const index = keys.indexOf('classicMode');
-            const hasTakenQuizToday = checkIfUserHastakenQuizToday(user)
+  const goNext = () => {
+    if (quizState) NextClicked();
+  };
 
-            if (hasTakenQuizToday) {
-                navigation.navigate("Score", {
-                    id: quizID,
-                    submitData: submitData,
-                    title: gameModeString[index],
-                    score: currentScore,
-                    quizMode: quizModes.classicMode,
-                    numberOfQuestions: currentProb + 1,
-                    category: "All Questions"
-                });
-            } else {
-                navigation.navigate("CurrentStreak", {
-                    id: quizID,
-                    submitData: submitData,
-                    title: gameModeString[index],
-                    score: currentScore,
-                    quizMode: quizModes.classicMode,
-                    numberOfQuestions: currentProb + 1,
-                    category: "All Questions"
-                });
-            }
-        }
-        else {
-            setCurrentProb(currentProb + 1);
-            setSelected(false);
+  const NextClicked = useCallback(() => {
+    setStatisticsFlag(false);
+    updateSubmitData();
+    setQuizState(0);
+    if (currentProb + 1 >= quizData?.questions?.length) {
+      setTestEnded(true);
+      const keys = Object.keys(quizModes);
+      const index = keys.indexOf("classicMode");
+      const hasTakenQuizToday = checkIfUserHastakenQuizToday(user);
 
-            scrollRef.current?.scrollTo({
-                y: 0,
-                animated: true,
-            });
-        }
-    }, [navigation, setTestEnded, currentProb, currentScore, survivalLife, setCurrentProb, setSelected]);
-
-
-    const onSelect = useCallback((idx: number) => {
-        const newAnswers = answers.map((item: any, index: number) => {
-            return (
-                {
-                    index: item.index,
-                    content: item.content,
-                    enabled: index == idx,
-                    correct: item.correct,
-                }
-            )
-        })
-        setAnswers(newAnswers);
-        setSelected(true);
-
-        scrollRef.current?.scrollToEnd({
-            animated: true,
+      if (hasTakenQuizToday) {
+        navigation.navigate("Score", {
+          id: quizID,
+          submitData: submitData,
+          title: gameModeString[index],
+          score: currentScore,
+          quizMode: quizModes.classicMode,
+          numberOfQuestions: currentProb + 1,
+          answers: submitAnswers,
         });
-    }, [answers, setAnswers, setSelected]);
+      } else {
+        navigation.navigate("CurrentStreak", {
+          id: quizID,
+          submitData: submitData,
+          title: gameModeString[index],
+          score: currentScore,
+          quizMode: quizModes.classicMode,
+          numberOfQuestions: currentProb + 1,
+          answers: submitAnswers,
+        });
+      }
+    } else {
+      setCurrentProb(currentProb + 1);
+      setSelected(false);
 
+      scrollRef.current?.scrollTo({
+        y: 0,
+        animated: true,
+      });
+    }
+  }, [
+    navigation,
+    setTestEnded,
+    currentProb,
+    currentScore,
+    survivalLife,
+    setCurrentProb,
+    setSelected,
+  ]);
 
-    return (
-        <View style={styles.container}>
-            <TickAnim onTrigger={tickShow} setOnTrigger={setTickShow} hide={hideTick} setHide={setHideTick} CallBack={NextProb} />
-            <CloseAnim onTrigger={closeShow} setOnTrigger={setCloseShow} hide={hide} setHide={setHide} CallBack={NextProb} />
-            <View style={styles.timerContainer}>
-                <AnimatedCircularProgress
-                    size={verticalScale(90)}
-                    width={verticalScale(4)}
-                    fill={limitTime != 0 ? (limitTime - remainTime) * 100 / limitTime : 0}
-                    tintColor="#FFFFFFFF"
-                    rotation={180}
-                    backgroundColor="#87C6E8">
-                    {
-                        (fill) => (
-                            <Entypo name="stopwatch" size={moderateScale(36)} color="#A1C2C8" />
-                        )
-                    }
-                </AnimatedCircularProgress>
+  const onSelect = useCallback(
+    (idx: number) => {
+      const incrementMatch = answers[idx].correct === true ? 1 : 0;
+
+      const id = quizData.questions[currentProb + 1]?._id;
+      const unitAnswer = {
+        questionId: id,
+        isCorrect: incrementMatch === 1,
+      };
+
+      setSubmitAnswers([...submitAnswers, unitAnswer]);
+
+      const newAnswers = answers.map((item: any, index: number) => {
+        return {
+          index: item.index,
+          content: item.content,
+          enabled: index == idx,
+          correct: item.correct,
+        };
+      });
+      setAnswers(newAnswers);
+      setSelected(true);
+
+      scrollRef.current?.scrollToEnd({
+        animated: true,
+      });
+    },
+    [answers, setAnswers, setSelected]
+  );
+
+  return (
+    <View style={styles.container}>
+      <View style={styles.timerContainer}>
+        <AnimatedCircularProgress
+          size={verticalScale(90)}
+          width={verticalScale(8)}
+          fill={
+            limitTime != 0 ? ((limitTime - remainTime) * 100) / limitTime : 0
+          }
+          tintColor="#FFFFFFFF"
+          rotation={180}
+          backgroundColor="#87C6E8"
+        >
+          {(fill) => (
+            <Entypo name="stopwatch" size={moderateScale(36)} color="#A1C2C8" />
+          )}
+        </AnimatedCircularProgress>
+      </View>
+      <View style={styles.innerContainer}>
+        <View style={styles.quizContainer}>
+          <ScrollView>
+            <Text style={styles.questionText}>
+              {problem.replace(/\n/g, "").trim()}
+            </Text>
+            {/* <View style={styles.videoWrapper}>
+              <View style={styles.vimeoVideoContainer}></View>
             </View>
-            <View style={styles.innerContainer}>
-                <View style={styles.quizContainer}>
-                    <ScrollView>
-                        <Text style={styles.questionText}>
-                            {problem}
-                        </Text>
-                    </ScrollView>
-                </View>
-                <View style={styles.answersContainer}>
-                    {
-                        answers.map((item: any, index: number) => {
-                            return (
-                                <PartAnswer
-                                    key={index}
-                                    index={item.index}
-                                    content={item.content}
-                                    enabled={item.enabled}
-                                    clickable={hide && hideTick}
-                                    onClick={() => onSelect(index)}
-                                />
-                            )
-                        })
-                    }
-                </View>
-                <View style={styles.buttonContainer}>
-                    <PTFEButton
-                        text="Next"
-                        type="rounded"
-                        color="#FF675B"
-                        enabled={!(hide && hideTick && selected)}
-                        onClick={NextProblem}
-                    />
-                </View>
-            </View>
+            <View style={styles.photoContainer}></View> */}
+          </ScrollView>
         </View>
-    )
+        {statisticsFlag && (
+          <View style={styles.statisticsContainer}>
+            <Text style={styles.statisticsText}>
+              {statistics} % of users answer this question correctly
+            </Text>
+          </View>
+        )}
+        <View style={styles.answersContainer}>
+          {answers.map((item: any, index: number) => {
+            return (
+              <>
+                {quizState == 0 ? (
+                  <PartAnswer
+                    key={index}
+                    index={item.index}
+                    content={item.content}
+                    enabled={item.enabled}
+                    clickable={hide && hideTick}
+                    onClick={() => onSelect(index)}
+                  />
+                ) : (
+                  <PartAnswer
+                    key={index}
+                    index={item.index}
+                    content={item.content}
+                    enabled={item.enabled}
+                    correct={item.correct}
+                    mine={item.enabled}
+                    clickable={false}
+                    onClick={() => onSelect(index)}
+                  />
+                )}
+              </>
+            );
+          })}
+        </View>
+        <View style={styles.buttonContainer}>
+          {quizState == 2 ? (
+            <PTFEButton
+              text={"Next"}
+              type={"rounded"}
+              color="#FF675B"
+              enabled={!selected}
+              onClick={goNext}
+            />
+          ) : (
+            <PTFEButton
+              text={"Submit"}
+              type={"rounded"}
+              color="#FF675B"
+              enabled={!selected}
+              onClick={goSubmit}
+            />
+          )}
+        </View>
+      </View>
+    </View>
+  );
 }

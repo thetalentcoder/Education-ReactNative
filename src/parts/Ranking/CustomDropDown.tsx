@@ -58,7 +58,7 @@ const CustomDropdown = ({ options, onSelect, title, page }: Props) => {
               <View
                 style={{
                   ...styles.dropdownItemStyle,
-                  ...(isSelected && { backgroundColor: "#888888" }),
+                  ...(isSelected && { backgroundColor: "#dcd5d5" }),
                 }}
                 {...(item.isCategory && { "aria-disabled": true })}
               >

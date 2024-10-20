@@ -69,7 +69,7 @@ export default StyleSheet.create({
         height: windowWidth * 0.09,
         flexDirection: "row",
         justifyContent: "space-evenly",
-        backgroundColor: "#C1E8F8",
+        backgroundColor: "#DBEBF3FF",
 
         borderBottomLeftRadius: 16,
         borderBottomRightRadius: 16,

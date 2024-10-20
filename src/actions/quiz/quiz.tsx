@@ -13,6 +13,7 @@ export const getQuizDataDetail = async (id: string) => {
 }
 
 export const postSubmitQuizResult = async (data: any) => {
+    console.log("##final submit data::", data)
     const responseData = await apiService.postDataWithAuth(`/api/quiz/submit`, data);
     return responseData;
 }

@@ -47,7 +47,7 @@ export default function RecentQuizzes({ route, navigation }: Props) {
                 </LinearGradient>
                 <View style={styles.headerContainer}>
                     <SectionHeader
-                        title={'Recent Quizzes'}
+                        title={'Game History'}
                         goBack={goBack}
                     />
                 </View>

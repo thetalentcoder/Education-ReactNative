@@ -68,8 +68,9 @@ export function BottomSection({
                             </Fragment>
                         );
                     }
-                    else {
-                        if (index == 9 && rankingData.length > 10) {
+                    else 
+                    {
+                        if (index == 9 && rankingData.length > 10 && ranking.score) {
                             return (
                                 <>
                                     <PartRanking
@@ -81,7 +82,7 @@ export function BottomSection({
                                     <View style={styles.lineContainer}></View>
                                 </>
                             );
-                        } else {
+                        } else if (ranking.score) {
                             return (
                                 <PartRanking
                                     key={index}

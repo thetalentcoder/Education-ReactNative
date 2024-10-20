@@ -41,9 +41,9 @@ export default function SectionMainContent({ navigation, gamehistory}: any) {
                                     <Text style={styles.smallText}>
                                         { col.numberOfQuestions == 1 ? `${col.numberOfQuestions} Question` : `${col.numberOfQuestions} Questions`}
                                     </Text>
-                                    <Text style={styles.smallText} numberOfLines={1} ellipsizeMode="tail">
+                                    {/* <Text style={styles.smallText} numberOfLines={1} ellipsizeMode="tail">
                                         {col.category}
-                                    </Text>
+                                    </Text> */}
                                 </View>
                             </View>
                             <View style={[styles.percentContainer]}>

@@ -40,7 +40,7 @@ export default StyleSheet.create({
     },
     mainContent: {
         width: "100%",
-        flex: 30,
+        flex: 40,
         bottom: 0,
         borderTopLeftRadius: 32,
         borderTopRightRadius: 32,

@@ -37,7 +37,7 @@ export default function PartLogin({
                     Email Address
                 </Text>
                 <PTFEEdit 
-                    type="text"
+                    type="email"
                     initValue={email}
                     onChangeText={setEmail}
                 />

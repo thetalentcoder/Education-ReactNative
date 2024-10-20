@@ -2,13 +2,13 @@
   "expo": {
     "name": "NPTE Ninja",
     "slug": "ptfe-game",
-    "version": "1.0.16",
+    "version": "1.0.19",
     "orientation": "portrait",
     "icon": "./assets/icon.jpg",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.jpg",
-      "resizeMode": "contain",
+      "image": "./assets/splash.png",
+      "resizeMode": "cover",
       "backgroundColor": "#ffffff"
     },
     "assetBundlePatterns": [
@@ -32,7 +32,7 @@
     },
     "extra": {
       "eas": {
-        "projectId": "86274dee-3ec5-40bb-8226-38bd4dc26fd1"
+        "projectId": "077a37b2-46df-43e4-a09e-63bc871f67d3"
       }
     },
     "plugins": [

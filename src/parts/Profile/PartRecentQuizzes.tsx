@@ -8,6 +8,11 @@ import { useNavigation } from "@react-navigation/native";
 import { useDispatch } from 'react-redux';
 import { getMe } from 'src/actions/user/user';
 import { setUser } from 'src/redux/userSlice';
+import StudyModeIcon from "assets/icons/StudyModeIcon";
+import ClassicModeIcon from "assets/icons/ClassicModeIcon";
+import SurvivorModeIcon from "assets/icons/SurvivorModeIcon";
+import ScenarioModeIcon from "assets/icons/ScenarioModeIcon";
+import FlashCardIcon from "assets/icons/FlashCardIcon";
 
 const data = [
   {
@@ -93,9 +98,9 @@ const refreshUserData = useCallback(async () => {
   return (
     <View style={styles.container}>
       <View style={styles.headerContainer}>
-        <Text style={styles.title}>Recent Quizzes</Text>
+        <Text style={styles.title}>Game History</Text>
         <PTFELinkButton
-          text="View All >"
+          text="View All "
           color="#87C6E8"
           underlined={false}
           onClick={gotoRecentQuizzes}
@@ -121,7 +126,29 @@ const refreshUserData = useCallback(async () => {
           }
           return (
             <View key={index} style={styles.oneQuiz}>
-              <View style={[styles.icon, { backgroundColor: color }]}></View>
+              <View style={[styles.icon, { backgroundColor: color }]}>
+                {col.title == "FlashCards" ? (
+                  <FlashCardIcon />
+                  ) : col.title == "Study Mode" ? (
+                    <StudyModeIcon />
+                  ) : col.title == "Classic Mode" ? (
+                    <ClassicModeIcon />
+                  ) : col.title == "Survivor Mode" ? (
+                    <SurvivorModeIcon />
+                  ) : col.title == "Scenario Mode" ? (
+                    <ScenarioModeIcon />
+                  ) : col.title == "Text Quiz 2" ? (
+                    <FlashCardIcon />
+                  ) : col.title == "Test Quiz 1" ? (
+                    <FlashCardIcon />
+                  ) : col.title == "Test Quiz 3" ? (
+                    <FlashCardIcon />
+                  ) : col.title == "Test Quiz 4" ? (
+                    <FlashCardIcon />
+                  ) : (
+                    <></>
+                )}
+              </View>
               <View style={styles.textContainer}>
                 <Text style={styles.titleText}>{col.title}</Text>
                 <View style={styles.column}>
@@ -130,13 +157,13 @@ const refreshUserData = useCallback(async () => {
                       ? `${col.numberOfQuestions} Question`
                       : `${col.numberOfQuestions} Questions`}
                   </Text>
-                  <Text
+                  {/* <Text
                     style={styles.smallText}
                     numberOfLines={1}
                     ellipsizeMode="tail"
                   >
                     {col.category}
-                  </Text>
+                  </Text> */}
                 </View>
               </View>
               <View style={[styles.percentContainer]}>

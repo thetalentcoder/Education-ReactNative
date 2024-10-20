@@ -54,6 +54,7 @@ export default StyleSheet.create({
   scrollViewArea: {
     flex: 43,
     width: "100%",
+    marginTop: verticalScale(20)
   },
   navBarArea: {
     flex: 10,
@@ -71,7 +72,7 @@ export default StyleSheet.create({
   },
 
   sectionGameMode: {
-    marginTop: verticalScale(32),
+    marginTop: verticalScale(42),
     width: '100%',
   },
 

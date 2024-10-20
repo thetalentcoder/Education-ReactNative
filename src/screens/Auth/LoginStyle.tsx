@@ -1,13 +1,14 @@
-import { StyleSheet, Dimensions } from 'react-native';
-import { scale, verticalScale } from 'src/config/scale';
+import { StyleSheet, Dimensions } from "react-native";
+import { scale, verticalScale } from "src/config/scale";
+import { moderateScale } from "src/config/scale";
 
 const windowHeight = Dimensions.get("window").height;
 
 export default StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'flex-end',
-    alignItems: 'center',
+    justifyContent: "flex-end",
+    alignItems: "center",
     backgroundColor: "#FFDFFF",
   },
   upperGradientContainer: {
@@ -15,7 +16,7 @@ export default StyleSheet.create({
     position: "absolute",
     top: 0,
     width: "100%",
-    height: windowHeight * 65 / 93,
+    height: (windowHeight * 65) / 93,
   },
   backgroundCircle1: {
     zIndex: -1,
@@ -58,8 +59,32 @@ export default StyleSheet.create({
     backgroundColor: "#FFFFFF24",
   },
   sectionLogin: {
-    marginTop: verticalScale(287),
-    height: verticalScale(645),
-    width: '100%',
+    marginTop: verticalScale(80),
+    height: verticalScale(655),
+    width: "100%",
   },
-})
+  sectionStartImage: {
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  loginPanda: {
+    aspectRatio: 4,
+    width: "80%",
+    height: "auto",
+    marginTop: verticalScale(120)
+  },
+  backContainer: {
+    position: "absolute",
+    top: verticalScale(60),   // Adjust the top position to place it correctly
+    left: scale(20),          // Keep the left positioning
+    zIndex: 1,             // Ensures it stays on top of other components
+    padding: moderateScale(5), // Optional: increase touchable area
+    height: 'auto',           // Removes full height
+  },
+  back: {
+    backgroundColor: "white",
+    borderRadius: verticalScale(20),
+    padding: moderateScale(2),
+  },
+  
+});

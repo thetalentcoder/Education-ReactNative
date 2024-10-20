@@ -1,59 +1,32 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
-import Svg, { ClipPath, Defs, G, Mask, Path, Rect } from "react-native-svg";
+import Svg, { Path } from "react-native-svg";
 
 export default function SurvivorModeIcon() {
   return (
     <View style={styles.container}>
-      <Svg version="1.1" id="svg288" fill="white" width="70%" height="70%" viewBox="0 0 682.66669 682.66669">
-        <Defs id="defs292">
-          <ClipPath id="clipPath302">
-            <Path d="M 0,512 H 512 V 0 H 0 Z" id="path300"/>
-          </ClipPath>
-        </Defs>
-        <Mask id="custom"><Rect id="bg" x="0" y="0" width="100%" height="100%" fill="white"/><G transform="matrix(1.3333333,0,0,-1.3333333,0,682.66667)"/></Mask>
-          <G mask="url(#custom)"><G id="g294" transform="matrix(1.3333333,0,0,-1.3333333,0,682.66667)">
-          <G id="g296">
-            <G id="g298" clip-path="url(#clipPath302)">
-              <G id="g304" transform="translate(7.5,23.5322)">
-                <Path d="M 0,0 H 497" 
-                  fill="white" stroke="#FFFFFF" stroke-width="15" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-dasharray="none" stroke-opacity="1" id="path306"/>
-              </G>
-              <G id="g308" transform="translate(91.6694,118.7239)">
-                <Path d="m 0,0 87.795,176.544 c 2.264,4.553 8.142,5.875 12.137,2.728 l 18.974,-14.941" 
-                  fill="white" stroke="#FFFFFF" stroke-width="15" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-dasharray="none" stroke-opacity="1" id="path310"/>
-              </G>
-              <G id="g312" transform="translate(321.522,153.0518)">
-                <Path d="m 0,0 -15.103,-24.542 c -6.691,-10.874 -16.892,-19.141 -28.916,-23.435 l -75.506,-26.966 c -11.993,-4.284 -23.1,-10.729 -32.769,-19.017 l -41.486,-35.56" 
-                  fill="white" stroke="#FFFFFF" stroke-width="15" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-dasharray="none" stroke-opacity="1" id="path314"/>
-              </G>
-              <G id="g316" transform="translate(488.4678,23.5322)">
-                <Path d="m 0,0 -114.378,171.568 c -6.486,9.727 -20.867,9.466 -26.994,-0.491 l -8.648,-14.053" 
-                  fill="white" stroke="#FFFFFF" stroke-width="15" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-dasharray="none" stroke-opacity="1" id="path318"/>
-              </G>
-              <G id="g320" transform="translate(195.3628,242.7708)">
-                <Path d="m 0,0 -28.613,-66.763 c -4.52,-10.547 -12.165,-19.454 -21.904,-25.522 l -69.726,-43.442 c -7.208,-4.491 -13.099,-10.812 -17.073,-18.318 l -34.515,-65.194"
-                  fill="white" stroke="#FFFFFF" stroke-width="15"stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-dasharray="none" stroke-opacity="1" id="path322"/>
-              </G>
-              <G id="g324" transform="translate(344.1772,191.8708)">
-                <Path d="m 0,0 -73.111,159.515 c -5.794,12.641 -23.833,12.417 -29.31,-0.364 L -136.639,79.31" 
-                  fill="white" stroke="#FFFFFF" stroke-width="15" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-dasharray="none" stroke-opacity="1" id="path326"/>
-              </G>
-              <G id="g328" transform="translate(256,488.4678)">
-                <Path d="M 0,0 V -124.918" 
-                  fill="white" stroke="#FFFFFF" stroke-width="15" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-dasharray="none" stroke-opacity="1" id="path330"/>
-              </G>
-              <G id="g332" transform="translate(256,480.4517)">
-                <Path d="M 0,0 H 72.145 L 56.113,-24.048 72.145,-48.097 H 0" 
-                  fill="white" stroke="#FFFFFF" stroke-width="15" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-dasharray="none" stroke-opacity="1" id="path334"/>
-              </G>
-              <G id="g336" transform="translate(192.3721,232.4526)">
-                <Path d="m 0,0 30.957,-42.812 c 7.065,-9.772 22.106,-8.032 26.754,3.095 l 12.456,29.821 c 4.51,10.796 18.922,12.846 26.265,3.737 5.759,-7.147 16.445,-7.719 22.935,-1.229 l 9.392,9.392" 
-                  fill="white" stroke="#FFFFFF" stroke-width="15" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-dasharray="none" stroke-opacity="1" id="path338"/>
-              </G>
-            </G>
-          </G>
-        </G></G>
+      <Svg
+        height="60%"
+        viewBox="0 0 24 24"
+        width="60%"
+        fill="none"
+      >
+        <Path
+          d="M18.5 24h-18c-.176 0-.34-.093-.43-.245-.09-.152-.093-.34-.009-.495l9-16.5c.175-.321.703-.321.878 0l9 16.5c.084.155.081.343-.009.495s-.254.245-.43.245Zm-17.158-1h16.315l-8.157-14.956Z"
+          fill="#FFFFFF"
+        />
+        <Path
+          d="M23.5 24h-5c-.276 0-.5-.224-.5-.5s.224-.5.5-.5h4.154l-4.625-8.41-1.906 3.944c-.12.248-.417.353-.668.232-.249-.12-.353-.419-.232-.668l2.328-4.816c.082-.168.25-.277.437-.282.188.009.361.095.451.259l5.5 10c.085.155.083.343-.008.495-.091.153-.254.246-.431.246Z"
+          fill="#FFFFFF"
+        />
+        <Path
+          d="M9.5 7.5c-.276 0-.5-.224-.5-.5v-6.5c0-.276.224-.5.5-.5h6c.202 0 .385.122.462.309.078.187.035.402-.108.545l-1.647 1.646 1.646 1.646c.143.143.186.358.108.545-.076.187-.259.309-.461.309h-5.5v2c0 .276-.224.5-.5.5Zm.5-3.5h4.293l-1.146-1.146c-.195-.195-.195-.512 0-.707l1.146-1.147h-4.293Z"
+          fill="#FFFFFF"
+        />
+        <Path
+          d="M11 15c-.012 0-.023 0-.036-.001-.145-.01-.277-.083-.364-.199l-1.1-1.466-1.1 1.466c-.087.116-.22.188-.364.199-.151.012-.287-.042-.389-.145l-1.68-1.68c-.195-.195-.195-.512 0-.707s.512-.195.707 0l1.272 1.272 1.154-1.539c.188-.252.611-.252.8 0l1.154 1.539 1.272-1.272c.195-.195.512-.195.707 0s.195.512 0 .707l-1.68 1.68c-.094.094-.221.146-.353.146Z"
+          fill="#FFFFFF"
+        />
       </Svg>
     </View>
   );
@@ -63,7 +36,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     aspectRatio: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
 });

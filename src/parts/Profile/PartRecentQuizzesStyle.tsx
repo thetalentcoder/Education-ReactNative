@@ -54,7 +54,6 @@ export default StyleSheet.create({
     textContainer: {
         flex: 1,
         marginHorizontal: verticalScale(16),
-
         flexDirection: "column",
         justifyContent: "flex-start",
         alignItems: "flex-start",
@@ -64,10 +63,10 @@ export default StyleSheet.create({
         width: "100%",
     },
     percentContainer: {
-        width: verticalScale(48),
+        width: verticalScale(120),
         height: verticalScale(48),
         justifyContent: "center",
-        alignItems: "center",
+        alignItems: "flex-end",
     },
     titleText: {
         fontFamily: "poppins-medium",
@@ -82,7 +81,7 @@ export default StyleSheet.create({
     percentText: {
         fontFamily: "poppins-medium",
         fontSize: moderateScale(15),
-        textAlign: 'center',
+        textAlign: 'right',
         color: "black",
         width: '100%',
     }

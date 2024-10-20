@@ -6,6 +6,7 @@ const windowHeight = Dimensions.get("window").height;
 export default StyleSheet.create({
     container: {
         flex: 1,
+        flexDirection: 'column',
         justifyContent: 'flex-start',
         alignItems: 'center',
 
@@ -18,12 +19,12 @@ export default StyleSheet.create({
     },
 
     loginFormContainer: {
-        flex: 60,
+        flex: 50,
         width: "100%",
     },
 
     buttonContainer: {
-        flex: 15,
+        flex: 50,
         width: "100%",
     },
     textContainer: {

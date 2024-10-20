@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, View } from "react-native";
+import { Text, View, Image } from "react-native";
 
 import styles from "./PartAvatarStyle";
 import Balloon from "react-native-balloon";
@@ -55,13 +55,23 @@ type Props = {
     ranking: number,
     name: string,
     score: number,
+    imagePath: string,
+}
+
+// Function to convert Google Cloud Console URL to GCS direct URL
+const convertImageUrl = (url: string) => {
+    return url.replace("https://storage.cloud.google.com", "https://storage.googleapis.com");
 }
 
 export default function PartAvatar({
     ranking,
     name,
     score,
+    imagePath,
 }: Props) {
+    // Convert the image URL
+    const directImageUrl = convertImageUrl(imagePath);
+
     return (
         <>
             <View style={styles.container}>
@@ -81,20 +91,35 @@ export default function PartAvatar({
                         borderRadius: verticalScale(30),
                         borderColor: "#4444FF",
                         borderWidth: scale(2),
+                        backgroundColor: "#CCCCCC",
+                        position: "relative",
                     } : ranking == 2 ? {
                         width: verticalScale(50), 
                         height: verticalScale(50),
                         borderRadius: verticalScale(25),
                         borderColor: "#FF7777",
                         borderWidth: scale(2),
+                        backgroundColor: "#CCCCCC",
+                        position: "relative",
                     } : {
                         width: verticalScale(40), 
                         height: verticalScale(40),
                         borderRadius: verticalScale(20),
                         borderColor: "#FFD967",
                         borderWidth: scale(2),
+                        backgroundColor: "#CCCCCC",
+                        position: "relative",
                     }
                 ]}>
+                    <Image
+                        source={require("assets/images/imgs/profileDefault.png")}
+                        // source={{ uri: directImageUrl }}
+                        style={{
+                            width: '100%',
+                            height: '100%',
+                            borderRadius: ranking == 1 ? verticalScale(30) : ranking == 2 ? verticalScale(25) : verticalScale(20)
+                        }}
+                    />
                     {
                         rankingStars[ranking - 1].map((star, index) => {
                             return (
