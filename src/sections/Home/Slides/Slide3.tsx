@@ -8,10 +8,10 @@ export default function Slide3() {
     return (
         <View style={styles.container}>
             <Text style={styles.text_title}>
-                {texts.txt_screen_home_slider1_title}
+                {texts.txt_screen_home_slider3_title}
             </Text>
             <Text style={styles.text_content}>
-                {texts.txt_screen_home_slider1_content}
+                {texts.txt_screen_home_slider3_content}
             </Text>
         </View>
     );

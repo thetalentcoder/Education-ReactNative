@@ -31,8 +31,10 @@ export default StyleSheet.create({
     mainContent: {
         width: "100%",
         marginTop: verticalScale(32),
-        borderTopLeftRadius: moderateScale(32),
-        borderTopRightRadius: moderateScale(32),
+        // borderTopLeftRadius: moderateScale(32),
+        // borderTopRightRadius: moderateScale(32),
+        borderTopLeftRadius: 32,
+        borderTopRightRadius: 32,
         backgroundColor: "#FFFFFF"
     },
     scrollTopButton: {

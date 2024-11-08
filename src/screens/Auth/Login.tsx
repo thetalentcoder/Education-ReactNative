@@ -56,7 +56,7 @@ export default function Login() {
       if (savedEmail && savedPassword) {
         SetEmail(savedEmail);
         SetPassword(savedPassword);
-        handleLoginReCall();
+        // handleLoginReCall();
       } else {
         SetRememberMe(false);
       }
@@ -65,35 +65,6 @@ export default function Login() {
     }
   };
 
-  // const handleLogin = useCallback(async () => {
-  //   setIsLoading(true);
-
-  //   try {
-  //     console.log(email, password);
-  //     const user = await login(email, password);
-
-  //     if (user) {
-  //       if (!user.emailVerified) {
-  //         await emailVerification();
-  //         await logout();
-  //         setIsLoading(false);
-  //         navigation.navigate("EmailVerify", { email, password });
-  //       } else {
-  //         const userInfo = await getMe();
-  //         dispatch(setUser(userInfo)); // Set the user info in Redux
-
-  //         await AsyncStorage.setItem("savedEmail", email);
-  //         await AsyncStorage.setItem("savedPassword", password);
-
-  //         setIsLoading(false);
-  //         navigation.navigate("Main");
-  //       }
-  //     }
-  //   } catch (error) {
-  //     setIsLoading(false);
-  //     loginErrorHandler(error);
-  //   }
-  // }, [rememberMe, email, password]);
 
   const handleLogin = useCallback(async () => {
     setIsLoading(true);
@@ -149,31 +120,6 @@ export default function Login() {
     }
   }, [rememberMe, email, password]);
 
-  // const loginErrorHandler = (error: any) => {
-  //   if (
-  //     error.code === "auth/invalid-email" ||
-  //     error.code === "auth/invalid-credential"
-  //   ) {
-  //     Toast.show(
-  //       `Invalid email or password.\nPlease choose a different email.`,
-  //       15000
-  //     );
-  //   } else if (error.code === "auth/too-many-requests") {
-  //     Toast.show(
-  //       `Too many unsuccessful login attempts.\nPlease try again later.`,
-  //       15000
-  //     );
-  //   } else {
-  //     // Toast.show(`Sign-in errormessage: ${error.message}`, 35000);
-  //     // Toast.show(`Sign-in errorcode: ${error.message.code}`, 35000);
-  //     // Toast.show(`Sign-in error: ${error}`, 35000);
-  //     Alert.alert(
-  //       "Login Error", 
-  //       `Sign-in error: ${error}`,
-  //       [{ text: "OK" }]
-  //     );
-  //   }
-  // };
   const loginErrorHandler = (error: any) => {
     // Handle specific error codes
     if (
@@ -181,30 +127,18 @@ export default function Login() {
       error.message === "auth/invalid-credential" || 
       error.message === "[jwt_auth] invalid_email"
     ) {
-      Toast.show(
-        `Invalid email or password.\nPlease choose a different email.`,
-        15000
-      );
       Alert.alert(
         "Login Error",
         `Invalid email or password.\nPlease choose a different email.`,
         [{ text: "OK" }]
       );
     } else if (error.message === "auth/too-many-requests") {
-      // Toast.show(
-      //   `Too many unsuccessful login attempts.\nPlease try again later.`,
-      //   15000
-      // );
       Alert.alert(
         "Login Error",
         `Too many unsuccessful login attempts.\nPlease try again later.`,
         [{ text: "OK" }]
       );
     } else if (error.message === "[jwt_auth] incorrect_password") {
-      // Toast.show(
-      //   `Incorrect password. Please try again.`,
-      //   15000
-      // );
       Alert.alert(
         "Login Error",
         `Incorrect password. Please try again.`,

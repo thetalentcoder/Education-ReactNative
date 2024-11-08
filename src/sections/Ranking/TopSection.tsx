@@ -47,6 +47,28 @@ export function TopSection({
         { title: 'Scenario Mode', value: 'scenarioMode' },
     ];
 
+    const [displaySeason, setDisplaySeason] = useState(1);
+    const getDisplaySeason = () => {
+        const startDate = new Date('2024-10-01'); // November 1, 2024
+        const currentDate = new Date();
+        
+        // Calculate the month difference
+        const monthDiff = (currentDate.getFullYear() - startDate.getFullYear()) * 12 + (currentDate.getMonth() - startDate.getMonth());
+        
+        // Calculate the current season
+        const seasonIndex = Math.floor(monthDiff / 3);
+        const season = seasonIndex + 1; // Seasons start from 1
+    
+        return {
+            season,
+            currentSeason: seasonIndex === 0 ? season : Math.max(season, 1), // Ensuring at least Season 1 is returned
+        };
+    };
+    useEffect(() => {
+        const { season } = getDisplaySeason();
+        setDisplaySeason(season); // Set the display season when the component mounts
+    }, []);
+
     useEffect(() => {
         console.log("Data chnaged");
     }, [data_ranking]);
@@ -58,12 +80,14 @@ export function TopSection({
     const prevSeason = () => {
         if (season >= 2) {
             setSeason(season - 1);
+            setDisplaySeason(displaySeason - 1);
         }
     }
 
     const nextSeason = () => {
         if (season < currentSeason) {
             setSeason(season + 1);
+            setDisplaySeason(displaySeason + 1);
         }
     }
 console.log("XXX", rankingData)
@@ -73,7 +97,7 @@ console.log("XXX", rankingData)
                 <View style={styles.seasonContainer}>
                     <View style={styles.button}>
                         {
-                            season != 1
+                            displaySeason != 1
                             ? <PTFEButton 
                                 text="Previous"
                                 type="circle"
@@ -81,11 +105,11 @@ console.log("XXX", rankingData)
                                 onClick={prevSeason}
                                 height={scale(36)}
                             />
-                            : <></>
+                            : <View style={{ width: scale(110) }} /> 
                         }
                     </View>
                     <View style={styles.seasonTitle}>
-                        <Text style={styles.seasonText}>Season {season} </Text>
+                        <Text style={styles.seasonText}>Season {displaySeason} </Text>
                         {
                             season == currentSeason 
                             ? <Text style={styles.currentSeasonText}>(Current)</Text>
@@ -94,7 +118,7 @@ console.log("XXX", rankingData)
                     </View>
                     {
                         season == currentSeason
-                        ? <></>
+                        ? <View style={{ width: scale(110) }} /> 
                         : <View style={styles.button}>
                             <PTFEButton 
                                 text="Next"

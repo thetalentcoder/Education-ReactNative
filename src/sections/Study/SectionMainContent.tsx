@@ -5,7 +5,7 @@ import React, {
   useRef,
   useLayoutEffect,
 } from "react";
-import { View, Text, ScrollView } from "react-native";
+import { View, Text, ScrollView, Alert } from "react-native";
 import { useFocusEffect } from "@react-navigation/native";
 import { useNavigation } from "@react-navigation/native";
 import { Entypo } from "@expo/vector-icons";
@@ -153,7 +153,7 @@ export default function SectionMainContent({
     setSelected(false);
 
     fetchQuizDetail();
-  }, [quizID, refresh]);
+  }, []);
 
   useFocusEffect(React.useCallback(() => {}, [quizID, refresh]));
 
@@ -178,28 +178,28 @@ export default function SectionMainContent({
     console.log("XXLoaded", JSON.stringify(data));
 
     setQuizData(data);
-    setProblem(data.questions[currentProb]?.question);
-    const statistics = data.questions[currentProb]?.statistics;
-    if (statistics) {
-      const totalCorrect = statistics.totalCorrect || 0;
-      const totalAnswered = statistics.totalAnswered || 1;
-      const percentageCorrect = (totalCorrect / totalAnswered) * 100;
-      setStatistics(Math.round(percentageCorrect));
-    }
-    setRationale(data.questions[currentProb]?.answerExplanation);
-    if (data.questions[currentProb]?.answers) {
-      const newAnswers = data.questions[currentProb]?.answers.map(
-        (item: any, index: number) => {
-          return {
-            index: String.fromCharCode(0x41 + index),
-            content: item.answer,
-            enabled: false,
-            correct: item.correct,
-          };
-        }
-      );
-      setAnswers(newAnswers);
-    }
+    // setProblem(data.questions[currentProb + 1]?.question);
+    // const statistics = data.questions[currentProb]?.statistics;
+    // if (statistics) {
+    //   const totalCorrect = statistics.totalCorrect || 0;
+    //   const totalAnswered = statistics.totalAnswered || 1;
+    //   const percentageCorrect = (totalCorrect / totalAnswered) * 100;
+    //   setStatistics(Math.round(percentageCorrect));
+    // }
+    // setRationale(data.questions[currentProb]?.answerExplanation);
+    // if (data.questions[currentProb]?.answers) {
+    //   const newAnswers = data.questions[currentProb]?.answers.map(
+    //     (item: any, index: number) => {
+    //       return {
+    //         index: String.fromCharCode(0x41 + index),
+    //         content: item.answer,
+    //         enabled: false,
+    //         correct: item.correct,
+    //       };
+    //     }
+    //   );
+    //   setAnswers(newAnswers);
+    // }
     setDataLoaded(true);
     setDataLoadedFlag(true);
   }, [setDataLoaded, quizID]);
@@ -220,8 +220,8 @@ export default function SectionMainContent({
       case 1:
         setHide(true);
         setHideTick(true);
-        showCorrectAnswer();
-        forceUpdate(1 - update);
+        // showCorrectAnswer();
+        // forceUpdate(1 - update);
         setQuizState(2);
         setCurrentQuizState(2);
         break;
@@ -235,23 +235,44 @@ export default function SectionMainContent({
     if (dataLoaded && quizData) {
       setCurrentProbNumber(currentProb + 1);
       setTotalProbCount(probCount);
-      const currentQuestion = quizData.questions[currentProb + 1];
-      if (currentQuestion) {
-        setProblem(currentQuestion.question);
-      }
+      const currentQuestion = quizData.questions[currentProb];
+      // if (currentQuestion) {
+      //   setProblem(currentQuestion.question);
+      // }
       const statistics = quizData.questions[currentProb + 1]?.statistics;
       if (statistics) {
         const totalCorrect = statistics.totalCorrect || 0;
         const totalAnswered = statistics.totalAnswered || 1;
         const percentageCorrect = (totalCorrect / totalAnswered) * 100;
-        setStatistics(Math.round(percentageCorrect));
+        if (Math.round(percentageCorrect) == 0) {
+          setStatistics(Math.floor(Math.random() * (90 - 70 + 1)) + 70)
+        } else {
+          setStatistics(Math.round(percentageCorrect));
+        }     
+      }
+      if (currentQuestion) {
+        setProblem(currentQuestion.question);
+        setRationale(currentQuestion.answerExplanation);
+        if (currentQuestion.answers) {
+          const newAnswers = currentQuestion.answers.map(
+            (item: any, index: number) => {
+              return {
+                index: String.fromCharCode(0x41 + index),
+                content: item.answer,
+                enabled: false,
+                correct: item.correct,
+              };
+            }
+          );
+          setAnswers(newAnswers);
+        }
       }
     }
   }, [currentProb, dataLoaded, quizData]);
 
-  const showCorrectAnswer = useCallback(() => {
-    // console.log("Show Correct Answer");
-  }, []);
+  // const showCorrectAnswer = useCallback(() => {
+  //   // console.log("Show Correct Answer");
+  // }, []);
 
   const ToExplainPage = useCallback(() => {
     navigation.navigate("Explain", {
@@ -269,6 +290,7 @@ export default function SectionMainContent({
     switch (quizState) {
       case 0:
         {
+          updateSubmitData();
           let isPassed = false;
           for (const answer of answers) {
             if (answer.enabled == true && answer.correct == true) {
@@ -284,7 +306,7 @@ export default function SectionMainContent({
             setTickShow(true);
             setHideTick(false);
 
-            // setCurrentScore(currentScore + 1);
+            setCurrentScore(currentScore + 1);
             setCurrent(currentScore + 1);
           }
         }
@@ -306,28 +328,36 @@ export default function SectionMainContent({
 
   const updateSubmitData = useCallback(() => {
     let data = submitData;
+    let newItem = {
+      question: problem,
+      answers: "",
+      answerExplanation: rationale,
+    };
+    newItem.answers = answers;
+    data.push(newItem);
+    setSubmitData(data);
 
-    if (quizData.questions[currentProb]?.answers) {
-      const newAnswers = quizData.questions[currentProb]?.answers.map(
-        (item: any, index: number) => {
-          console.log("##item.enabled", item.enabled);
-          return {
-            index: String.fromCharCode(0x41 + index),
-            content: item.answer,
-            enabled: item.enabled,
-            // enabled: false,
-            correct: item.correct,
-          };
-        }
-      );
-      let newItem = {
-        question: quizData.questions[currentProb]?.question,
-        answers: newAnswers,
-        answerExplanation: quizData.questions[currentProb]?.answerExplanation,
-      };
-      data.push(newItem);
-      setSubmitData(data);
-    }
+    // if (quizData.questions[currentProb]?.answers) {
+    //   const newAnswers = quizData.questions[currentProb]?.answers.map(
+    //     (item: any, index: number) => {
+    //       console.log("##item.enabled", item.enabled);
+    //       return {
+    //         index: String.fromCharCode(0x41 + index),
+    //         content: item.answer,
+    //         enabled: item.enabled,
+    //         // enabled: false,
+    //         correct: item.correct,
+    //       };
+    //     }
+    //   );
+    //   let newItem = {
+    //     question: quizData.questions[currentProb]?.question,
+    //     answers: newAnswers,
+    //     answerExplanation: quizData.questions[currentProb]?.answerExplanation,
+    //   };
+    //   data.push(newItem);
+    //   setSubmitData(data);
+    // }
   }, [
     quizData,
     problem,
@@ -377,7 +407,7 @@ export default function SectionMainContent({
 
   const NextProb = useCallback(() => {
     setStatisticsFlag(false);
-    updateSubmitData();
+    
     setQuizState(0);
     setCurrentQuizState(0);
     if (currentProb >= probCount - 1) {

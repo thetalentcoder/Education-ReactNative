@@ -90,8 +90,7 @@ export default function Ranking() {
                 index: index + 1,
                 currentUser: false,
                 rank: '',
-                // currentUser: result.userScore.userId === user._id ? true : false,
-                // rank: result.userScore.userId === user._id ? result.userScore.rank : '',
+                url: user.userAvatar,
             }))
             setUserRankingData(resultWithUserIndex)
             setIsLoading(false);

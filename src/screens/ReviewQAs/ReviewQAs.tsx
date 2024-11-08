@@ -49,13 +49,13 @@ export default function ReviewQAs({
 
     return (
         <View style={styles.container}>
-            <LinearGradient
+            {/* <LinearGradient
                 colors={['#FF675B', '#87C6E8']}
                 start={{ x: 0, y: 0 }}
                 end={{ x: 1, y: 2 }}
                 style={styles.upperGradientContainer}
             >
-            </LinearGradient>
+            </LinearGradient> */}
             <ScrollView 
                 style={styles.innerContainer} 
                 ref={scrollRef}
@@ -63,6 +63,13 @@ export default function ReviewQAs({
                     setContentVerticalOffset(event.nativeEvent.contentOffset.y);
                 }}
             >
+                <LinearGradient
+                    colors={['#FF675B', '#87C6E8']}
+                    start={{ x: 0, y: 0 }}
+                    end={{ x: 1, y: 2 }}
+                    style={styles.upperGradientContainer}
+                    >
+                </LinearGradient>
                 <View style={styles.headerContainer}>
                     <SectionHeader title="Review Questions" goBack={goback}/>
                 </View>

@@ -31,7 +31,7 @@ export default function SectionScore({
       {/* <Image style={styles.avatar} source={require("assets/images/avatar/sample.jpg")}/> */}
       {/* </View> */}
       <Text style={styles.complementText}>{`Great  try!`}</Text>
-      <Text style={styles.profileText}>{ mode == 'study' ? 'You got right' : `Your Score is`}</Text>
+      <Text style={styles.profileText}>{ mode == 'study' ? 'Correct answers:' : `Your Score is`}</Text>
       <View style={styles.scoreSquare}>
         <Text style={styles.scoreText}>
           {mode === "study" ? (

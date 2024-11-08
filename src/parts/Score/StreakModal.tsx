@@ -204,7 +204,7 @@ export default function StreakModal({
                             {user.streak} Day Streak!
                         </Text>
                         <Text style={styles.streakDescriptionText}>
-                            You're on fire! keep the flame lit every day, today was
+                            You’re on fire! Play a game every day to continue your streak and get a point multiplier.
                         </Text>
                     </View>
                 </View>

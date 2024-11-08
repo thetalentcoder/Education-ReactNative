@@ -101,7 +101,7 @@ export default function SectionUserFlashCards({
                     <View style={styles.headerContainer}>
                         <Text style={styles.title}>{texts.txt_screen_dashboard_title4}</Text>
                         {/* <PTFELinkButton
-                            text="View All >"
+                            text="View All"
                             color="#87C6E8"
                             underlined={false}
                             onClick={() => {

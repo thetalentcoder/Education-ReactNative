@@ -86,14 +86,23 @@ export const resetPassReq = async (email: string) => {
   }
 };
 
+// export const logout = async () => {
+//   try {
+//     const user = await auth.signOut();
+//     return user;
+//   } catch (error: any) {
+//     const errorCode = error?.code;
+//     const errorMessage = error?.message;
+//     console.error("Logout error:", errorCode, errorMessage);
+//     throw error;
+//   }
+// };
 export const logout = async () => {
   try {
-    const user = await auth.signOut();
-    return user;
+    await auth.signOut();
+    console.log("User successfully logged out.");
   } catch (error: any) {
-    const errorCode = error?.code;
-    const errorMessage = error?.message;
-    console.error("Logout error:", errorCode, errorMessage);
+    console.error("Logout error:", error?.code, error?.message);
     throw error;
   }
 };

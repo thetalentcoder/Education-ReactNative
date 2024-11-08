@@ -54,29 +54,65 @@ export default function Points() {
     calculateRemainingDay();
   }, []);
 
+  // const calculateRemainingDay = useCallback(() => {
+  //   const today = new Date();
+
+  //   const achievedTasks = data.filter((item: { achieved: any; }) => item.achieved);
+
+  //   let taskToCalculate;
+  //   if (achievedTasks.length > 0) {
+  //     taskToCalculate = achievedTasks[achievedTasks.length - 1];
+  //   } else {
+  //     taskToCalculate = data[0];
+  //   }
+
+  //   const taskDate = new Date(taskToCalculate.date);
+  //   const diffTime = Math.abs(taskDate - today);
+  //   const remainingDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+  //   console.log({
+  //     // ...taskToCalculate,
+  //     remainingDays: remainingDays,
+  //   });
+
+  //   setRemainningDays(remainingDays);
+  // }, []);
+
   const calculateRemainingDay = useCallback(() => {
+    if (!data || data.length === 0) {
+      setRemainningDays(0); // Or set to 0 or another fallback value
+      return;
+    }
+  
     const today = new Date();
-
+  
     const achievedTasks = data.filter((item) => item.achieved);
-
+  
     let taskToCalculate;
     if (achievedTasks.length > 0) {
       taskToCalculate = achievedTasks[achievedTasks.length - 1];
     } else {
       taskToCalculate = data[0];
     }
-
+  
+    // Check if taskToCalculate.date is valid
+    if (!taskToCalculate || !taskToCalculate.date) {
+      setRemainningDays(0); // Handle missing date gracefully
+      return;
+    }
+  
     const taskDate = new Date(taskToCalculate.date);
+    // if (isNaN(taskDate)) {
+    //   setRemainningDays(0); // Handle invalid date gracefully
+    //   return;
+    // }
+  
     const diffTime = Math.abs(taskDate - today);
     const remainingDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-
-    console.log({
-      // ...taskToCalculate,
-      remainingDays: remainingDays,
-    });
-
+  
     setRemainningDays(remainingDays);
-  }, []);
+  }, [data]);
+  
 
   const toInfoPage = useCallback((title?: string, content?: string) => {
     navigation.navigate("StreakInfo", {
@@ -144,7 +180,7 @@ export default function Points() {
                   style={styles.infoButton}
                   onPress={() => {
                     toInfoPage(
-                      "Time To Next Milestone",
+                      "Streaks to Next Multiplier",
                       "It shows the remaining days to achieve next milestone."
                     );
                   }}

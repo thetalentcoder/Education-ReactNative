@@ -9,6 +9,7 @@ export default StyleSheet.create({
     justifyContent: 'flex-end',
     alignItems: 'center',
     backgroundColor: "#FFDFFF",
+    overflow: 'hidden',
   },
   upperGradientContainer: {
     zIndex: -2,

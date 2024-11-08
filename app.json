@@ -17,7 +17,10 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.jin123.ptfegame",
-      "googleServicesFile": "./GoogleService-Info.plist"
+      "googleServicesFile": "./GoogleService-Info.plist",
+      "infoPlist": {
+        "NSUserNotificationUsageDescription": "This app uses notifications to send you daily reminders."
+      }
     },
     "android": {
       "adaptiveIcon": {

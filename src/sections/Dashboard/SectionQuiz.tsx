@@ -67,7 +67,7 @@ export default function SectionQuiz({
             <View style={styles.headerContainer}>
                 <Text style={styles.title}>{texts.txt_screen_dashboard_title3}</Text>
                 <PTFELinkButton
-                    text="View All >"
+                    text="View All"
                     color="#87C6E8"
                     underlined={false}
                     onClick={goToAllQuizzes}

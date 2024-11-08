@@ -66,7 +66,7 @@ export default function Scenario({
                 />
                 <View style={styles.headerContainer}>
                     <SectionHeaderX
-                        title={"Scenarios Mode"}
+                        title={"Scenario Mode"}
                         goBack={() => setCloseModalVisible(true)}
                     />
                 </View>

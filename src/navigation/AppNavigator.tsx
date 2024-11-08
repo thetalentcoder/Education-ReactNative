@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { setUser } from 'src/redux/userSlice'; // Update with the correct path
+import { getMe } from 'src/actions/user/user'; 
 import { createStackNavigator, TransitionSpecs } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
@@ -39,6 +41,9 @@ import SelectFlashcardTitle from 'src/screens/SelectFlashcardTitle/SelectFlashca
 import AvatarUpload from 'src/screens/AvatarUpload/AvatarUpload';
 import CurratedQuizzes from 'src/screens/CurratedQuizzes/CurratedQuizzes';
 import CurrentStreak from 'src/screens/CurrentStreak/CurrentStreak';
+import { useDispatch } from 'react-redux';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { ActivityIndicator, Alert, View, StyleSheet, Image } from 'react-native';
 
 const leftToRightAnimation = {
   cardStyleInterpolator: ({ current, layouts }) => {
@@ -135,8 +140,45 @@ const TabNavigator = () => {
 
 const MainStack = createStackNavigator();
 export const MainStackNavigator = () => {
+
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // Use `null` for loading state
+  const dispatch = useDispatch();
+
+  const [isLoading, setIsLoading] = useState(true); // Add loading state
+
+  useEffect(() => {
+    const checkLoginStatus = async () => {
+      const token = await AsyncStorage.getItem("token");
+
+      if (token) {
+        try {
+          const userInfo = await getMe();
+          dispatch(setUser(userInfo));
+          setIsLoggedIn(true);
+        } catch (error) {
+          await AsyncStorage.removeItem("token");
+          setIsLoggedIn(false);
+        }
+      } else {
+        setIsLoggedIn(false);
+      }
+      
+      setIsLoading(false); // Set loading to false after the check is done
+    };
+
+    checkLoginStatus();
+  }, [dispatch]);
+
   return (
-    <MainStack.Navigator initialRouteName="Welcome" screenOptions={{ headerShown: false }}>
+    <>
+    {isLoading?
+    <View // Update the path to your image
+      style={styles.loadingContainer}
+      >
+      <Image source={require('../../assets/splash.png')} style={styles.image} />
+      {/* <ActivityIndicator size="large" color="#3498db" /> */}
+    </View>:
+    <MainStack.Navigator initialRouteName={isLoggedIn? "Main": "Welcome"} screenOptions={{ headerShown: false }}>
       <MainStack.Screen name="Welcome" component={Welcome} />
       <MainStack.Screen name="Login" component={Login} />
       <MainStack.Screen name="Register" component={Register} />
@@ -154,6 +196,22 @@ export const MainStackNavigator = () => {
       <ProfileStack.Screen name="AvatarUpload" component={AvatarUpload} />
       <ProfileStack.Screen name='RecentQuizzes' component={RecentQuizzes} />
       {/* <MainStack.Screen name="Streak" component={StreakStackNavigator} /> */}
-    </MainStack.Navigator>
+    </MainStack.Navigator> }
+    </>
   );
 };
+const styles = StyleSheet.create({
+  loadingContainer: {
+    ...StyleSheet.absoluteFillObject,
+    zIndex: 30,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: "white"
+  },
+  image: {
+    width: '100%',
+    height: '100%',
+    resizeMode: 'cover',
+  },
+});
+

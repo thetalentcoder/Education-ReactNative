@@ -113,7 +113,7 @@ export default function Profile() {
         // setCurrentSeasonRank(currentSeasonRank);
         if (user) {
             const username = user?.fullname; // Get the username
-            fetchRank(currentSeason, username); // Fetch the rank for the user
+            fetchRank(currentSeason + 1, username); // Fetch the rank for the user
         }
     }
 

@@ -63,6 +63,7 @@ export default function PartRecentQuizzes() {
   const { user } = useSelector((state: any) => state.userData);
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
+  const [gameHistory, setGameHistory] = useState([]);
 
   const navigation: any = useNavigation();
 
@@ -73,6 +74,7 @@ export default function PartRecentQuizzes() {
 const refreshUserData = useCallback(async () => {
     setIsLoading(true);
     const userInfo = await getMe();
+    setGameHistory(userInfo?.gamehistory);
     dispatch(setUser(userInfo));
     setIsLoading(false);
 }, [setIsLoading, dispatch]);
@@ -106,7 +108,7 @@ const refreshUserData = useCallback(async () => {
           onClick={gotoRecentQuizzes}
         />
       </View>
-      {user?.gamehistory
+      {gameHistory
         .slice(-5)
         .reverse()
         .map((col: any, index: any) => {

@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { ScrollView, Text, View, TouchableOpacity } from 'react-native';
+import { ScrollView, Text, View, TouchableOpacity, Alert } from 'react-native';
 import { Calendar } from 'react-native-calendars';
 import styles from './StreakStyle';
 import { FontAwesome5 } from '@expo/vector-icons';
@@ -53,6 +53,11 @@ export default function Streak() {
   const calculateRemainingDay = useCallback(() => {
     const today = new Date();
     const achievedTasks = data.filter((item: { achieved: any; }) => item.achieved);
+    Alert.alert(
+      "streak",
+      `achieve${achievedTasks.length}`,
+      [{ text: "OK" }]
+    );
     let taskToCalculate = achievedTasks.length > 0 ? achievedTasks[achievedTasks.length - 1] : data[0];
     const taskDate = new Date(taskToCalculate?.date);
     const diffTime = Math.abs(taskDate - today);

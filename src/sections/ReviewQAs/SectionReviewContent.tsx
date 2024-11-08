@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { View, Text, ScrollView, TouchableOpacity } from "react-native";
+import { View, Text, ScrollView, TouchableOpacity, Alert } from "react-native";
 
 import PartAnswer from "./PartAnswer";
 import styles from "./SectionReviewContentStyle";
@@ -30,12 +30,13 @@ export default function SectionReviewContent({
             scrollRef.current?.scrollTo({ y: positions[index] - 75, animated: true });
         }
     }, [positions])
+    const items = quizData?.map((item: any, index: number) => {
 
-    const items = quizData?.slice(0, 20)?.map((item: any, index: number) => {
         let correctF = false;
         for (let i = 0; i < item?.answers?.length; i++) {
-            if (item?.answers[i]?.enabled === true &&
-                item?.answers[i]?.enabled === item?.answers[i]?.correct) {
+            // if (item?.answers[i]?.enabled === true &&
+            //     item?.answers[i]?.enabled === item?.answers[i]?.correct) {
+            if (item?.answers[i]?.enabled === true && item?.answers[i]?.correct === true){
                 correctF = true;
                 break;
             }
@@ -46,6 +47,7 @@ export default function SectionReviewContent({
             color: correctF ? '#44D95B' : '#FF675B',
         };
     });
+
 
     return (
         <View style={styles.container}>

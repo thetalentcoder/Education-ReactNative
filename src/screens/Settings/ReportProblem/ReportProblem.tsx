@@ -51,8 +51,10 @@ export default function ReportProblem() {
         //     attachments: [],
         //     userid: user._id,
         // }); 
-        Linking.openURL('mailto:nick@perceptively.com; luka@perceptively.com; jin@perceptively.com'
-             + `?subject=${title}&body=${content} \nAccount Id: ${user?._id}`);
+        // Linking.openURL('mailto:nick@perceptively.com; lincoln@perceptively.com;'
+        //      + `?subject=${title}&body=${content} \nAccount Id: ${user?._id}`);
+        Linking.openURL('mailto:nick@perceptively.com; lincoln@perceptively.com;'
+        + `?subject=${title}&body=${content} \nAccount Id: ${user?._id}`);
     }, [title, content]);
 
     return (

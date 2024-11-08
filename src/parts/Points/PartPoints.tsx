@@ -63,6 +63,27 @@ export default function PartPoints({ isLoading, setIsLoading }: Props) {
   const [classicMode, setClassicMode] = useState(0);
   const [scenarioMode, setScenarioMode] = useState(0);
   const [survivorMode, setSurvivorMode] = useState(0);
+  const [displaySeason, setDisplaySeason] = useState(1);
+  const getDisplaySeason = () => {
+    const startDate = new Date('2024-10-01'); // November 1, 2024
+    const currentDate = new Date();
+    
+    // Calculate the month difference
+    const monthDiff = (currentDate.getFullYear() - startDate.getFullYear()) * 12 + (currentDate.getMonth() - startDate.getMonth());
+    
+    // Calculate the current season
+    const seasonIndex = Math.floor(monthDiff / 3);
+    const season = seasonIndex + 1; // Seasons start from 1
+
+    return {
+        season,
+        currentSeason: seasonIndex === 0 ? season : Math.max(season, 1), // Ensuring at least Season 1 is returned
+    };
+  };
+  useEffect(() => {
+    const { season } = getDisplaySeason();
+    setDisplaySeason(season); // Set the display season when the component mounts
+  }, []);
 
   const calculateTotalPoints = async () => {
     setIsLoading(true);
@@ -143,16 +164,21 @@ export default function PartPoints({ isLoading, setIsLoading }: Props) {
               calculateMonthPoint();
             }}
           />
-          <Text>{` | `}</Text>
-          <PTFELinkButton
-            text="Previous Season"
-            color="#87C6E8"
-            underlined={selected == 2}
-            disabled={selected == 2}
-            onClick={() => {
-              calculateLastSeasonPoint();
-            }}
-          />
+          {
+            displaySeason == 1? <></>:
+            <>
+              <Text>{` | `}</Text>
+              <PTFELinkButton
+                text="Previous Season"
+                color="#87C6E8"
+                underlined={selected == 2}
+                disabled={selected == 2}
+                onClick={() => {
+                  calculateLastSeasonPoint();
+                }}
+              />
+            </>
+          }          
         </View>
       </View>
       {/* <SkeletonContent

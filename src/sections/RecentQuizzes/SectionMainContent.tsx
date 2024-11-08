@@ -3,6 +3,11 @@ import styles from "./SectionMainContentStyle";
 import { View, Text, ScrollView } from 'react-native';
 import { useSelector } from 'react-redux';
 import { moderateScale, scale } from 'src/config/scale';
+import FlashCardIcon from 'assets/icons/FlashCardIcon';
+import StudyModeIcon from 'assets/icons/StudyModeIcon';
+import ClassicModeIcon from 'assets/icons/ClassicModeIcon';
+import SurvivorModeIcon from 'assets/icons/SurvivorModeIcon';
+import ScenarioModeIcon from 'assets/icons/ScenarioModeIcon';
 
 export default function SectionMainContent({ navigation, gamehistory}: any) {
     console.log("Game History" + gamehistory);
@@ -32,6 +37,27 @@ export default function SectionMainContent({ navigation, gamehistory}: any) {
                             style={styles.oneQuiz}
                         >
                             <View style={[styles.icon, { backgroundColor: color }]}>
+                                {col.title == "FlashCards" ? (
+                                    <FlashCardIcon />
+                                    ) : col.title == "Study Mode" ? (
+                                        <StudyModeIcon />
+                                    ) : col.title == "Classic Mode" ? (
+                                        <ClassicModeIcon />
+                                    ) : col.title == "Survivor Mode" ? (
+                                        <SurvivorModeIcon />
+                                    ) : col.title == "Scenario Mode" ? (
+                                        <ScenarioModeIcon />
+                                    ) : col.title == "Text Quiz 2" ? (
+                                        <FlashCardIcon />
+                                    ) : col.title == "Test Quiz 1" ? (
+                                        <FlashCardIcon />
+                                    ) : col.title == "Test Quiz 3" ? (
+                                        <FlashCardIcon />
+                                    ) : col.title == "Test Quiz 4" ? (
+                                        <FlashCardIcon />
+                                    ) : (
+                                        <></>
+                                )}
                             </View>
                             <View style={styles.textContainer}>
                                 <Text style={styles.titleText}>
