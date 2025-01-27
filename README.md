@@ -11,34 +11,8 @@ PTFE Ninja is an educational app built using React Native and Expo. It offers a 
 - **Single Sign-On (SSO)**: Simplify authentication with social login.
 
 ### Screenshots
-<div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; max-width: 100%;">
-  <img
-    src="./images/1.png"
-    alt="Main Screen"
-    title="Main Screen"
-    style="width: 200px; height: 400px;">
-
-  <img
-    src="./images/2.png"
-    alt="Main Screen"
-    title="Main Screen"
-    style="width: 200px; height: 400px;">
-
-  <img
-    src="./images/3.png"
-    alt="Main Screen"
-    title="Main Screen"
-    style="width: 200px; height: 400px;">
-
-  <img
-    src="./images/4.png"
-    alt="Main Screen"
-    title="Main Screen"
-    style="width: 200px; height: 400px;">
-
-  <img
-    src="./images/5.png"
-    alt="Main Screen"
-    title="Main Screen"
-    style="width: 200px; height: 400px;">
-</div>
+![Image 1](./images/1.png)
+![Image 2](./images/2.png)
+![Image 3](./images/3.png)
+![Image 4](./images/4.png)
+![Image 5](./images/5.png)
