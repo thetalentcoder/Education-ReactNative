@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "ptfe-game",
+  "private_key_id": "6c67d9186eb4ce7c0924a3292868697353bfa74f",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCRPuJlcD7E6Hku\neufxIq3iuvvQzmwds0gi8TGHlE0/s0ua5UPHYMbH+5aJrDI3mvE5UgQQ3tTo4gcC\nMQJjefC5cw1OSzAcZNpXFmVDw/8sBIbih8zLBrKdIkZ92onS44/2iUUeO3BwPmb+\ntomkbLlXbiAmE+VXV3Xhiw2DWIodYIgkLMad/YYR1I4oRmIdZMMcWC6X2zmUJYWT\n6jyi3qhFh5UbyF0SBkofGILdWOTF9EDEBPt4iM43o2SZc1MLQ0W5ig3mSZ0UMl60\nFCNvBbA85N1nKIL0/FKMi8qy4zeEI3OiAVx8nTs9GtQ1mk9WreG8TbdW4UCzf3Qo\nKu/T+08BAgMBAAECggEAEdPqUwbLgDzZVFCxXoI3Xgs9ycaZ3lgOpHypa9mn/7J2\nDGhUAPQf12p0nae9WYuS90paBb4W27zpR6YUrnlzCDhB1liD6mr199bfuB57GCqN\nad8UTolJwYrJpJH/SnDfJKTQZI0ULdrNpo8TkaiSDqli7c7nCWj1UalROnbS1mxp\nrWKnmcdAhQ5DR/qrlOZOUUJlv5EvHuLuW3x5giULW9KH7SdwXkqYVSc0GacPj3s7\nzBspsYtElzd4Hwu2Mep/5x3JH97+1cEXyNXHSjz3rmDDA8Zov9GagfEXqwdRPjeT\n3nCJ3QLUDeXQVtZ1Tu4sXuCVcIA0pDFfisnBMW6e/wKBgQDCfadYyyjODU8xierE\nsp714gZyPZpDaJhgsZTyNCMwZUrvR1tyjsnCEqpKRa7VrKkIqEyNdexWhUN463ST\nJ+4wGOm/aMKluFwVEg9FKuWM1U3gE7EX0OfJpXdX8L59hoHB9wpzrEbxzE7jQub5\noIEsqBuMYLFzvKfjN9lsz4ZBQwKBgQC/Lj8hKo8vEAWQ3cu9mDM7tYflKb1gx3/Y\nKImhnIaaSZxV5axXWCyNO7sdzmb7g9D6fFGuRHpmkgtqlXrUhaKq06Jyc74jQfoP\n7Vb/Wi1IyCrzD8CIuZhxAafBEZ6shc2LkB+mm2mWE7LnYqTGnf/WCr2EMGOFboWu\nGGREe2VYawKBgG8Jngkrs9gv8Q6vVsGF2Qs4R8XhNblWdeh+ejLtYUm4CtghPSxi\nKP4L+fz9W5vSP48ZxtrcgFnFK4hVpPB+05XSI2GMRdSnNKsy7FTo8LU+8n8Dvw+B\nzVNqjIBAigDQUjSS/fycVsSliERnZccOw7DjKRcz/Ru+kXs/33on4NZRAoGATpl0\n2u3kcDTmFOkbGpe4eJPpiw3eDiv3I6eG7iqsLEKXQ7lpYX+e0XH9PAPf0wgeotz5\nt+vvZrwkdW1/UmCewBzCbMupIFW/uUyat+EbPREOl1+iiJPFWLCVh4r28XcRSo+2\nc4jxoAH5S6gClqXeyOEhiXdbc0A9NZZRotYYlIECgYAzvDV9yN2nyok3Rakf9Tc5\ncqMWAho7Rp6l7R8Rn3EDmWn4lAJLdQO+1r6zy4xy8FirQs4QFlCizPIqxbfUY4eR\nr/VxlcoxFmwFWswReo053g3j0o+nSROb5QMzXqKA5U6alf39q61bRqGt9etRYKZo\n7HFIGlrgXf1UApbW5U/zeg==\n-----END PRIVATE KEY-----\n",
+  "client_email": "ptfe-game@appspot.gserviceaccount.com",
+  "client_id": "113492043625782145240",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/ptfe-game%40appspot.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

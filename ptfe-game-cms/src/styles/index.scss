@@ -1,0 +1,140 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import '~react-toastify/dist/ReactToastify.css';
+@import '~react-tagsinput/react-tagsinput.css';
+@import 'react-tooltip/dist/react-tooltip.css';
+
+@import 'ui/field.scss';
+@import 'ui/button.scss';
+@import 'ui/table.scss';
+@import 'ui/badge.scss';
+@import 'ui/react-tags.scss';
+@import 'ui/cards.scss';
+@import 'ui/custom.scss';
+
+* {
+  @apply font-roboto outline-none;
+}
+
+::-webkit-scrollbar {
+  width: 0px;
+}
+
+body {
+  @apply text-primary;
+}
+
+button,
+textarea,
+a,
+label,
+input,
+svg {
+  @apply transition ease-in-out duration-200;
+}
+
+input {
+  @apply font-roboto font-normal;
+}
+
+input::placeholder {
+  @apply text-tertiary font-roboto font-normal;
+}
+
+button {
+  @apply font-circular;
+  & > * {
+    @apply font-circular;
+  }
+}
+
+.card {
+  @apply bg-white rounded-xl shadow-card p-3.5 relative;
+
+  &.inactive {
+    .inner {
+      @apply opacity-30;
+    }
+  }
+}
+
+textarea {
+  @apply w-full resize-none h-20 border-0 bg-secondary rounded-xl p-3 text-sm leading-sm placeholder:text-sm placeholder:leading-sm;
+
+  &.resizable {
+    resize: vertical !important;
+  }
+}
+
+.public-DraftStyleDefault-block {
+  margin: 0;
+}
+
+.iconBox {
+  @apply w-10 h-10 flex items-center justify-center rounded-xl bg-secondary text-tertiary;
+  svg {
+    @apply w-5 h-5;
+  }
+}
+
+.chartCard {
+  @apply shadow-chartCard w-full bg-white rounded-xl py-7 overflow-hidden;
+}
+
+.slicedText {
+  @apply overflow-hidden whitespace-nowrap overflow-ellipsis;
+}
+
+.optionsList {
+  @apply absolute shadow-card rounded-xl bg-white z-[1] right-4 top-4 flex flex-col items-start border border-tertiary overflow-hidden;
+  li {
+    @apply w-full text-[13px] text-primary px-4 py-2 border-b border-tertiary last:border-b-0 text-left hover:bg-bg cursor-pointer flex items-center gap-3;
+    svg {
+      @apply w-4 h-4;
+    }
+  }
+}
+
+.paper {
+  @apply bg-white rounded-xl shadow-card;
+}
+
+.customGrid {
+  display: grid;
+  grid-template-columns: 1fr 240px;
+  gap: 24px;
+}
+
+.jodit-status-bar {
+  display: none;
+}
+
+.previewEditor {
+  border: none;
+  max-width: 80% !important;
+  width: 1200px !important;
+
+  .jodit-wysiwyg {
+    border: none !important;
+  }
+}
+.customScrollbar {
+  &::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 5px;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+
+  &::-webkit-scrollbar {
+    height: 4px;
+  }
+}

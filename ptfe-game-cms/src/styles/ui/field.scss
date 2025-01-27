@@ -1,0 +1,14 @@
+.form-group {
+  @apply relative;
+  input {
+    @apply w-full rounded-xl border-2 border-transparent py-2 px-3 bg-secondary text-sm leading-sm focus:bg-white focus:border-primary 
+              disabled:bg-secondary/30;
+  }
+  svg {
+    @apply absolute top-9 right-3 text-light-200 z-[1] cursor-pointer;
+  }
+}
+
+.fieldLabel {
+  @apply text-xs font-medium text-label block mb-2;
+}

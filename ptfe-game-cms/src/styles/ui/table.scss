@@ -1,0 +1,242 @@
+.reactTable {
+  @apply w-full bg-white rounded-xl overflow-hidden lg:overflow-visible;
+
+  .tableRow {
+    @apply border-b border-tertiary;
+    display: grid;
+    .tableCell {
+      @apply text-[13px] leading-[24px] flex items-center text-tertiary p-3 overflow-hidden whitespace-nowrap overflow-ellipsis;
+      &.left {
+        @apply text-left justify-start;
+      }
+      &.center {
+        @apply text-center justify-center;
+      }
+      &.right {
+        @apply text-right justify-end;
+      }
+    }
+  }
+  .tableBody {
+    .tableRow {
+      @apply last:border-b-0;
+      .tableCell {
+        @apply text-light-100 border-r border-tertiary last:border-r-0;
+      }
+    }
+
+    .placeholderText {
+      @apply text-center font-medium py-10 text-tertiary;
+    }
+
+    .dotsIcon {
+      @apply w-5 h-5 text-[#A5A5A5] cursor-pointer;
+    }
+
+    .optionsIcons {
+      @apply flex items-center justify-between w-full;
+      svg {
+        @apply w-5 h-5 cursor-pointer;
+
+        &:first-child {
+          @apply text-tertiary;
+        }
+        &:last-child {
+          @apply text-danger;
+        }
+      }
+    }
+  }
+
+  &.questionTable {
+    .tableRow {
+      grid-template-columns: 1fr 200px 100px 100px 100px 50px;
+    }
+  }
+
+  &.questionScenarioTable {
+    .tableRow {
+      grid-template-columns: 300px 1fr 50px;
+    }
+  }
+
+  &.questionCategoriesTable {
+    .tableRow {
+      grid-template-columns: 300px 1fr 50px;
+    }
+  }
+
+  &.examCategoriesTable {
+    .tableRow {
+      grid-template-columns: 1fr 200px 50px;
+    }
+  }
+
+  &.orgAnalyticsTable {
+    .tableRow {
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+    }
+  }
+
+  &.examsTable {
+    .tableRow {
+      grid-template-columns: 50px 2fr 0.8fr 0.8fr 0.8fr 0.8fr 0.8fr 0.8fr 100px 100px;
+    }
+
+    &.studentView {
+      .tableRow {
+        grid-template-columns: 1.5fr 0.8fr 0.8fr 0.8fr 0.8fr 100px;
+      }
+    }
+  }
+
+  &.scheduledExamsTable {
+    .tableRow {
+      grid-template-columns: 2fr 0.8fr 0.8fr 0.8fr 0.8fr 0.8fr 0.8fr 100px;
+    }
+  }
+
+  &.moderatorsTable {
+    .tableRow {
+      grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+      .tableCell {
+        &:nth-child(6) {
+          @apply overflow-visible;
+        }
+      }
+    }
+  }
+
+  &.userTable {
+    .tableRow {
+      grid-template-columns: 1fr 1fr 1fr 1fr 0.1fr;
+      .tableCell {
+        &:nth-child(5) {
+          @apply overflow-visible;
+        }
+      }
+    }
+  }
+
+  &.loginHistoryTable {
+    .tableRow {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  &.membershipTable {
+    .tableRow {
+      grid-template-columns: 1fr 0.5fr 1fr 100px 130px 130px 100px 50px;
+      .tableCell {
+        &:nth-child(8) {
+          @apply overflow-visible;
+        }
+
+        .inactive {
+          @apply opacity-30;
+        }
+      }
+    }
+  }
+
+  &.groupTable {
+    .tableRow {
+      grid-template-columns: 2fr 1fr 100px 90px 50px;
+    }
+  }
+
+  &.orgTable {
+    .tableRow {
+      grid-template-columns: 1fr 0.5fr 100px 90px 50px;
+    }
+  }
+
+  &.orgAdminTable {
+    .tableRow {
+      grid-template-columns: 1fr 1fr 1fr 50px;
+    }
+  }
+
+  &.examCategoryTable {
+    .tableRow {
+      grid-template-columns: 1fr 50px;
+    }
+  }
+
+  &.systemSpecificSummaryTable {
+    @apply border border-tertiary;
+    .tableRow {
+      grid-template-columns: 2fr 0.5fr 0.5fr;
+    }
+  }
+
+  &.userQuestionsByCategoriesTable {
+    @apply border border-tertiary;
+    .tableRow {
+      grid-template-columns: 2fr 0.5fr 0.5fr 0.5fr 0.5fr;
+    }
+
+    &.print {
+      .tableRow {
+        grid-template-columns: 1.5fr 0.5fr 0.5fr 0.5fr 0.5fr;
+      }
+    }
+  }
+
+  &.questionAnalyticsTable {
+    @apply border border-tertiary;
+    .tableRow {
+      grid-template-columns: 1fr 1fr 1fr;
+    }
+  }
+
+  &.studentsAnalysisTable {
+    .tableRow {
+      grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    }
+  }
+
+  &.sliderCardTable {
+    .tableRow {
+      grid-template-columns: 1fr 1fr 1fr 50px;
+    }
+  }
+  &.slidersTable {
+    .tableRow {
+      grid-template-columns: 1fr 1.8fr 50px;
+    }
+  }
+
+  &.notificationTable {
+    .tableRow {
+      grid-template-columns: 1fr 1.8fr 50px;
+    }
+  }
+
+  &.videoTable {
+    .tableRow {
+      grid-template-columns:220px 1fr 1.5fr 1fr 50px;
+    }
+  }
+
+  &.questionCategoriesTable,
+  &.questionTable,
+  &.questionScenarioTable,
+  &.examsTable,
+  &.scheduledExamsTable,
+  &.examCategoryTable,
+  &.studentTable,
+  &.groupTable,
+  &.orgTable,
+  &.sliderCardTable,
+  &.slidersTable,
+  &.notificationTable,
+  &.videoTable,
+  &.orgAdminTable {
+    .tableCell {
+      &:last-child {
+        @apply overflow-visible;
+      }
+    }
+  }
+}

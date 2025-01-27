@@ -1,0 +1,19 @@
+.badge {
+  @apply py-1 px-2 rounded-lg uppercase text-xs font-medium text-center w-fit;
+
+  &.success {
+    @apply bg-success-100 text-success-100;
+  }
+
+  &.secondary {
+    @apply bg-light-100 text-secondary;
+  }
+
+  &.primary {
+    @apply bg-primary bg-opacity-20 text-light-200;
+  }
+
+  &.danger {
+    @apply bg-danger bg-opacity-20 text-danger;
+  }
+}

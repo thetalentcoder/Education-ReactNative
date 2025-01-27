@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "982261473023",
+    "project_id": "npte-ninja",
+    "storage_bucket": "npte-ninja.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:982261473023:android:c7cd83498aa77d175876ca",
+        "android_client_info": {
+          "package_name": "com.PT.ptfegame"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "982261473023-2qedbmgjkel7f3juk59gp01lumqu63h7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC4ctFckWsIMlvp0gO_gqgHbPWZ6iuUA4A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "982261473023-2qedbmgjkel7f3juk59gp01lumqu63h7.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "982261473023-5eu3hecugh7k066hgainktv26qs8o0ca.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.PT.ptfegame"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
