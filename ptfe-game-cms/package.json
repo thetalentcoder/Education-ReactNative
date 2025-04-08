@@ -19,7 +19,7 @@
     "@types/react-dom": "^18.2.7",
     "axios": "^1.8.4",
     "dayjs": "^1.11.9",
-    "dotenv": "^16.4.5",
+    "dotenv": "^16.4.7",
     "firebase": "^10.11.1",
     "firebase-admin": "^12.1.0",
     "formik": "^2.4.3",
