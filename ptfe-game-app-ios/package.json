@@ -76,7 +76,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
-    "@types/lodash": "^4.17.4",
+    "@types/lodash": "^4.17.16",
     "@types/react": "~18.2.45",
     "@types/react-native-htmlview": "^0.16.5",
     "babel-plugin-module-resolver": "^5.0.0",
