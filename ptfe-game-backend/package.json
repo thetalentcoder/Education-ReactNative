@@ -23,7 +23,7 @@
     "express-async-handler": "^1.2.0",
     "express-mongo-sanitize": "^2.2.0",
     "firebase-admin": "^12.0.0",
-    "firebase-tools": "^13.0.3",
+    "firebase-tools": "^13.35.1",
     "geoip-lite": "^1.4.7",
     "image-size": "^1.0.2",
     "jsonwebtoken": "^9.0.2",
