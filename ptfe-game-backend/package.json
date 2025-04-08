@@ -12,7 +12,7 @@
   "license": "ISC",
   "dependencies": {
     "@elasticemail/elasticemail-client": "^4.0.26",
-    "@google-cloud/storage": "^7.1.0",
+    "@google-cloud/storage": "^7.16.0",
     "axios": "^1.8.4",
     "bcrypt": "^5.1.1",
     "cheerio": "^1.0.0-rc.12",
