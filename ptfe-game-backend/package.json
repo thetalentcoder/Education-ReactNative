@@ -11,7 +11,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@elasticemail/elasticemail-client": "^4.0.23",
+    "@elasticemail/elasticemail-client": "^4.0.26",
     "@google-cloud/storage": "^7.1.0",
     "axios": "^1.8.4",
     "bcrypt": "^5.1.1",
